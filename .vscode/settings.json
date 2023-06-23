@@ -1,0 +1,7 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "javascript.format.enable": false,
+  "typescript.format.enable": false
+}

@@ -1,0 +1,21 @@
+{
+  "extends": "@cherr0/fe-config-package/tsconfig/next.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "src/*"
+      ]
+    },
+    "allowJs": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "@types"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
