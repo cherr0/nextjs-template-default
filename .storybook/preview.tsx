@@ -1,10 +1,11 @@
 import type { Args, Parameters, Preview, ReactRenderer } from '@storybook/react'
-import { ThemeProvider, themes } from '@storybook/theming'
+import { themes } from '@storybook/theming'
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
 import { defaultTheme } from '~/styles/theme'
 import GlobalStyle from '~/styles/global-style'
 import { DecoratorFunction } from '@storybook/types'
 import { Simplify } from 'type-fest'
+import { ThemeProvider } from 'styled-components'
 
 const decorator: DecoratorFunction<ReactRenderer, Simplify<Args>> = (Story) => (
   <ThemeProvider theme={defaultTheme}>
