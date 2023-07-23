@@ -1,0 +1,56 @@
+// Breakpoints
+$breakpoint-xs: 320px;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-maximum: 1440px;
+
+// Mixins for media queries
+@mixin breakpoint-up($value) {
+  @media only screen and (min-width: #{$value}) {
+    @content;
+  }
+}
+
+@mixin breakpoint-down($value) {
+  @media only screen and (max-width: #{$value}) {
+    @content;
+  }
+}
+
+@mixin breakpoint-between($min-value, $max-value) {
+  @media only screen and (min-width: #{$min-value}) and (max-width: #{$max-value}) {
+    @content;
+  }
+}
+
+// Common variables
+$light-variables: ();
+$dark-variables: ();
+
+// Typography mixins
+@mixin none-draggable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@mixin typography-title {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 700;
+}
+
+@mixin typography-subtitle-strong {
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+@mixin typography-subtitle {
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 500;
+}

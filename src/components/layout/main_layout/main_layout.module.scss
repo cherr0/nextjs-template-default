@@ -1,0 +1,22 @@
+@import '~/styles/variables';
+
+.mainLayoutWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  &.light {
+    // light theme variables can be added here
+  }
+
+  &.dark {
+    // dark theme variables can be added here
+  }
+}
+
+.mainContentBox {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

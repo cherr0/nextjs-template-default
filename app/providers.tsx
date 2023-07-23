@@ -1,0 +1,39 @@
+'use client'
+
+import {
+  QueryClient,
+  QueryClientProvider
+} from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactNode, useRef } from 'react'
+
+import MainLayout from '~/components/layout/main_layout'
+
+interface ProvidersProps {
+  children: ReactNode
+}
+
+const Providers = ({ children }: ProvidersProps) => {
+  const queryClientRef = useRef<QueryClient>()
+  
+  if (!queryClientRef.current) {
+    queryClientRef.current = new QueryClient({
+      defaultOptions: {
+        queries: {
+          refetchOnWindowFocus: false
+        }
+      }
+    })
+  }
+
+  return (
+    <QueryClientProvider client={queryClientRef.current}>
+      <MainLayout>
+        {children}
+        <ReactQueryDevtools />
+      </MainLayout>
+    </QueryClientProvider>
+  )
+}
+
+export default Providers
