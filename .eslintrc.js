@@ -1,5 +1,4 @@
 module.exports = {
-  extends: ['plugin:storybook/recommended'],
   parserOptions: {
     tsconfigRootDir: __dirname,
     project: './tsconfig.json',
@@ -10,6 +9,7 @@ module.exports = {
     node: true
   },
   extends: [
+    'plugin:storybook/recommended',
     'next',
     'plugin:import/recommended',
     'plugin:import/typescript',
