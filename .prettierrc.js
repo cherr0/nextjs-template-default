@@ -1,3 +1,8 @@
 module.exports = {
-  ...require('@cherr0/fe-config-package/prettier')
+  "semi": false,
+  "tabWidth": 2,
+  "jsxSingleQuote": true,
+  "singleQuote": true,
+  "arrowParens": "always",
+  "trailingComma": "none"
 }
