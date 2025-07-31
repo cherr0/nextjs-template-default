@@ -1,13 +1,8 @@
 'use client'
 
-import {
-  QueryClient,
-  QueryClientProvider
-} from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ReactNode, useRef } from 'react'
-
-import MainLayout from '~/components/layout/main_layout'
 
 interface ProvidersProps {
   children: ReactNode
@@ -15,7 +10,7 @@ interface ProvidersProps {
 
 const Providers = ({ children }: ProvidersProps) => {
   const queryClientRef = useRef<QueryClient>()
-  
+
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient({
       defaultOptions: {
@@ -28,10 +23,8 @@ const Providers = ({ children }: ProvidersProps) => {
 
   return (
     <QueryClientProvider client={queryClientRef.current}>
-      <MainLayout>
-        {children}
-        <ReactQueryDevtools />
-      </MainLayout>
+      {children}
+      <ReactQueryDevtools />
     </QueryClientProvider>
   )
 }

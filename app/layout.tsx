@@ -4,6 +4,8 @@ import Head from 'next/head'
 import { ReactNode } from 'react'
 
 import Providers from './providers'
+
+import MainLayout from '~/components/layout/main_layout'
 import '~/styles/global.scss'
 
 export const metadata = {
@@ -25,7 +27,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         />
       </Head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <MainLayout>{children}</MainLayout>
+        </Providers>
       </body>
     </html>
   )
