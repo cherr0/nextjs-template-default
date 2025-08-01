@@ -1,9 +1,7 @@
 // Breakpoints
-$breakpoint-xs: 320px;
-$breakpoint-sm: 576px;
+$breakpoint-sm: 320px;
 $breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
+$breakpoint-lg: 1280px;
 $breakpoint-maximum: 1440px;
 
 // Mixins for media queries
@@ -24,10 +22,6 @@ $breakpoint-maximum: 1440px;
     @content;
   }
 }
-
-// Common variables
-$light-variables: ();
-$dark-variables: ();
 
 // Typography mixins
 @mixin none-draggable {
