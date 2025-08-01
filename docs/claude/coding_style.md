@@ -11,6 +11,18 @@ src/
 ├── components/          # 재사용 가능한 UI 컴포넌트
 │   ├── layout/         # 레이아웃 전용 컴포넌트
 │   └── ui/             # 범용 UI 컴포넌트
+│       ├── Button/     # 컴포넌트별 폴더 구조
+│       │   ├── index.ts           # export 전용
+│       │   ├── Button.tsx         # 메인 컴포넌트
+│       │   └── Button.module.scss # 컴포넌트 스타일
+│       ├── Card/
+│       │   ├── index.ts
+│       │   ├── Card.tsx
+│       │   └── Card.module.scss
+│       └── Badge/
+│           ├── index.ts
+│           ├── Badge.tsx
+│           └── Badge.module.scss
 ├── stores/             # Zustand 상태 스토어
 ├── styles/             # 전역 스타일과 SCSS 변수
 ├── types/              # TypeScript 타입 정의
@@ -21,6 +33,13 @@ app/                    # Next.js App Directory
 ├── page.tsx           # 홈페이지
 └── providers.tsx      # 클라이언트 사이드 프로바이더
 ```
+
+### 컴포넌트 폴더 구조 원칙
+
+1. **개별 컴포넌트는 자체 폴더로 분리**: 관련 파일들의 응집성 확보
+2. **index.ts로 export 정리**: 깔끔한 import 경로 제공
+3. **PascalCase 폴더명**: 컴포넌트명과 일치하는 폴더명 사용
+4. **관련 파일 집중화**: 컴포넌트, 스타일, 타입이 한 곳에 위치
 
 ## 🧩 컴포넌트 패턴
 
@@ -52,19 +71,36 @@ const Button = ({ variant = 'primary', disabled, children }: ButtonProps) => {
 
 ## 🎨 스타일링 가이드라인
 
-### CSS Modules와 SCSS
+### CSS Modules와 SCSS (기본 방식)
+
+**이 프로젝트는 CSS Modules + SCSS를 기본 스타일링 방식으로 사용합니다.**
+
+- 기본 단위는 rem으로 사용.
+- 반응형 디자인은 1281 이상 (PC), 1280 이하 (모바일) 로 나뉘어짐
 
 ```scss
 // component.module.scss
 .container {
   display: flex;
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-sm);
 
   &.primary {
-    background-color: blue;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+
+    &:hover {
+      background-color: var(--color-primary-hover);
+    }
   }
 
   &.secondary {
-    background-color: gray;
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+
+    &:hover {
+      background-color: var(--color-secondary-hover);
+    }
   }
 }
 ```
@@ -75,6 +111,26 @@ import styles from './component.module.scss'
 
 const Component = ({ variant }: { variant: 'primary' | 'secondary' }) => {
   return <div className={`${styles.container} ${styles[variant]}`}>내용</div>
+}
+```
+
+### CSS 변수 사용
+
+모든 색상과 공통 값은 `global.scss`에 정의된 CSS 변수를 사용하세요:
+
+```scss
+// ✅ 권장: CSS 변수 사용
+.button {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+
+// ❌ 지양: 하드코딩된 값
+.button {
+  background-color: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 ```
 
@@ -109,9 +165,12 @@ export const useThemeStore = create<ThemeStore>()(
 
 ### React Query 패턴
 
+Query 커스텀 훅은 `src/queries` 에서 관리합니다.
+접미사로 \_Query라는 명칭을 가지게 됩니다.
+
 ```typescript
 // API 데이터용 커스텀 훅
-const useUser = () => {
+const useUserQuery = () => {
   return useQuery({
     queryKey: ['user'],
     queryFn: fetchUser,
@@ -121,7 +180,7 @@ const useUser = () => {
 
 // 컴포넌트에서 사용
 const UserProfile = () => {
-  const { data: user, isLoading, error } = useUser()
+  const { data: user, isLoading, error } = useUserQuery()
 
   if (isLoading) return <div>로딩 중...</div>
   if (error) return <div>오류: {error.message}</div>
@@ -205,6 +264,52 @@ interface ApiResponse<T> {
 }
 ```
 
+## ❌ CSS Module 안티패턴
+
+### 피해야 할 패턴들
+
+```scss
+// ❌ 하드코딩된 값 사용
+.button {
+  background-color: #2563eb;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+// ✅ CSS 변수와 일관된 값 사용
+.button {
+  background-color: var(--color-primary);
+  padding: 8rem 16rem;
+  border-radius: 6rem;
+}
+
+// ❌ 과도한 중첩
+.card {
+  .header {
+    .title {
+      .icon {
+        .svg {
+          color: red;
+        }
+      }
+    }
+  }
+}
+
+// ✅ 적절한 중첩 레벨 (최대 3단계)
+.card {
+  .header {
+    .title {
+      color: var(--color-gray-900);
+    }
+  }
+
+  .icon {
+    color: var(--color-primary);
+  }
+}
+```
+
 ## 🚫 피해야 할 안티패턴
 
 ### 컴포넌트 정의
@@ -241,7 +346,7 @@ const GlobalContext = createContext()
 - **파일**: 일반 파일은 snake_case, 컴포넌트는 PascalCase
 - **변수/함수**: camelCase (`userData`, `handleClick`)
 - **상수**: SCREAMING_SNAKE_CASE (`API_BASE_URL`, `MAX_RETRY_COUNT`)
-- **CSS 클래스**: 모듈에서 camelCase (`primaryButton`, `navigationContainer`)
+- **CSS 클래스**: 모듈에서 snake_case (`primary_button`, `navigation_container`)
 
 ## 🎯 성능 고려사항
 
@@ -250,3 +355,115 @@ const GlobalContext = createContext()
 - 적절한 로딩 상태 구현
 - 비용이 큰 컴포넌트에 React.memo 사용
 - 긴 목록에 가상화 고려
+
+## 📐 CSS Module 모범 사례
+
+### 컴포넌트별 스타일 구조
+
+```scss
+// Button.module.scss
+.button {
+  // 기본 스타일
+  display: inline-flex;
+  align-items: center;
+  padding: 8rem 16rem;
+  border: none;
+  border-radius: 6rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  // CSS 변수 사용
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+
+  &:hover {
+    background-color: var(--color-primary-hover);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // Variant 스타일
+  &.secondary {
+    background-color: var(--color-secondary);
+
+    &:hover {
+      background-color: var(--color-secondary-hover);
+    }
+  }
+
+  &.outline {
+    background-color: transparent;
+    border: 1rem solid var(--color-primary);
+    color: var(--color-primary);
+
+    &:hover {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+    }
+  }
+
+  // Size 스타일
+  &.small {
+    padding: 4rem 12rem;
+    font-size: 14rem;
+  }
+
+  &.large {
+    padding: 12rem 24rem;
+    font-size: 18rem;
+  }
+}
+```
+
+### Mixin 활용
+
+```scss
+// _mixins.scss에서 공통 패턴 정의
+@mixin button_base {
+  display: inline-flex;
+  align-items: center;
+  border: none;
+  border-radius: 6rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+@mixin hover_effect($base-color, $hover-color) {
+  background-color: var(#{$base-color});
+
+  &:hover {
+    background-color: var(#{$hover-color});
+  }
+}
+
+// 컴포넌트에서 사용
+.button {
+  @include button_base;
+  @include hover_effect(--color-primary, --color-primary-hover);
+}
+```
+
+### 반응형 디자인
+
+```scss
+.container {
+  padding: 16rem;
+
+  @include breakpoint_up($breakpoint-md) {
+    padding: 32rem;
+  }
+
+  @include breakpoint_up($breakpoint-lg) {
+    padding: 48rem;
+    max-width: 1200rem;
+    margin: 0 auto;
+  }
+}
+```

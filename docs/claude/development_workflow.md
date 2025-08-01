@@ -1,12 +1,15 @@
 # 개발 워크플로우 & 규칙
 
 ## 🎯 개요
+
 일일 개발 관례, 워크플로우 가이드라인, 일관된 개발 경험을 위한 규칙입니다.
 
 ## 🔄 개발 워크플로우
 
 ### 일일 워크플로우
+
 1. **개발 시작**
+
    ```bash
    git pull origin main
    yarn install  # package.json이 변경된 경우
@@ -14,6 +17,7 @@
    ```
 
 2. **기능 개발**
+
    ```bash
    git checkout -b feature/기능-이름
    # 기능 개발
@@ -30,6 +34,7 @@
    ```
 
 ### 브랜치 네이밍 규칙
+
 - `feature/기능-이름` - 새로운 기능
 - `fix/문제-설명` - 버그 수정
 - `refactor/컴포넌트-이름` - 코드 리팩토링
@@ -37,6 +42,7 @@
 - `chore/의존성-업데이트` - 유지보수 작업
 
 ### 커밋 메시지 형식
+
 ```
 type(scope): 설명
 
@@ -53,7 +59,9 @@ type(scope): 설명
 ## 🏗️ 컴포넌트 개발
 
 ### 컴포넌트 생성 과정
+
 1. **컴포넌트 디렉토리 생성**
+
    ```
    src/components/ui/Button/
    ├── index.tsx
@@ -62,6 +70,7 @@ type(scope): 설명
    ```
 
 2. **컴포넌트 템플릿**
+
    ```typescript
    // src/components/ui/Button/index.tsx
    import { ReactNode } from 'react'
@@ -75,12 +84,12 @@ type(scope): 설명
      children: ReactNode
    }
 
-   const Button = ({ 
-     variant = 'primary', 
-     size = 'md', 
+   const Button = ({
+     variant = 'primary',
+     size = 'md',
      disabled = false,
      onClick,
-     children 
+     children
    }: ButtonProps) => {
      return (
        <button
@@ -105,6 +114,7 @@ type(scope): 설명
    ```
 
 ### 컴포넌트 모범 사례
+
 - 컴포넌트에 화살표 함수 사용
 - 컴포넌트 위에 props 인터페이스 정의
 - 선택적 props에 기본값 제공
@@ -114,6 +124,7 @@ type(scope): 설명
 ## 🎨 스타일링 가이드라인
 
 ### CSS Modules 패턴
+
 ```scss
 // Component.module.scss
 @import '~/styles/variables';
@@ -121,11 +132,11 @@ type(scope): 설명
 .container {
   display: flex;
   padding: 1rem;
-  
+
   &.primary {
     background-color: $primary-color;
   }
-  
+
   &.secondary {
     background-color: $secondary-color;
   }
@@ -133,7 +144,7 @@ type(scope): 설명
 
 .content {
   flex: 1;
-  
+
   @include breakpoint-up($breakpoint-md) {
     padding: 2rem;
   }
@@ -141,15 +152,16 @@ type(scope): 설명
 ```
 
 ### 반응형 디자인
+
 ```scss
 // _variables.scss의 믹스인 사용
 .component {
   padding: 1rem;
-  
+
   @include breakpoint-up($breakpoint-sm) {
     padding: 1.5rem;
   }
-  
+
   @include breakpoint-up($breakpoint-md) {
     padding: 2rem;
   }
@@ -159,18 +171,21 @@ type(scope): 설명
 ## 🗄️ 상태 관리 규칙
 
 ### Zustand 사용 시기
+
 - 전역 애플리케이션 상태
 - 사용자 기본설정
 - 인증 상태
 - 컴포넌트 간 공유되는 UI 상태
 
 ### React State 사용 시기
+
 - 컴포넌트별 상태
 - 폼 입력
 - 로컬 UI 상태
 - 임시 상태
 
 ### 스토어 구성
+
 ```typescript
 // 기능별 스토어 구성
 src/stores/
@@ -183,6 +198,7 @@ src/stores/
 ## 📡 데이터 페칭 패턴
 
 ### API 훅 패턴
+
 ```typescript
 // src/hooks/api/useUsers.ts
 import { useQuery } from '@tanstack/react-query'
@@ -208,14 +224,14 @@ export const useUsers = () => {
 // 컴포넌트에서 사용
 const UsersList = () => {
   const { data: users, isLoading, error } = useUsers()
-  
+
   if (isLoading) return <div>로딩 중...</div>
   if (error) return <div>오류: {error.message}</div>
   if (!users) return <div>사용자를 찾을 수 없습니다</div>
-  
+
   return (
     <ul>
-      {users.map(user => (
+      {users.map((user) => (
         <li key={user.id}>{user.name}</li>
       ))}
     </ul>
@@ -224,6 +240,7 @@ const UsersList = () => {
 ```
 
 ### 오류 처리
+
 ```typescript
 // 전역 오류 경계
 const ErrorBoundary = ({ children }: { children: ReactNode }) => {
@@ -244,6 +261,7 @@ const ErrorBoundary = ({ children }: { children: ReactNode }) => {
 ## 🧪 테스트 전략
 
 ### 단위 테스트
+
 ```typescript
 // Component.test.tsx
 import { render, screen } from '@testing-library/react'
@@ -259,7 +277,7 @@ describe('Button', () => {
   it('클릭 시 onClick을 호출한다', async () => {
     const handleClick = jest.fn()
     render(<Button onClick={handleClick}>클릭하세요</Button>)
-    
+
     await userEvent.click(screen.getByRole('button'))
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
@@ -269,6 +287,7 @@ describe('Button', () => {
 ## 🔧 개발 도구
 
 ### ESLint 통합
+
 ```bash
 # 린팅 문제 자동 수정
 yarn lint:fix
@@ -278,6 +297,7 @@ yarn lint src/components/ui/Button/index.tsx
 ```
 
 ### TypeScript 통합
+
 ```bash
 # 전체 프로젝트 타입 체크
 yarn type-check
@@ -287,6 +307,7 @@ yarn type-check --watch
 ```
 
 ### VS Code 설정
+
 ```json
 // .vscode/settings.json
 {
@@ -301,12 +322,14 @@ yarn type-check --watch
 ## 🐛 디버깅 가이드라인
 
 ### 브라우저 개발자 도구
+
 - 컴포넌트 검사에 React DevTools 사용
 - Zustand 스토어에 Redux DevTools 사용
 - API 디버깅에 Network 탭 사용
 - 오류 추적에 Console 사용
 
 ### 훅 디버깅
+
 ```typescript
 // 커스텀 훅 디버그
 const useDebugValue = (value: any, label?: string) => {
@@ -323,17 +346,24 @@ const useUsers = () => {
 ## 📝 코드 문서화
 
 ### 컴포넌트 문서화
+
 ```typescript
 /**
  * 여러 변형을 가진 재사용 가능한 버튼 컴포넌트
- * 
+ *
  * @param variant - 버튼의 시각적 스타일
  * @param size - 버튼의 크기
  * @param disabled - 버튼 비활성화 여부
  * @param onClick - 클릭 핸들러 함수
  * @param children - 버튼 내용
  */
-const Button = ({ variant, size, disabled, onClick, children }: ButtonProps) => {
+const Button = ({
+  variant,
+  size,
+  disabled,
+  onClick,
+  children
+}: ButtonProps) => {
   // 구현
 }
 ```
@@ -341,6 +371,7 @@ const Button = ({ variant, size, disabled, onClick, children }: ButtonProps) => 
 ## 🚀 성능 최적화
 
 ### 코드 분할
+
 ```typescript
 // 컴포넌트 지연 로딩
 import { lazy, Suspense } from 'react'
@@ -355,6 +386,7 @@ const App = () => (
 ```
 
 ### 메모이제이션
+
 ```typescript
 // 비용이 큰 컴포넌트에 메모 사용
 import { memo } from 'react'
@@ -373,6 +405,7 @@ const expensiveValue = useMemo(() => {
 ## 🔄 핫 리로딩
 
 ### 개발 서버
+
 ```bash
 # 핫 리로드로 시작
 yarn dev
@@ -385,11 +418,51 @@ yarn dev --turbo
 ```
 
 ### 핫 리로드 모범 사례
+
 - 개발 중 상태를 최소한으로 유지
 - React Fast Refresh 적절히 사용
 - 모듈 스코프에서 부작용 피하기
 - 오류를 우아하게 처리
 
+## 🎯 SEO 최적화 구현 방식
+
+### 1. 서버 컴포넌트에서 초기 데이터 Prefetch
+
+```typescript
+// app/posts/page.tsx
+async function getInitialData() {
+  const initialData = await prefetchQuery(['posts', 1, 10], () =>
+    fetchPostsServer(1, 10)
+  )
+  return initialData
+}
+```
+
+### 2. HydrationBoundary로 클라이언트 전달
+
+```typescript
+const HydrationWrapper = createHydrationBoundary()
+
+return (
+  <HydrationWrapper>
+    <PostList /> {/* 클라이언트 컴포넌트 */}
+  </HydrationWrapper>
+)
+```
+
+### 3. 클라이언트에서 TanStack Query 사용
+
+```typescript
+// src/hooks/usePosts.ts
+export const usePosts = (page: number = 1, limit: number = 10) => {
+  return useQuery<PostsResponse>({
+    queryKey: ['posts', page, limit],
+    queryFn: () => fetchPosts(page, limit),
+    staleTime: 5 * 60 * 1000 // 5분
+  })
+}
+```
+
 ---
 
-*일관된 코드 품질과 개발 효율성을 위해 이 가이드라인을 일관되게 따르세요.*
+_일관된 코드 품질과 개발 효율성을 위해 이 가이드라인을 일관되게 따르세요._
