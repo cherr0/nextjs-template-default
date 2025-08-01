@@ -5,45 +5,45 @@ $breakpoint-lg: 1280px;
 $breakpoint-maximum: 1440px;
 
 // Mixins for media queries
-@mixin breakpoint-up($value) {
+@mixin breakpoint_up($value) {
   @media only screen and (min-width: #{$value}) {
     @content;
   }
 }
 
-@mixin breakpoint-down($value) {
+@mixin breakpoint_down($value) {
   @media only screen and (max-width: #{$value}) {
     @content;
   }
 }
 
-@mixin breakpoint-between($min-value, $max-value) {
+@mixin breakpoint_between($min-value, $max-value) {
   @media only screen and (min-width: #{$min-value}) and (max-width: #{$max-value}) {
     @content;
   }
 }
 
 // Typography mixins
-@mixin none-draggable {
+@mixin none_draggable {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
-@mixin typography-title {
+@mixin typography_title {
   font-size: 18px;
   line-height: 28px;
   font-weight: 700;
 }
 
-@mixin typography-subtitle-strong {
+@mixin typography_subtitle_strong {
   font-size: 14px;
   line-height: 24px;
   font-weight: 700;
 }
 
-@mixin typography-subtitle {
+@mixin typography_subtitle {
   font-size: 14px;
   line-height: 24px;
   font-weight: 500;
