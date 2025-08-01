@@ -8,23 +8,23 @@
 }
 
 .heroSection {
-  padding: 4rem 1rem;
+  padding: 64rem 16rem;
 
   .heroContent {
     text-align: center;
-    margin-bottom: 4rem;
-    max-width: 1200px;
+    margin-bottom: 64rem;
+    max-width: 1200rem;
     margin-left: auto;
     margin-right: auto;
 
     .badge {
       display: inline-block;
-      margin-bottom: 1rem;
-      padding: 0.5rem 1rem;
+      margin-bottom: 16rem;
+      padding: 8rem 16rem;
       background-color: #f3f4f6;
       color: #374151;
-      border-radius: 0.5rem;
-      font-size: 0.875rem;
+      border-radius: 8rem;
+      font-size: 14rem;
       font-weight: 500;
 
       .dark & {
@@ -34,14 +34,14 @@
     }
 
     .title {
-      font-size: 3rem;
+      font-size: 48rem;
       font-weight: 700;
       color: #111827;
-      margin-bottom: 1.5rem;
+      margin-bottom: 24rem;
       line-height: 1.2;
 
       @media (min-width: 768px) {
-        font-size: 4rem;
+        font-size: 64rem;
       }
 
       .dark & {
@@ -50,10 +50,10 @@
     }
 
     .description {
-      font-size: 1.25rem;
+      font-size: 20rem;
       color: #6b7280;
-      margin-bottom: 2rem;
-      max-width: 42rem;
+      margin-bottom: 32rem;
+      max-width: 672rem;
       margin-left: auto;
       margin-right: auto;
       line-height: 1.6;
@@ -66,7 +66,7 @@
     .buttonGroup {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 16rem;
       justify-content: center;
       align-items: center;
 
@@ -78,20 +78,20 @@
 }
 
 .featuresSection {
-  padding: 4rem 1rem;
-  max-width: 1200px;
+  padding: 64rem 16rem;
+  max-width: 1200rem;
   margin-left: auto;
   margin-right: auto;
 
   .featuresHeader {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 48rem;
 
     .title {
-      font-size: 2rem;
+      font-size: 32rem;
       font-weight: 700;
       color: #111827;
-      margin-bottom: 1rem;
+      margin-bottom: 16rem;
 
       .dark & {
         color: #ffffff;
@@ -109,7 +109,7 @@
 
   .featuresGrid {
     display: grid;
-    gap: 1.5rem;
+    gap: 24rem;
 
     @media (min-width: 768px) {
       grid-template-columns: repeat(3, 1fr);
@@ -117,34 +117,108 @@
   }
 }
 
+.demoSection {
+  padding: 64rem 16rem;
+  max-width: 1200rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  .demoHeader {
+    text-align: center;
+    margin-bottom: 48rem;
+
+    .title {
+      font-size: 32rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 16rem;
+
+      .dark & {
+        color: #ffffff;
+      }
+    }
+
+    .description {
+      color: #6b7280;
+
+      .dark & {
+        color: #d1d5db;
+      }
+    }
+  }
+
+  .demoGrid {
+    display: grid;
+    gap: 24rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .demoCard {
+    background: white;
+    border-radius: 12rem;
+    padding: 24rem;
+    box-shadow: 0 4rem 6rem -1rem rgba(0, 0, 0, 0.1);
+    border: 1rem solid #e5e7eb;
+
+    .dark & {
+      background: #1f2937;
+      border-color: #374151;
+    }
+
+    h3 {
+      font-size: 20rem;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 12rem;
+
+      .dark & {
+        color: #ffffff;
+      }
+    }
+
+    p {
+      color: #6b7280;
+      margin-bottom: 16rem;
+      line-height: 1.6;
+
+      .dark & {
+        color: #d1d5db;
+      }
+    }
+  }
+}
+
 .ctaSection {
-  padding: 4rem 1rem;
-  max-width: 1200px;
+  padding: 64rem 16rem;
+  max-width: 1200rem;
   margin-left: auto;
   margin-right: auto;
 
   .ctaCard {
-    max-width: 64rem;
+    max-width: 1024rem;
     margin-left: auto;
     margin-right: auto;
     background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
     color: white;
-    border-radius: 0.75rem;
-    padding: 2rem;
+    border-radius: 12rem;
+    padding: 32rem;
 
     .ctaHeader {
       text-align: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 24rem;
 
       .title {
-        font-size: 2rem;
+        font-size: 32rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin-bottom: 8rem;
       }
 
       .description {
         color: #bfdbfe;
-        font-size: 1.125rem;
+        font-size: 18rem;
       }
     }
 
@@ -154,7 +228,7 @@
       .buttonGroup {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 16rem;
         justify-content: center;
         align-items: center;
 

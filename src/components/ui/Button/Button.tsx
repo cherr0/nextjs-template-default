@@ -1,7 +1,7 @@
 import { Slot } from '@radix-ui/react-slot'
 import * as React from 'react'
 
-import styles from './button.module.scss'
+import styles from './Button.module.scss'
 
 interface ButtonProps extends React.ComponentProps<'button'> {
   variant?:
@@ -36,4 +36,5 @@ const Button = ({
   return <Comp data-slot='button' className={buttonClasses} {...props} />
 }
 
-export { Button }
+export default Button
+export type { ButtonProps }

@@ -1,0 +1,122 @@
+.container {
+  max-width: 800rem;
+  margin: 0 auto;
+  padding: 32rem;
+}
+
+.title {
+  font-size: 32rem;
+  font-weight: 700;
+  margin-bottom: 16rem;
+  color: #333;
+}
+
+.description {
+  font-size: 16rem;
+  color: #666;
+  margin-bottom: 32rem;
+  line-height: 1.6;
+}
+
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+  margin-bottom: 32rem;
+}
+
+.post {
+  border: 1rem solid #e0e0e0;
+  border-radius: 8rem;
+  padding: 24rem;
+  background: #fff;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4rem 12rem rgba(0, 0, 0, 0.1);
+  }
+}
+
+.postTitle {
+  font-size: 20rem;
+  font-weight: 600;
+  margin-bottom: 8rem;
+  color: #333;
+}
+
+.postContent {
+  font-size: 16rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 16rem;
+}
+
+.postMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14rem;
+  color: #888;
+}
+
+.author {
+  font-weight: 500;
+}
+
+.date {
+  color: #999;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16rem;
+  margin-top: 32rem;
+}
+
+.pageButton {
+  padding: 8rem 16rem;
+  border: 1rem solid #ddd;
+  border-radius: 4rem;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: #f5f5f5;
+    border-color: #ccc;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.pageInfo {
+  font-size: 14rem;
+  color: #666;
+  min-width: 60rem;
+  text-align: center;
+}
+
+.loading,
+.error,
+.empty,
+.fetching {
+  text-align: center;
+  padding: 32rem;
+  font-size: 16rem;
+  color: #666;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+.fetching {
+  color: #1976d2;
+  font-style: italic;
+}
