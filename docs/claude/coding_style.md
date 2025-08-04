@@ -81,7 +81,6 @@ app/
 - **src/components/ui/**: 전역에서 재사용 가능한 기본 UI 컴포넌트
 - **src/components/layout/**: 레이아웃 관련 컴포넌트
 - **src/components/common/**: 여러 페이지에서 공통으로 사용하는 비즈니스 로직 컴포넌트
-- **src/components/[feature]/**: 특정 기능 도메인 컴포넌트 (예: posts, auth 등)
 - **app/[route]/\_components/**: 특정 페이지에서만 사용하는 컴포넌트
 
 ## 🧩 컴포넌트 패턴
@@ -111,6 +110,69 @@ const Button = ({ variant = 'primary', disabled, children }: ButtonProps) => {
   // 컴포넌트 구현
 }
 ```
+
+### 컴포넌트 생성 과정
+
+1. **컴포넌트 디렉토리 생성**
+
+   ```
+   src/components/ui/Button/
+   ├── index.tsx
+   ├── Button.module.scss
+   └── Button.stories.tsx (스토리북 사용시)
+   ```
+
+2. **컴포넌트 템플릿**
+
+   ```typescript
+   // src/components/ui/Button/index.tsx
+   import { ReactNode } from 'react'
+   import styles from './Button.module.scss'
+
+   interface ButtonProps {
+     variant?: 'primary' | 'secondary'
+     size?: 'sm' | 'md' | 'lg'
+     disabled?: boolean
+     onClick?: () => void
+     children: ReactNode
+   }
+
+   const Button = ({
+     variant = 'primary',
+     size = 'md',
+     disabled = false,
+     onClick,
+     children
+   }: ButtonProps) => {
+     return (
+       <button
+         className={`${styles.button} ${styles[variant]} ${styles[size]}`}
+         disabled={disabled}
+         onClick={onClick}
+       >
+         {children}
+       </button>
+     )
+   }
+
+   export default Button
+   ```
+
+3. **배럴 익스포트**
+   ```typescript
+   // src/components/ui/index.ts
+   export { default as Button } from './Button'
+   export { default as Input } from './Input'
+   // ... 다른 익스포트
+   ```
+
+### 컴포넌트 모범 사례
+
+- 컴포넌트에 화살표 함수 사용
+- 컴포넌트 위에 props 인터페이스 정의
+- 선택적 props에 기본값 제공
+- 스타일링에 CSS Modules 사용
+- 컴포넌트를 집중되고 단일 목적으로 유지
 
 ## 🎨 스타일링 가이드라인
 
@@ -157,6 +219,34 @@ const Component = ({ variant }: { variant: 'primary' | 'secondary' }) => {
 }
 ```
 
+### CSS Modules 패턴
+
+```scss
+// Component.module.scss
+@import '~/styles/variables';
+
+.container {
+  display: flex;
+  padding: 1rem;
+
+  &.primary {
+    background-color: $primary-color;
+  }
+
+  &.secondary {
+    background-color: $secondary-color;
+  }
+}
+
+.content {
+  flex: 1;
+
+  @include breakpoint_down($mobile) {
+    padding: 2rem;
+  }
+}
+```
+
 ### CSS 변수 사용
 
 모든 색상과 공통 값은 `global.scss`에 정의된 CSS 변수를 사용하세요:
@@ -178,6 +268,33 @@ const Component = ({ variant }: { variant: 'primary' | 'secondary' }) => {
 ```
 
 ## 🔄 상태 관리
+
+### Zustand 사용 시기
+
+- 전역 애플리케이션 상태
+- 사용자 기본설정
+- 인증 상태
+
+### React State 사용 시기
+
+- 컴포넌트별 상태
+- 폼 입력
+- 로컬 UI 상태
+- 임시 상태
+
+### Context API 사용 시기
+
+- 컴포넌트 간 공유되는 UI 상태
+
+### 스토어 구성
+
+```typescript
+// 기능별 스토어 구성
+src/stores/
+├── auth.ts          # 인증 상태
+├── user.ts          # 사용자 프로필 데이터
+└── common.ts        # 전역 기본설정 (테마 등)
+```
 
 ### Zustand 스토어 패턴
 
@@ -205,6 +322,48 @@ export const useThemeStore = create<ThemeStore>()(
 ```
 
 ## 📡 데이터 페칭
+
+### API 훅 패턴
+
+```typescript
+// src/hooks/api/useUsers.ts
+import { useQuery } from '@tanstack/react-query'
+
+interface User {
+  id: string
+  name: string
+  email: string
+}
+
+export const useUsers = () => {
+  return useQuery<User[]>({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const response = await fetch('/api/users')
+      if (!response.ok) throw new Error('사용자 조회 실패')
+      return response.json()
+    },
+    staleTime: 5 * 60 * 1000 // 5분
+  })
+}
+
+// 컴포넌트에서 사용
+const UsersList = () => {
+  const { data: users, isLoading, error } = useUsers()
+
+  if (isLoading) return <div>로딩 중...</div>
+  if (error) return <div>오류: {error.message}</div>
+  if (!users) return <div>사용자를 찾을 수 없습니다</div>
+
+  return (
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  )
+}
+```
 
 ### React Query 패턴
 
@@ -254,6 +413,25 @@ const PostList = () => {
 }
 ```
 
+### 오류 처리
+
+```typescript
+// 전역 오류 경계
+const ErrorBoundary = ({ children }: { children: ReactNode }) => {
+  return (
+    <ReactErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onError={(error, errorInfo) => {
+        console.error('경계에서 잡힌 오류:', error, errorInfo)
+        // 오류 추적 서비스에 로그
+      }}
+    >
+      {children}
+    </ReactErrorBoundary>
+  )
+}
+```
+
 ## 🏗️ 아키텍처 패턴
 
 ### 서버/클라이언트 컴포넌트 전략
@@ -288,6 +466,45 @@ const Providers = ({ children }: { children: ReactNode }) => {
       {children}
     </QueryClientProvider>
   )
+}
+```
+
+## 🎯 SEO 최적화 구현 방식
+
+### 1. 서버 컴포넌트에서 초기 데이터 Prefetch
+
+```typescript
+// app/posts/page.tsx
+async function getInitialData() {
+  const initialData = await prefetchQuery(['posts', 1, 10], () =>
+    fetchPostsServer(1, 10)
+  )
+  return initialData
+}
+```
+
+### 2. HydrationBoundary로 클라이언트 전달
+
+```typescript
+const HydrationWrapper = createHydrationBoundary()
+
+return (
+  <HydrationWrapper>
+    <PostList /> {/* 클라이언트 컴포넌트 */}
+  </HydrationWrapper>
+)
+```
+
+### 3. 클라이언트에서 TanStack Query 사용
+
+```typescript
+// src/hooks/usePosts.ts
+export const usePosts = (page: number = 1, limit: number = 10) => {
+  return useQuery<PostsResponse>({
+    queryKey: ['posts', page, limit],
+    queryFn: () => fetchPosts(page, limit),
+    staleTime: 5 * 60 * 1000 // 5분
+  })
 }
 ```
 

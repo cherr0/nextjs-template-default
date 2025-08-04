@@ -14,18 +14,12 @@
 
 사용자가 원하는 관련된 정보만 읽어서 사용합니다.
 
+- **[초기 설정](./docs/claude/initial_setup.md)** - 초기 설정과 환경 구성
 - **[코딩 스타일](./docs/claude/coding_style.md)** - 코딩 스타일, 아키텍처 패턴, 모범 사례
 - **[프론트엔드 디자인 가이드라인](./docs/claude/frontend_rules.md)** - 코딩 디자인 핵심 규칙, 작업 권장 패턴
 - **[개발 워크플로우](./docs/claude/development_workflow.md)** - 개발 워크플로우와 일일 작업 규칙
 - **[테스트 가이드](./docs/claude/testing_guide.md)** - 테스트 전략과 구현 방법
 - **[코드 리뷰](./docs/claude/code_review.md)** - 코드 리뷰 기준과 체크리스트
-
-### 프로젝트 관리
-
-- **[초기 설정](./docs/claude/initial_setup.md)** - 초기 설정과 환경 구성
-- **[문서화 규칙](./docs/claude/documentation_rules.md)** - 문서화 표준과 관례
-- **[배포 가이드](./docs/claude/deployment_guide.md)** - 배포 프로세스와 가이드라인
-- **[유지보수](./docs/claude/maintenance.md)** - 유지보수와 업데이트 절차
 
 ## 🛠️ 기술 스택
 
@@ -67,5 +61,5 @@ frontend-rule.mdc 가이드라인을 기반으로 한 이 프로젝트의 강조
 
 ---
 
-_최종 업데이트: 2025년 1월_
+_최종 업데이트: 2025년 8월_
 _버전: 1.0.0_

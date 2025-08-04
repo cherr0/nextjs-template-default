@@ -1,8 +1,10 @@
 // Breakpoints
-$breakpoint-sm: 320px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 1280px;
-$breakpoint-maximum: 1440px;
+// $breakpoint-sm: 320px;
+// $breakpoint-md: 768px;
+// $breakpoint-lg: 1280px;
+// $breakpoint-maximum: 1440px;
+
+$mobile: 1280px;
 
 // Mixins for media queries
 @mixin breakpoint_up($value) {

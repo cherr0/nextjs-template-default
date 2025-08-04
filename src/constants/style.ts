@@ -1,11 +1,12 @@
 export const enum Breakpoint {
-  MINIMUM = 360,
-  S = 480,
-  M = 768,
-  L = 1024,
-  XL = 1200,
-  XXL = 1920,
-  MAXIMUM = 2560
+  // MINIMUM = 360,
+  // S = 480,
+  // M = 768,
+  // L = 1024,
+  // XL = 1200,
+  // XXL = 1920,
+  // MAXIMUM = 2560
+  MOBILE = 1280
 }
 
 export const enum ZIndex {
