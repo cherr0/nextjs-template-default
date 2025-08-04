@@ -6,7 +6,7 @@ import { ReactNode } from 'react'
 import Providers from './providers'
 
 import MainLayout from '~/components/layout/main_layout'
-import '~/styles/global.scss'
+import '~/styles/common.scss'
 
 export const metadata = {
   title: 'page title'

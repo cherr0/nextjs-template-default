@@ -9,28 +9,46 @@
 ```
 src/
 ├── components/          # 재사용 가능한 UI 컴포넌트
+│   ├── common/         # 공통 유틸리티 컴포넌트
+│   │   └── async_boundary/  # 비동기 경계 처리
 │   ├── layout/         # 레이아웃 전용 컴포넌트
-│   └── ui/             # 범용 UI 컴포넌트
-│       ├── Button/     # 컴포넌트별 폴더 구조
-│       │   ├── index.ts           # export 전용
-│       │   ├── Button.tsx         # 메인 컴포넌트
-│       │   └── Button.module.scss # 컴포넌트 스타일
-│       ├── Card/
-│       │   ├── index.ts
-│       │   ├── Card.tsx
-│       │   └── Card.module.scss
-│       └── Badge/
-│           ├── index.ts
-│           ├── Badge.tsx
-│           └── Badge.module.scss
+│   │   ├── base_layout/     # 기본 레이아웃
+│   │   ├── main_layout/     # 메인 레이아웃
+│   │   ├── header/          # 헤더 컴포넌트
+│   │   └── footer/          # 푸터 컴포넌트
+│   ├── ui/             # 범용 UI 컴포넌트
+│   │   ├── Button/     # 컴포넌트별 폴더 구조
+│   │   │   ├── index.ts           # export 전용
+│   │   │   ├── Button.tsx         # 메인 컴포넌트
+│   │   │   └── Button.module.scss # 컴포넌트 스타일
+│   │   ├── Card/
+│   │   └── Badge/
+│   └── [feature]/      # 특정 기능별 컴포넌트 (예: posts/)
+├── constants/          # 상수 정의
+│   ├── config.ts      # 설정 상수
+│   ├── message.ts     # 메시지 상수
+│   ├── query.ts       # 쿼리 키 상수
+│   └── style.ts       # 스타일 상수
+├── hooks/              # 커스텀 훅
+│   └── queries/       # 데이터 페칭 관련 훅
+├── lib/                # 라이브러리 설정 및 API
+│   ├── api.ts         # API 클라이언트
+│   ├── query.tsx      # React Query 설정
+│   └── api/           # API 엔드포인트별 함수
 ├── stores/             # Zustand 상태 스토어
 ├── styles/             # 전역 스타일과 SCSS 변수
 ├── types/              # TypeScript 타입 정의
 └── utils/              # 유틸리티 함수
 
 app/                    # Next.js App Directory
+├── (home)/             # 홈 페이지 그룹
+│   ├── _components/    # 홈 페이지 전용 컴포넌트
+│   └── page.tsx
+├── posts/              # 게시물 기능
+│   ├── [id]/          # 동적 라우트
+│   ├── _components/   # 게시물 페이지 전용 컴포넌트
+│   └── page.tsx
 ├── layout.tsx          # 루트 레이아웃
-├── page.tsx           # 홈페이지
 └── providers.tsx      # 클라이언트 사이드 프로바이더
 ```
 
@@ -40,6 +58,31 @@ app/                    # Next.js App Directory
 2. **index.ts로 export 정리**: 깔끔한 import 경로 제공
 3. **PascalCase 폴더명**: 컴포넌트명과 일치하는 폴더명 사용
 4. **관련 파일 집중화**: 컴포넌트, 스타일, 타입이 한 곳에 위치
+5. **기능별 컴포넌트 분리**: 특정 페이지/기능 전용 컴포넌트는 해당 위치에 \_components 폴더로 구성
+
+### 새로운 아키텍처 패턴
+
+#### 페이지별 컴포넌트 구성
+
+```
+app/
+├── (home)/
+│   ├── _components/          # 홈 전용 컴포넌트
+│   │   └── FeatureCard/     # 홈에서만 사용하는 컴포넌트
+│   └── page.tsx
+└── posts/
+    ├── _components/          # 게시물 전용 컴포넌트
+    │   └── PostList.tsx     # posts 페이지에서만 사용
+    └── page.tsx
+```
+
+#### 계층별 컴포넌트 분류
+
+- **src/components/ui/**: 전역에서 재사용 가능한 기본 UI 컴포넌트
+- **src/components/layout/**: 레이아웃 관련 컴포넌트
+- **src/components/common/**: 여러 페이지에서 공통으로 사용하는 비즈니스 로직 컴포넌트
+- **src/components/[feature]/**: 특정 기능 도메인 컴포넌트 (예: posts, auth 등)
+- **app/[route]/\_components/**: 특정 페이지에서만 사용하는 컴포넌트
 
 ## 🧩 컴포넌트 패턴
 
@@ -165,27 +208,49 @@ export const useThemeStore = create<ThemeStore>()(
 
 ### React Query 패턴
 
-Query 커스텀 훅은 `src/queries` 에서 관리합니다.
-접미사로 \_Query라는 명칭을 가지게 됩니다.
+커스텀 훅은 `src/hooks/queries/` 에서 관리합니다.
+API 관련 함수는 `src/lib/api/` 폴더에서 관리합니다.
+TanStack Query를 반환하는 함수는 접미사로 **Query**가 붙습니다.
+
+**공통 설정은 QueryClient에서 관리:**
+
+- 개별 쿼리에서 특별한 요구사항이 있을 때만 개별 설정 사용
 
 ```typescript
-// API 데이터용 커스텀 훅
-const useUserQuery = () => {
+// src/lib/api/posts.ts - API 함수 정의
+export const fetchPosts = async (): Promise<Post[]> => {
+  const response = await fetch('/api/posts')
+  if (!response.ok) throw new Error('Failed to fetch posts')
+  return response.json()
+}
+
+// src/hooks/usePosts.ts - 커스텀 훅
+import { useQuery } from '@tanstack/react-query'
+import { fetchPosts } from '~/lib/api/posts'
+import { QUERY_KEYS } from '~/constants/query'
+
+export const usePostsQuery = () => {
   return useQuery({
-    queryKey: ['user'],
-    queryFn: fetchUser,
-    staleTime: 5 * 60 * 1000 // 5분
+    queryKey: [QUERY_KEYS.POSTS],
+    queryFn: fetchPosts
+    // staleTime, gcTime 등은 QueryClient 기본 설정에서 관리
   })
 }
 
 // 컴포넌트에서 사용
-const UserProfile = () => {
-  const { data: user, isLoading, error } = useUserQuery()
+const PostList = () => {
+  const { data: posts, isLoading, error } = usePostsQuery()
 
   if (isLoading) return <div>로딩 중...</div>
   if (error) return <div>오류: {error.message}</div>
 
-  return <div>{user?.name}</div>
+  return (
+    <div>
+      {posts?.map((post) => (
+        <div key={post.id}>{post.title}</div>
+      ))}
+    </div>
+  )
 }
 ```
 
@@ -238,9 +303,83 @@ import { ReactNode } from 'react'
 // 2. 내부 컴포넌트/유틸리티
 import Button from '~/components/ui/Button'
 import { useThemeStore } from '~/stores/common'
+import { QUERY_KEYS } from '~/constants/query'
+import { usePostsQuery } from '~/hooks/queries/usePosts'
 
 // 3. 상대 경로 import
 import styles from './component.module.scss'
+```
+
+## 📂 Constants & Hooks 구조
+
+### Constants 관리
+
+상수는 용도별로 파일을 분리하여 관리합니다:
+
+```typescript
+// src/constants/config.ts - 설정 관련 상수
+export const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
+export const APP_NAME = 'Next.js Template'
+export const ITEMS_PER_PAGE = 10
+
+// src/constants/query.ts - React Query 키 상수
+export const QUERY_KEYS = {
+  POSTS: 'posts',
+  POST_DETAIL: 'post-detail',
+  USER: 'user'
+} as const
+
+// src/constants/message.ts - 메시지 상수
+export const ERROR_MESSAGES = {
+  NETWORK_ERROR: '네트워크 오류가 발생했습니다.',
+  NOT_FOUND: '요청한 데이터를 찾을 수 없습니다.',
+  UNAUTHORIZED: '인증이 필요합니다.'
+} as const
+
+// src/constants/style.ts - 스타일 관련 상수
+export const BREAKPOINTS = {
+  MOBILE: 1280,
+  DESKTOP: 1281
+} as const
+```
+
+### Hooks 구조
+
+커스텀 훅은 기능별로 분리하여 관리합니다:
+
+```
+src/hooks/
+├── queries/        # 데이터 페칭 관련 훅
+│   └── usePosts.ts
+└── useIsMounted.ts # 일반 유틸리티 훅
+```
+
+```typescript
+// src/hooks/useIsMounted.ts - 공통 유틸리티 훅
+import { useEffect, useState } from 'react'
+
+export const useIsMounted = () => {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  return isMounted
+}
+
+// src/hooks/queries/usePosts.ts - 도메인별 데이터 훅
+import { useQuery } from '@tanstack/react-query'
+import { fetchPosts } from '~/lib/api/posts'
+import { QUERY_KEYS } from '~/constants/query'
+
+export const usePostsQuery = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.POSTS],
+    queryFn: fetchPosts
+  })
+}
 ```
 
 ## 🔧 TypeScript 모범 사례
@@ -347,6 +486,7 @@ const GlobalContext = createContext()
 - **변수/함수**: camelCase (`userData`, `handleClick`)
 - **상수**: SCREAMING_SNAKE_CASE (`API_BASE_URL`, `MAX_RETRY_COUNT`)
 - **CSS 클래스**: 모듈에서 snake_case (`primary_button`, `navigation_container`)
+- **React Query 훅**: camelCase + Query 접미사 (`usePostsQuery`, `useUserQuery`)
 
 ## 🎯 성능 고려사항
 

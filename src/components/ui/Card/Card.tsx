@@ -1,8 +1,10 @@
 import * as React from 'react'
 
-import styles from './card.module.scss'
+import styles from './Card.module.scss'
 
-const Card = ({ className, ...props }: React.ComponentProps<'div'>) => {
+interface CardProps extends React.ComponentProps<'div'> {}
+
+const Card = ({ className, ...props }: CardProps) => {
   return (
     <div
       data-slot='card'
@@ -74,6 +76,10 @@ const CardFooter = ({ className, ...props }: React.ComponentProps<'div'>) => {
     />
   )
 }
+
+export type { CardProps }
+
+export default Card
 
 export {
   Card,

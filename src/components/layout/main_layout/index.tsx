@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react'
 
 import styles from './main_layout.module.scss'
 
-import AsyncBoundary from '~/components/common/async_boundary'
+import AsyncBoundary from '~/components/common/AsyncBoundary'
 import { useThemeStore } from '~/stores/common'
 
 interface Props {
