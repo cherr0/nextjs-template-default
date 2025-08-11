@@ -23,33 +23,6 @@
 - **ESLint + Prettier**: 코드 품질 관리
 - **Storybook**: 컴포넌트 문서화
 
-## 📁 프로젝트 구조
-
-```
-├── app/
-│   ├── (home)/
-│   │   └── page.tsx              # 메인 페이지
-│   ├── posts/
-│   │   ├── page.tsx              # 게시물 목록 (서버 컴포넌트)
-│   │   └── [id]/
-│   │       └── page.tsx          # 게시물 상세 (서버 컴포넌트)
-│   ├── layout.tsx                # 루트 레이아웃
-│   └── providers.tsx             # TanStack Query Provider
-├── src/
-│   ├── components/
-│   │   ├── posts/
-│   │   │   ├── PostList.tsx      # 게시물 목록 (클라이언트 컴포넌트)
-│   │   │   └── PostDetail.tsx    # 게시물 상세 (클라이언트 컴포넌트)
-│   │   └── ui/                   # 공통 UI 컴포넌트
-│   ├── hooks/
-│   │   └── usePosts.ts           # TanStack Query 훅
-│   ├── lib/
-│   │   ├── api/
-│   │   │   └── posts.ts          # API 함수
-│   │   └── query.ts              # TanStack Query 유틸리티
-│   └── styles/                   # 전역 스타일
-```
-
 ## 🔧 기술 스택
 
 - **Framework**: Next.js 15 (App Router)
@@ -62,49 +35,24 @@
 
 ## 🚀 시작하기
 
-### 설치
+이 프로젝트는 [CLAUDE.md](./CLAUDE.md) 문서를 통해 일관된 개발 가이드라인을 제공합니다.
 
-```bash
-# 의존성 설치
-yarn install
+### 📋 가이드라인 문서
 
-# 개발 서버 실행
-yarn dev
+- **[초기 설정](./docs/claude/initial_setup.md)** - 초기 설정과 환경 구성
+- **[코딩 스타일](./docs/claude/coding_style.md)** - 코딩 스타일, 아키텍처 패턴, 모범 사례
+- **[프론트엔드 디자인 가이드라인](./docs/claude/frontend_rules.md)** - 코딩 디자인 핵심 규칙, 작업 권장 패턴
+- **[개발 워크플로우](./docs/claude/development_workflow.md)** - 개발 워크플로우와 일일 작업 규칙
+- **[테스트 가이드](./docs/claude/testing_guide.md)** - 테스트 전략과 구현 방법
+- **[코드 리뷰](./docs/claude/code_review.md)** - 코드 리뷰 기준과 체크리스트
 
-# 빌드
-yarn build
+### 🛠️ 개발 워크플로우
 
-# 프로덕션 서버 실행
-yarn start
-```
-
-### 환경 변수
-
-```env
-# .env.local
-NEXT_PUBLIC_API_URL=https://your-api-url.com
-```
-
-## 📖 사용 예시
-
-### 게시물 목록 페이지
-
-- **URL**: `/posts`
-- **기능**: 서버에서 미리 렌더링된 게시물 목록
-- **SEO**: 검색 엔진이 콘텐츠를 크롤링할 수 있음
-
-### 게시물 상세 페이지
-
-- **URL**: `/posts/[id]`
-- **기능**: 개별 게시물의 상세 정보
-- **SEO**: 동적 메타데이터 생성
-
-## 🔍 SEO 최적화 포인트
-
-1. **서버에서 초기 데이터 렌더링**: 검색 엔진이 콘텐츠를 크롤링할 수 있도록 서버에서 미리 렌더링
-2. **동적 메타데이터**: 각 페이지에 맞는 제목, 설명, Open Graph 태그 자동 생성
-3. **하이브리드 렌더링**: SEO를 위한 서버 렌더링 + UX를 위한 클라이언트 렌더링 조합
-4. **TanStack Query Hydration**: 서버의 캐시된 데이터를 클라이언트에서 재사용하여 성능 최적화
+1. **개발 시작 전**: `initial_setup.md`와 `development_workflow.md` 읽기
+2. **개발 중**: `coding_style.md` 패턴과 `testing_guide.md` 전략 따르기
+3. **제출 전**: `code_review.md` 체크리스트 사용
+4. **배포 시**: `deployment_guide.md` 절차 따르기
+5. **유지보수 시**: `maintenance.md` 가이드라인 참조
 
 ## 🤝 기여하기
 
