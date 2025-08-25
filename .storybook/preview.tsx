@@ -1,18 +1,10 @@
-import type { Args, Parameters, Preview, ReactRenderer } from '@storybook/react'
+import React from 'react'
+import type { Parameters, Preview } from '@storybook/react'
 import { themes } from '@storybook/theming'
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
-import { defaultTheme } from '~/styles/theme'
-import GlobalStyle from '~/styles/global-style'
-import { DecoratorFunction } from '@storybook/types'
-import { Simplify } from 'type-fest'
-import { ThemeProvider } from 'styled-components'
+import '../src/styles/global.scss'
 
-const decorator: DecoratorFunction<ReactRenderer, Simplify<Args>> = (Story) => (
-  <ThemeProvider theme={defaultTheme}>
-    <GlobalStyle />
-    <Story />
-  </ThemeProvider>
-)
+const decorator = (Story: any) => <Story />
 
 const parameters: Parameters = {
   darkMode: {
