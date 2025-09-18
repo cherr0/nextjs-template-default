@@ -8,23 +8,23 @@
 }
 
 .heroSection {
-  padding: 64rem 16rem;
+  padding: 64px 16px;
 
   .heroContent {
     text-align: center;
-    margin-bottom: 64rem;
-    max-width: 1200rem;
+    margin-bottom: 64px;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
 
     .badge {
       display: inline-block;
-      margin-bottom: 16rem;
-      padding: 8rem 16rem;
+      margin-bottom: 16px;
+      padding: 8px 16px;
       background-color: #f3f4f6;
       color: #374151;
-      border-radius: 8rem;
-      font-size: 14rem;
+      border-radius: 8px;
+      font-size: 14px;
       font-weight: 500;
 
       .dark & {
@@ -34,14 +34,14 @@
     }
 
     .title {
-      font-size: 48rem;
+      font-size: 48px;
       font-weight: 700;
       color: #111827;
-      margin-bottom: 24rem;
+      margin-bottom: 24px;
       line-height: 1.2;
 
       @media (min-width: 768px) {
-        font-size: 64rem;
+        font-size: 64px;
       }
 
       .dark & {
@@ -50,10 +50,10 @@
     }
 
     .description {
-      font-size: 20rem;
+      font-size: 20px;
       color: #6b7280;
-      margin-bottom: 32rem;
-      max-width: 672rem;
+      margin-bottom: 32px;
+      max-width: 672px;
       margin-left: auto;
       margin-right: auto;
       line-height: 1.6;
@@ -66,7 +66,7 @@
     .buttonGroup {
       display: flex;
       flex-direction: column;
-      gap: 16rem;
+      gap: 16px;
       justify-content: center;
       align-items: center;
 
@@ -78,20 +78,20 @@
 }
 
 .featuresSection {
-  padding: 64rem 16rem;
-  max-width: 1200rem;
+  padding: 64px 16px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 
   .featuresHeader {
     text-align: center;
-    margin-bottom: 48rem;
+    margin-bottom: 48px;
 
     .title {
-      font-size: 32rem;
+      font-size: 32px;
       font-weight: 700;
       color: #111827;
-      margin-bottom: 16rem;
+      margin-bottom: 16px;
 
       .dark & {
         color: #ffffff;
@@ -109,7 +109,7 @@
 
   .featuresGrid {
     display: grid;
-    gap: 24rem;
+    gap: 24px;
 
     @media (min-width: 768px) {
       grid-template-columns: repeat(3, 1fr);
@@ -118,20 +118,20 @@
 }
 
 .demoSection {
-  padding: 64rem 16rem;
-  max-width: 1200rem;
+  padding: 64px 16px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 
   .demoHeader {
     text-align: center;
-    margin-bottom: 48rem;
+    margin-bottom: 48px;
 
     .title {
-      font-size: 32rem;
+      font-size: 32px;
       font-weight: 700;
       color: #111827;
-      margin-bottom: 16rem;
+      margin-bottom: 16px;
 
       .dark & {
         color: #ffffff;
@@ -149,7 +149,7 @@
 
   .demoGrid {
     display: grid;
-    gap: 24rem;
+    gap: 24px;
 
     @media (min-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
@@ -158,10 +158,10 @@
 
   .demoCard {
     background: white;
-    border-radius: 12rem;
-    padding: 24rem;
-    box-shadow: 0 4rem 6rem -1rem rgba(0, 0, 0, 0.1);
-    border: 1rem solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
 
     .dark & {
       background: #1f2937;
@@ -169,10 +169,10 @@
     }
 
     h3 {
-      font-size: 20rem;
+      font-size: 20px;
       font-weight: 600;
       color: #111827;
-      margin-bottom: 12rem;
+      margin-bottom: 12px;
 
       .dark & {
         color: #ffffff;
@@ -181,7 +181,7 @@
 
     p {
       color: #6b7280;
-      margin-bottom: 16rem;
+      margin-bottom: 16px;
       line-height: 1.6;
 
       .dark & {
@@ -192,33 +192,33 @@
 }
 
 .ctaSection {
-  padding: 64rem 16rem;
-  max-width: 1200rem;
+  padding: 64px 16px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 
   .ctaCard {
-    max-width: 1024rem;
+    max-width: 1024px;
     margin-left: auto;
     margin-right: auto;
     background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
     color: white;
-    border-radius: 12rem;
-    padding: 32rem;
+    border-radius: 12px;
+    padding: 32px;
 
     .ctaHeader {
       text-align: center;
-      margin-bottom: 24rem;
+      margin-bottom: 24px;
 
       .title {
-        font-size: 32rem;
+        font-size: 32px;
         font-weight: 700;
-        margin-bottom: 8rem;
+        margin-bottom: 8px;
       }
 
       .description {
         color: #bfdbfe;
-        font-size: 18rem;
+        font-size: 18px;
       }
     }
 
@@ -228,7 +228,7 @@
       .buttonGroup {
         display: flex;
         flex-direction: column;
-        gap: 16rem;
+        gap: 16px;
         justify-content: center;
         align-items: center;
 

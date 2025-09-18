@@ -7,7 +7,7 @@ body {
   overflow: hidden;
   color: var(--black);
   font-family: var(--kor);
-  font-size: 16rem;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.45;
   word-wrap: break-word;
@@ -122,9 +122,9 @@ select {
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
-  background: url(/images/common/select_arrow.png) no-repeat right 10rem center /
-    9rem auto;
-  padding: 0 15rem;
+  background: url(/images/common/select_arrow.png) no-repeat right 10px center /
+    9px auto;
+  padding: 0 15px;
 }
 
 select::-ms-expand {
@@ -160,9 +160,9 @@ input[type='submit'] {
 input[type='checkbox'],
 input[type='radio'] {
   display: inline-block;
-  width: 14rem;
-  height: 14rem;
-  line-height: 14rem;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
   box-sizing: border-box;
   -webkit-border-radius: 0;
 }

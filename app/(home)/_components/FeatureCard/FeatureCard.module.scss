@@ -1,13 +1,13 @@
 .card {
   background-color: var(--color-white);
-  border-radius: 12rem;
-  padding: 24rem;
+  border-radius: 12px;
+  padding: 24px;
   box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
 
   &:hover {
     box-shadow: var(--shadow-md);
-    transform: translateY(-2rem);
+    transform: translateY(-2px);
   }
 
   .dark & {
@@ -19,11 +19,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48rem;
-  height: 48rem;
-  border-radius: 8rem;
-  margin-bottom: 16rem;
-  font-size: 24rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 24px;
 
   &.blue {
     background-color: var(--color-blue-100);
@@ -57,10 +57,10 @@
 }
 
 .title {
-  font-size: 18rem;
+  font-size: 18px;
   font-weight: 600;
   color: var(--color-gray-900);
-  margin-bottom: 8rem;
+  margin-bottom: 8px;
 
   .dark & {
     color: var(--color-white);
@@ -69,8 +69,8 @@
 
 .description {
   color: var(--color-gray-600);
-  margin-bottom: 12rem;
-  font-size: 14rem;
+  margin-bottom: 12px;
+  font-size: 14px;
 
   .dark & {
     color: var(--color-gray-300);
@@ -79,7 +79,7 @@
 
 .content {
   color: var(--color-gray-700);
-  font-size: 14rem;
+  font-size: 14px;
   line-height: 1.5;
 
   .dark & {

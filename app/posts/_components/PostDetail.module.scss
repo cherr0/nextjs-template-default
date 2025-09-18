@@ -1,26 +1,26 @@
 .container {
-  max-width: 800rem;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 32rem;
+  padding: 32px;
 }
 
 .post {
   background: #fff;
-  border-radius: 8rem;
-  box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
 .header {
-  padding: 32rem;
-  border-bottom: 1rem solid #e0e0e0;
+  padding: 32px;
+  border-bottom: 1px solid #e0e0e0;
   background: #f8f9fa;
 }
 
 .title {
-  font-size: 40rem;
+  font-size: 40px;
   font-weight: 700;
-  margin-bottom: 16rem;
+  margin-bottom: 16px;
   color: #333;
   line-height: 1.2;
 }
@@ -29,7 +29,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 14rem;
+  font-size: 14px;
   color: #666;
 }
 
@@ -43,13 +43,13 @@
 }
 
 .content {
-  padding: 32rem;
-  font-size: 18rem;
+  padding: 32px;
+  font-size: 18px;
   line-height: 1.8;
   color: #333;
 
   p {
-    margin-bottom: 24rem;
+    margin-bottom: 24px;
 
     &:last-child {
       margin-bottom: 0;
@@ -58,13 +58,13 @@
 }
 
 .footer {
-  padding: 24rem 32rem;
+  padding: 24px 32px;
   background: #f8f9fa;
-  border-top: 1rem solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
 }
 
 .seoInfo {
-  font-size: 14rem;
+  font-size: 14px;
   color: #666;
   font-style: italic;
   margin: 0;
@@ -75,8 +75,8 @@
 .error,
 .empty {
   text-align: center;
-  padding: 48rem;
-  font-size: 18rem;
+  padding: 48px;
+  font-size: 18px;
   color: #666;
 }
 
