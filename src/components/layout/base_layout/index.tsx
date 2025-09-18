@@ -2,8 +2,8 @@
 
 import React from 'react'
 
-import Header from '../header'
 import Footer from '../footer'
+import Header from '../header'
 import styles from './base_layout.module.scss'
 
 import { LayoutProps } from '~/types/layout'
