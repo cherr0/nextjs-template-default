@@ -14,7 +14,7 @@ updated: 2025-09-18
 ## 공통(모든 작업 필수)
 - 프로젝트 명세: `README.md` 또는 `CLAUDE.md`
 - 코딩 스타일: `docs/conventions/coding-style.md`
-- 개발 워크플로우: `docs/guides/development-workflow.md`
+- 개발 워크플로우: `docs/agents/development-workflow.md`
 - 개발 패턴 가이드: `docs/conventions/patterns.md`
 - 프론트엔드 규칙: `docs/conventions/frontend-rules.md`
 
@@ -24,7 +24,7 @@ updated: 2025-09-18
 - API 연동 워크플로우: `docs/guides/api-integration.md`
 - 데이터 관리 아키텍처: `docs/conventions/data-management-architecture.md`
 - 쿼리 키: `src/constants/query-keys.ts`
-- 서비스 레이어: `src/lib/api/`
+- 서비스 레이어: `src/services/`
 - **금지**: 서버 상태를 Zustand로 관리 금지 (TanStack Query 사용)
 - **금지**: 클라이언트 컴포넌트에서 직접 fetch (서버 컴포넌트 우선 고려)
 
@@ -64,13 +64,31 @@ updated: 2025-09-18
 - 원칙: 설명 중심, 불필요한 코드 예시 금지(필요 시 함수 단위 최소 예시)
 - 중복 방지: 단일 소스 문서 링크 활용(요약+링크)
 
-## 체크 절차
-1. 해당 작업 유형을 식별하고 관련 문서를 모두 확인합니다.
-2. 작업에 적용될 핵심 규칙을 5줄 내로 요약합니다.
-3. 위험/금지 사항을 별도 명시합니다.
-4. Next.js 특화 고려사항(SSR/CSR, Server/Client 컴포넌트)을 포함합니다.
-5. 요약을 사용자에게 공유하고 승인 여부를 확인합니다.
-6. 승인 후 `in-progress`로 전환하고 다음 단계를 진행합니다.
+## 체크 절차 & 승인 대기 체크포인트
+
+### 🚨 MANDATORY: 승인 대기 체크포인트
+> **절대 혼자 진행하지 않는 원칙**: 각 단계마다 사용자 승인 없이 다음 단계로 진행 금지
+
+1. **문서 식별**: 해당 작업 유형을 식별하고 관련 문서를 모두 확인합니다.
+2. **규칙 요약**: 작업에 적용될 핵심 규칙을 5줄 내로 요약합니다.
+3. **위험 명시**: 위험/금지 사항을 별도 명시합니다.
+4. **Next.js 고려사항**: Next.js 특화 고려사항(SSR/CSR, Server/Client 컴포넌트)을 포함합니다.
+5. **🚨 승인 대기**: 요약을 사용자에게 공유하고 **명시적 승인**을 받을 때까지 대기합니다.
+6. **🚨 충돌 검증**: 문서 규칙과 사용자 요청 간 충돌이 있는지 확인하고, 충돌 시 즉시 중단 후 명확화 요청합니다.
+7. **진행 승인**: 승인 후에만 `in-progress`로 전환하고 다음 단계를 진행합니다.
+
+### ⚠️ 승인 대기 필수 상황
+- **문서 규칙 충돌**: 로드된 문서와 사용자 요청이 상충하는 경우
+- **패턴 불일치**: 기존 프로젝트 패턴과 다른 접근이 필요한 경우
+- **구현 방식 선택**: 여러 가능한 구현 방식 중 선택이 필요한 경우
+- **Next.js 특화 결정**: Server/Client Components, 라우팅 방식 등의 아키텍처 결정
+- **리스크 존재**: 잠재적 위험이나 되돌리기 어려운 변경사항
+
+### 🚨 자율 진행 절대 금지 사항
+- 문서에 명시되지 않은 새로운 패턴 도입
+- 사용자 요청과 문서 규칙이 충돌하는 상황에서의 임의 판단
+- 복수의 구현 방식 중 독립적 선택
+- 기존 아키텍처 변경을 수반하는 결정
 
 ## 요약 예시 템플릿
 
@@ -79,7 +97,7 @@ updated: 2025-09-18
 Doc Gate 요약 (작업 유형: API 연동)
 - TanStack Query 필수, 쿼리 키는 상수화 (src/constants/query-keys.ts)
 - 서버 컴포넌트에서 초기 데이터 fetch, 클라이언트에서 TanStack Query 활용
-- 서비스 레이어 경유 (src/lib/api/), Route Handlers (app/api/) 구현
+- 서비스 레이어 경유 (src/services/), Route Handlers (app/api/) 구현
 - 상태: 서버(TanStack Query)/전역(Zustand)/로컬(React) 구분 엄수
 - Server Actions로 뮤테이션 처리, 캐시 무효화 자동화
 잠재 리스크: SSR/CSR 데이터 동기화, 하이드레이션 불일치 주의
@@ -122,7 +140,7 @@ Doc Gate 요약 (작업 유형: 폼 처리)
 - 기본은 Server Components, 상호작용 필요 시에만 Client Components로 전환합니다.
 - 데이터는 서버에서 초기 fetch, 클라이언트는 TanStack Query로 동기화합니다.
 - 폼/뮤테이션은 Server Actions 우선, 캐시는 `revalidatePath`와 쿼리 무효화 병행.
-- 상세 패턴은 `docs/conventions/patterns.md`를, 빌드/품질 흐름은 `docs/guides/development-workflow.md`를 참조하세요.
+- 상세 패턴은 `docs/conventions/patterns.md`를, 빌드/품질 흐름은 `docs/agents/development-workflow.md`를 참조하세요.
 
 ---
 

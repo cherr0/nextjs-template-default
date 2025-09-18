@@ -4,6 +4,8 @@ import PostList from './_components/PostList'
 
 import { fetchPostsServer } from '~/lib/api/posts'
 import { prefetchQuery, createHydrationBoundary } from '~/lib/query'
+import { createQueryKeys } from '@/constants/query-keys'
+const postsKeys = createQueryKeys('posts')
 
 // SEO를 위한 메타데이터
 export const metadata: Metadata = {
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
 async function getInitialData() {
   try {
     // 서버에서 초기 데이터를 미리 가져옴 (SEO 최적화)
-    const initialData = await prefetchQuery(['posts', 1, 10], () =>
+    const initialData = await prefetchQuery(postsKeys.list({ page: 1, limit: 10 }), () =>
       fetchPostsServer(1, 10)
     )
 

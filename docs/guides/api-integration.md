@@ -13,16 +13,7 @@ updated: 2025-09-18
 
 ## 🚨 필수 원칙
 
-### **상태 관리 도구 사용 구분**
-- **TanStack Query**: 서버 상태 관리 (API 데이터, 캐싱, 동기화)
-- **Zustand**: 클라이언트 전역 상태 (인증, 테마, 설정)
-- **React Hook Form**: 폼 상태 관리
-- **React State/Context**: 컴포넌트 로컬 상태
-
-> ❌ **절대 금지**: Zustand로 서버 데이터 관리  
-> ✅ **필수 준수**: TanStack Query로 모든 API 데이터 처리
->
-> 📚 **자세한 내용**: [데이터 관리 아키텍처](./data-management-architecture.md) 문서 참조
+본 가이드는 실무 절차에 집중합니다. 상태 관리 도구의 역할/제약, 쿼리 키 규칙 등 설계 원칙은 단일 권위 문서인 [데이터 관리 아키텍처](./data-management-architecture.md)를 참조하세요.
 
 ---
 
@@ -181,19 +172,19 @@ graph TD
 
 ### 도메인별 API 서비스 구성
 ```
-src/lib/api/
-├── services/
-│   ├── notice.service.ts    # 공지사항 API
-│   ├── banner.service.ts    # 배너 API
-│   ├── member.service.ts    # 회원 API
-│   └── dashboard.service.ts # 대시보드 API
+src/services/
+├── notice.service.ts     # 공지사항 API
+├── banner.service.ts     # 배너 API
+├── member.service.ts     # 회원 API
+├── dashboard.service.ts  # 대시보드 API
+└── mocks/                # 목업 데이터 (*.mock.ts)
 ```
 
 ### 서비스 파일 예시 (타입 안전성 기반)
 
 ```typescript
-// src/lib/api/services/banner.service.ts
-import { apiClient } from '../client';
+// src/services/banner.service.ts
+import { apiClient } from '@/lib/api';
 
 // 1️⃣ Python 에이전트로 추출한 타입 정의
 interface BannerCreateCommand {
@@ -261,7 +252,7 @@ export const bannerService = {
 // components/admin/banner/BannerList.tsx
 import { useApiQuery } from '@/lib/api';
 import { queryKeys } from '@/constants/query-keys';
-import { bannerService } from '@/lib/api/services/banner.service';
+import { bannerService } from '@/services/banner.service';
 
 // Python 에이전트로 추출한 검색 필터 타입
 interface BannerSearchCommand {
@@ -302,7 +293,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useApiMutation } from '@/lib/api';
-import { bannerService, type BannerCreateCommand } from '@/lib/api/services/banner.service';
+import { bannerService, type BannerCreateCommand } from '@/services/banner.service';
+import { useRouter } from 'next/navigation';
 
 // Python 에이전트로 추출한 스키마를 Zod로 변환
 const bannerFormSchema = z.object({
@@ -327,7 +319,7 @@ export function BannerForm({ bannerNo }: { bannerNo?: number }) {
     }
   });
   
-  const navigate = useNavigate();
+  const router = useRouter();
   
   const createMutation = useApiMutation({
     mutationFn: (data: BannerCreateCommand) => bannerService.create(data),
@@ -336,7 +328,7 @@ export function BannerForm({ bannerNo }: { bannerNo?: number }) {
     },
     onSuccess: () => {
       toast.success('배너가 등록되었습니다.');
-      navigate('/admin/banners');
+      router.replace('/admin/banners');
     },
     onError: (error) => {
       ApiErrorHandler.handleFormError(error, form.setError);
@@ -518,9 +510,12 @@ export const adminService = {
 
 ### 상태 관리 통합 패턴 (TanStack Query + Zustand)
 ```typescript
-// hooks/auth/use-auth-mutations.ts (✅ 현재 적용)
+// hooks/auth/use-auth-mutations.ts (✅ Next.js App Router 기준)
+import { useRouter } from 'next/navigation'
+
 export function useLogin() {
   const { login, setLoading } = useAuthStore() // Zustand 전역 상태
+  const router = useRouter()
   
   return useMutation({
     mutationFn: authService.login, // 서비스 레이어 사용
@@ -534,8 +529,8 @@ export function useLogin() {
       // 성공 알림
       toast.success(`환영합니다, 관리자님!`)
       
-      // 네비게이션
-      navigate({ to: '/', replace: true })
+      // 네비게이션 (Next.js)
+      router.replace('/')
     }
   })
 }
@@ -555,17 +550,30 @@ NEXT_PUBLIC_BYPASS_AUTH=false
 NEXT_PUBLIC_DEBUG_API=true
 ```
 
-### main.tsx에서 QueryClient 설정
-```typescript
-import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from '@/lib/api';
+### App Router에서 Query Provider 설정
+```tsx
+// src/components/providers/QueryProvider.tsx
+'use client'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactNode, useState } from 'react'
 
-function App() {
+export function QueryProvider({ children }: { children: ReactNode }) {
+  const [client] = useState(() => new QueryClient())
+  return <QueryClientProvider client={client}>{children}</QueryClientProvider>
+}
+
+// app/layout.tsx
+import type { ReactNode } from 'react'
+import { QueryProvider } from '@/components/providers/QueryProvider'
+
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router />
-    </QueryClientProvider>
-  );
+    <html lang="ko">
+      <body>
+        <QueryProvider>{children}</QueryProvider>
+      </body>
+    </html>
+  )
 }
 ```
 

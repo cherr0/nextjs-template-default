@@ -90,7 +90,7 @@ export const CreateUserFormSchema = z.object({
 });
 ```
 
-### 3. API Services (`src/lib/api/services/<domain>.service.ts`)
+### 3. API Services (`src/services/<domain>.service.ts`)
 **목적**: 도메인별 API 통신 로직 중앙화
 **원칙**: 백엔드 스키마를 기준으로 데이터 검증
 **책임**:
@@ -132,9 +132,12 @@ export const userService = {
 - 자동 캐시 무효화 설정
 
 ```typescript
+import { createQueryKeys } from '@/constants/query-keys';
+const userKeys = createQueryKeys('users');
+
 export function useUsers(filters?: UserFilters) {
   return useQuery({
-    queryKey: queryKeys.users.list(filters),
+    queryKey: userKeys.list(filters),
     queryFn: () => userService.getList(filters),
     // staleTime 등 캐시 전략 설정
   });
@@ -147,14 +150,16 @@ export function useUsers(filters?: UserFilters) {
 **패턴**: `all()` → `lists()` → `list(filters)` → `details()` → `detail(id)`
 
 ```typescript
-export const queryKeys = {
-  users: {
-    all: () => ['users'] as const,
-    lists: () => [...queryKeys.users.all(), 'list'] as const,
-    list: (filters?: Record<string, unknown>) => [...queryKeys.users.lists(), { filters }] as const,
-    // 계층적 캐시 키 구조
-  }
-};
+export const createQueryKeys = <T extends string>(ns: T) => ({
+  all: () => [ns] as const,
+  lists: () => [ns, 'list'] as const,
+  list: (filters?: Record<string, unknown>) => [ns, 'list', { filters }] as const,
+  details: () => [ns, 'detail'] as const,
+  detail: (id: string | number) => [ns, 'detail', String(id)] as const,
+});
+
+// 사용 예시
+const userKeys = createQueryKeys('users');
 ```
 
 ### 6. Feature Components (`src/components/features/<domain>/`)
@@ -229,7 +234,9 @@ export async function createUserAction(formData: FormData) {
 서버 API 스펙에 맞춰 `src/schemas/<domain>.ts`에 백엔드 기준 Zod 스키마 작성
 
 ### 3. 데이터 레이어 → 서비스 구현
-`src/lib/api/services/<domain>.service.ts`에 API 통신 로직 구현
+`src/services/<domain>.service.ts`에 API 통신 로직 구현
+
+참고: 백엔드 연동 전 임시 데이터는 `src/services/mocks/`에 `*.mock.ts`로 작성하세요.
 
 ### 4. 상태 관리 → 훅 작성
 `src/hooks/<domain>/`에 TanStack Query 기반 데이터 훅 구현

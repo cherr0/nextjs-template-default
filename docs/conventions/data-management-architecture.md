@@ -127,23 +127,17 @@ export function getQueryClient() {
 
 #### **쿼리 키 아키텍처**
 ```typescript
-// src/constants/query-keys.ts - 계층적 키 구조
-export const queryKeys = {
-  posts: {
-    all: () => ['posts'] as const,
-    lists: () => [...queryKeys.posts.all(), 'list'] as const,
-    list: (filters?: PostFilters) => [...queryKeys.posts.lists(), { filters }] as const,
-    details: () => [...queryKeys.posts.all(), 'detail'] as const,
-    detail: (id: string) => [...queryKeys.posts.details(), id] as const,
-  },
-  users: {
-    all: () => ['users'] as const,
-    lists: () => [...queryKeys.users.all(), 'list'] as const,
-    list: (filters?: UserFilters) => [...queryKeys.users.lists(), { filters }] as const,
-    details: () => [...queryKeys.users.all(), 'detail'] as const,
-    detail: (id: string) => [...queryKeys.users.details(), id] as const,
-  },
-} as const;
+// src/constants/query-keys.ts - 생성 헬퍼 예시
+export const createQueryKeys = <T extends string>(ns: T) => ({
+  all: () => [ns] as const,
+  lists: () => [ns, 'list'] as const,
+  list: (filters?: Record<string, unknown>) => [ns, 'list', { filters }] as const,
+  details: () => [ns, 'detail'] as const,
+  detail: (id: string | number) => [ns, 'detail', String(id)] as const,
+});
+
+// 사용 예시
+const postsKeys = createQueryKeys('posts');
 ```
 
 #### **SSR/SSG 통합 패턴**
@@ -151,7 +145,10 @@ export const queryKeys = {
 // app/posts/page.tsx - 서버 컴포넌트에서 데이터 프리페치
 import { getQueryClient } from '@/lib/api/query-client';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import { postsService } from '@/lib/api/services/posts.service';
+import { postsService } from '@/services/posts.service';
+import { createQueryKeys } from '@/constants/query-keys';
+
+const postsKeys = createQueryKeys('posts');
 import { PostList } from '@/components/PostList';
 
 export default async function PostsPage() {
@@ -159,7 +156,7 @@ export default async function PostsPage() {
 
   // 서버에서 데이터 프리페치
   await queryClient.prefetchQuery({
-    queryKey: queryKeys.posts.list(),
+    queryKey: postsKeys.list(),
     queryFn: () => postsService.getList(),
   });
 
@@ -512,12 +509,13 @@ export async function createPost(prevState: any, formData: FormData) {
 }
 ```
 
-### **서비스 레이어 (`src/lib/api/services/`)**
+### **서비스 레이어 (`src/services/`)**
 
 #### **타입 안전한 API 클라이언트**
 ```typescript
-// src/lib/api/services/posts.service.ts
+// src/services/posts.service.ts
 import { z } from 'zod';
+import { apiClient } from '@/lib/api';
 
 const PostSchema = z.object({
   id: z.string(),
@@ -546,52 +544,25 @@ export const postsService = {
     limit?: number;
     category?: string;
   }): Promise<PostListResponse> {
-    const url = new URL('/api/posts', process.env.NEXT_PUBLIC_APP_URL);
-
-    if (params) {
-      Object.entries(params).forEach(([key, value]) => {
-        if (value !== undefined) {
-          url.searchParams.append(key, value.toString());
-        }
-      });
-    }
-
-    const response = await fetch(url.toString());
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return PostListResponseSchema.parse(data);
+    // 개발: Next.js rewrites(/api) 프록시 경유
+    // 프로덕션: API_BASE_URL 환경변수 사용 (apiClient 내부 설정)
+    return apiClient.get('/posts', { params }, PostListResponseSchema);
   },
 
   async getDetail(id: string): Promise<Post> {
-    const response = await fetch(`/api/posts/${id}`);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return PostSchema.parse(data);
+    return apiClient.get(`/posts/${id}`, undefined, PostSchema);
   },
 
   async create(data: Omit<Post, 'id' | 'createdAt' | 'updatedAt'>): Promise<Post> {
-    const response = await fetch('/api/posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    return PostSchema.parse(result);
+    return apiClient.post('/posts', data, PostSchema);
   },
 };
+
+#### 목업 데이터 규칙 (임시 데이터)
+- 위치: `src/services/mocks/`
+- 파일명: `*.mock.ts` (예: `posts.mock.ts`)
+- 용도: 백엔드 연동 전까지 서비스 레이어에서 임시 데이터/응답 시뮬레이션에 사용
+- 주의: 실제 API 연동 시작 시 목업 의존 코드를 제거하거나 테스트 전용으로 이동
 ```
 
 ---
@@ -631,26 +602,34 @@ export type ApiResponse<T> = {
 export type Pagination = z.infer<typeof PaginationSchema>;
 ```
 
-### **런타임 타입 검증**
+### **런타임 타입 검증 (apiClient 선택 스키마 인자)**
 ```typescript
-// src/lib/api/client.ts
+// src/lib/api/client.ts (개요: axios 기반)
+import { z } from 'zod'
+import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios'
+
 export class ApiClient {
-  async get<T>(url: string, schema: z.ZodType<T>): Promise<T> {
-    const response = await fetch(url);
+  private instance: AxiosInstance
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+  constructor(baseURL?: string) {
+    this.instance = axios.create({
+      baseURL: baseURL ?? (process.env.NODE_ENV === 'production' ? process.env.API_BASE_URL : '/api'),
+      timeout: 15000,
+      withCredentials: true,
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    })
+  }
 
-    const data = await response.json();
+  async get<T>(url: string, config?: AxiosRequestConfig, schema?: z.ZodType<T>): Promise<T> {
+    const res = await this.instance.get(url, config)
+    const data = res.data
+    return schema ? schema.parse(data) : (data as T)
+  }
 
-    // 런타임에서 타입 검증
-    try {
-      return schema.parse(data);
-    } catch (error) {
-      console.error('API response validation failed:', error);
-      throw new Error('Invalid API response format');
-    }
+  async post<T>(url: string, body?: unknown, schema?: z.ZodType<T>): Promise<T> {
+    const res = await this.instance.post(url, body)
+    const data = res.data
+    return schema ? schema.parse(data) : (data as T)
   }
 }
 ```
@@ -700,8 +679,8 @@ export async function getOptimizedData(id: string) {
   const queryCache = queryClient.getQueryData(['data', id]);
   if (queryCache) return queryCache;
 
-  // 3. 실제 데이터 fetch
-  const freshData = await fetchData(id);
+  // 3. 실제 데이터 fetch (서비스 레이어 표준 사용)
+  const freshData = await postsService.getDetail(id);
 
   // 4. 캐시에 저장
   queryClient.setQueryData(['data', id], freshData);

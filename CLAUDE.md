@@ -125,7 +125,7 @@ def pre_task_check():
     "frontend_rules": "./docs/conventions/frontend-rules.md",
     "patterns": "./docs/conventions/patterns.md",
     "doc_gate": "./docs/agents/doc-gate.md",
-    "development_workflow": "./docs/guides/development-workflow.md"
+    "development_workflow": "./docs/agents/development-workflow.md"
   },
   "conditional_reads": {
     "api_integration": "./docs/guides/api-integration.md",
@@ -245,3 +245,10 @@ def execute_user_request(user_input):
 - **Implementation Tasks**: Any code_edit, file_create, or implementation work
 - **Complex Operations**: Multi-file changes, architectural modifications
 - **Manual Override**: User can request context reload with explicit Read commands
+
+### 🚨 CRITICAL: Never Proceed Alone Rule
+- **ABSOLUTE PROHIBITION**: Never proceed with any implementation task without explicit user approval
+- **DOCUMENT COMPLIANCE**: If loaded documents contain patterns/rules that conflict with user request, IMMEDIATELY halt and request clarification
+- **NO AUTONOMOUS DECISIONS**: Never make independent decisions about implementation approaches when documents specify different patterns
+- **PROTOCOL VIOLATION RESPONSE**: If document loading is incomplete or rules are ambiguous, STOP all work and request manual intervention
+- **USER OVERRIDE ONLY**: Only proceed when user explicitly acknowledges rule conflicts and provides clear override instructions

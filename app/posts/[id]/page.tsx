@@ -5,6 +5,8 @@ import PostDetail from '../_components/PostDetail'
 
 import { fetchPostServer } from '~/lib/api/posts'
 import { prefetchQuery, createHydrationBoundary } from '~/lib/query'
+import { createQueryKeys } from '@/constants/query-keys'
+const postsKeys = createQueryKeys('posts')
 
 interface PostPageProps {
   params: {
@@ -51,7 +53,7 @@ export async function generateMetadata({
 async function getInitialData(postId: number) {
   try {
     // 서버에서 초기 데이터를 미리 가져옴 (SEO 최적화)
-    const initialData = await prefetchQuery(['post', postId], () =>
+    const initialData = await prefetchQuery(postsKeys.detail(postId), () =>
       fetchPostServer(postId)
     )
 

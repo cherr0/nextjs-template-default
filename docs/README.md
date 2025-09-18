@@ -90,5 +90,5 @@ updated: YYYY-MM-DD
 
 ## 참고
 - 규칙 정본 예: `docs/conventions/coding-style.md`, `docs/conventions/frontend-rules.md`, `docs/conventions/patterns.md`
-- 가이드 예: `docs/guides/development-workflow.md`, `docs/guides/api-integration.md`
+- 가이드 예: `docs/guides/api-integration.md`, `docs/guides/feature-module-guide.md`
 - 에이전트: `docs/agents/session-protocol.md`, `docs/agents/doc-gate.md`

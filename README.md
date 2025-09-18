@@ -97,7 +97,15 @@ nextjs-template-default/
 │   ├── stores/          # Zustand 스토어
 │   ├── styles/          # 전역 스타일 & SCSS
 │   ├── types/           # TypeScript 정의
-│   └── utils/           # 유틸리티 함수
+│   ├── utils/           # 유틸리티 함수
+│   ├── constants/       # 전역 상수/쿼리 키/런타임
+│   │   ├── query-keys.ts  # TanStack Query 키 네임스페이스
+│   │   ├── runtime.ts     # 공개 런타임 상수(NEXT_PUBLIC_*) 접근자
+│   │   ├── values.ts      # 공통 상수 값(페이지 사이즈 등)
+│   │   └── index.ts       # 배럴 익스포트
+│   └── services/        # API 서비스 (도메인별)
+│       ├── <domain>.service.ts
+│       └── mocks/       # 목업 데이터 (*.mock.ts)
 ├── docs/                # 문서 루트
 │   ├── README.md       # 문서 구조/운영 가이드
 │   ├── conventions/    # 규칙·관례·원칙(정책 정본)
@@ -117,7 +125,7 @@ nextjs-template-default/
 
 - **[코딩 스타일](./docs/conventions/coding-style.md)** - 코딩 스타일, 아키텍처 패턴, 모범 사례
 - **[프론트엔드 규칙](./docs/conventions/frontend-rules.md)** - 코딩 디자인 핵심 규칙, 작업 권장 패턴
-- **[개발 워크플로우](./docs/guides/development-workflow.md)** - 개발 워크플로우와 일일 작업 규칙
+- **[개발 워크플로우](./docs/agents/development-workflow.md)** - 개발 워크플로우와 일일 작업 규칙
 - **[테스트 가이드](./docs/guides/testing-guide.md)** - 테스트 전략과 구현 방법
 - **[코드 리뷰](./docs/conventions/code-review.md)** - 코드 리뷰 기준과 체크리스트
 

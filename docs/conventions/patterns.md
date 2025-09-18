@@ -47,8 +47,9 @@ src/
 ├── hooks/                     # 커스텀 훅
 │   └── dashboard/
 │       └── use-dashboard.ts
-├── lib/api/services/          # API 서비스
-│   └── dashboard.service.ts
+├── services/                  # API 서비스 (도메인별)
+│   ├── dashboard.service.ts
+│   └── mocks/                 # 목업 데이터 (*.mock.ts)
 └── types/                     # 타입 정의
     └── dashboard.ts
 ```
@@ -59,7 +60,7 @@ src/
 ```typescript
 // app/dashboard/page.tsx
 import { DashboardStats } from '@/components/features/dashboard/DashboardStats';
-import { getDashboardData } from '@/lib/api/services/dashboard.service';
+import { getDashboardData } from '@/services/dashboard.service';
 
 export default async function DashboardPage() {
   // 서버에서 초기 데이터 fetch
