@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ReactNode, useRef } from 'react'
 
+import { ModalRoot } from '@/components/common/modal_root'
+
 interface ProvidersProps {
   children: ReactNode
 }
@@ -25,6 +27,7 @@ const Providers = ({ children }: ProvidersProps) => {
     <QueryClientProvider client={queryClientRef.current}>
       {children}
       <ReactQueryDevtools />
+      <ModalRoot />
     </QueryClientProvider>
   )
 }
