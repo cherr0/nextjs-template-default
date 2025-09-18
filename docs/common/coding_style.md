@@ -1,8 +1,12 @@
 # 코딩 스타일 & 아키텍처 가이드라인
 
+> 단일 소스 안내: 이 문서는 [Single-Source Index](./single-source-index.md)의 '프로젝트 구조/네이밍' 권위 문서입니다. 중복 섹션은 요약으로 유지하고, 상세 규칙은 본문을 기준으로 합니다.
+
 ## 🎯 개요
 
 이 문서는 Next.js 프로젝트의 코딩 표준, 아키텍처 패턴, 모범 사례를 설명합니다.
+
+> 스타일 세부 규칙 위임: 스타일/테마, CSS Modules + SCSS, 유틸리티 클래스 결합 패턴 등은 `docs/common/customizations.md`를 참조하세요. 본 문서는 디렉토리 구조/네이밍/컴포넌트 배치 원칙에 집중합니다.
 
 ## 📁 프로젝트 구조
 
@@ -175,97 +179,14 @@ const Button = ({ variant = 'primary', disabled, children }: ButtonProps) => {
 - 컴포넌트를 집중되고 단일 목적으로 유지
 
 ## 🎨 스타일링 가이드라인
+이 문서에서는 프로젝트 구조/네이밍을 우선 다루며, 스타일링의 상세 규칙과 예시는 단일 소스 문서 `docs/common/customizations.md`를 따릅니다. 핵심 요약은 아래와 같습니다.
 
-### CSS Modules와 SCSS (기본 방식)
+- 기본 스타일링: CSS Modules + SCSS 사용, 클래스 병합은 `cn()` 활용
+- 공통 값: CSS 변수와 전역 토큰 사용, 하드코딩 지양
+- 반응형: 공통 믹스인/브레이크포인트 사용, 중첩은 3단계 이내 유지
+- 접근성/일관성: 모듈 스코프 유지, 인라인 스타일은 예외적 상황만 허용
 
-**이 프로젝트는 CSS Modules + SCSS를 기본 스타일링 방식으로 사용합니다.**
-
-- 기본 단위는 rem으로 사용.
-- 반응형 디자인은 1281 이상 (PC), 1280 이하 (모바일) 로 나뉘어짐
-
-```scss
-// component.module.scss
-.container {
-  display: flex;
-  background-color: var(--color-white);
-  box-shadow: var(--shadow-sm);
-
-  &.primary {
-    background-color: var(--color-primary);
-    color: var(--color-white);
-
-    &:hover {
-      background-color: var(--color-primary-hover);
-    }
-  }
-
-  &.secondary {
-    background-color: var(--color-secondary);
-    color: var(--color-white);
-
-    &:hover {
-      background-color: var(--color-secondary-hover);
-    }
-  }
-}
-```
-
-```typescript
-// 컴포넌트 사용
-import styles from './component.module.scss'
-
-const Component = ({ variant }: { variant: 'primary' | 'secondary' }) => {
-  return <div className={`${styles.container} ${styles[variant]}`}>내용</div>
-}
-```
-
-### CSS Modules 패턴
-
-```scss
-// Component.module.scss
-@import '~/styles/variables';
-
-.container {
-  display: flex;
-  padding: 1rem;
-
-  &.primary {
-    background-color: $primary-color;
-  }
-
-  &.secondary {
-    background-color: $secondary-color;
-  }
-}
-
-.content {
-  flex: 1;
-
-  @include breakpoint_down($mobile) {
-    padding: 2rem;
-  }
-}
-```
-
-### CSS 변수 사용
-
-모든 색상과 공통 값은 `global.scss`에 정의된 CSS 변수를 사용하세요:
-
-```scss
-// ✅ 권장: CSS 변수 사용
-.button {
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  box-shadow: var(--shadow-sm);
-}
-
-// ❌ 지양: 하드코딩된 값
-.button {
-  background-color: #2563eb;
-  color: #ffffff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-```
+자세한 규칙과 예시는 `docs/common/customizations.md`를 참고하세요.
 
 ## 🔄 상태 관리
 
@@ -714,113 +635,4 @@ const GlobalContext = createContext()
 - 긴 목록에 가상화 고려
 
 ## 📐 CSS Module 모범 사례
-
-### 컴포넌트별 스타일 구조
-
-```scss
-// Button.module.scss
-.button {
-  // 기본 스타일
-  display: inline-flex;
-  align-items: center;
-  padding: 8rem 16rem;
-  border: none;
-  border-radius: 6rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  // CSS 변수 사용
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  box-shadow: var(--shadow-sm);
-
-  &:hover {
-    background-color: var(--color-primary-hover);
-    box-shadow: var(--shadow-md);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  // Variant 스타일
-  &.secondary {
-    background-color: var(--color-secondary);
-
-    &:hover {
-      background-color: var(--color-secondary-hover);
-    }
-  }
-
-  &.outline {
-    background-color: transparent;
-    border: 1rem solid var(--color-primary);
-    color: var(--color-primary);
-
-    &:hover {
-      background-color: var(--color-primary);
-      color: var(--color-white);
-    }
-  }
-
-  // Size 스타일
-  &.small {
-    padding: 4rem 12rem;
-    font-size: 14rem;
-  }
-
-  &.large {
-    padding: 12rem 24rem;
-    font-size: 18rem;
-  }
-}
-```
-
-### Mixin 활용
-
-```scss
-// _mixins.scss에서 공통 패턴 정의
-@mixin button_base {
-  display: inline-flex;
-  align-items: center;
-  border: none;
-  border-radius: 6rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-@mixin hover_effect($base-color, $hover-color) {
-  background-color: var(#{$base-color});
-
-  &:hover {
-    background-color: var(#{$hover-color});
-  }
-}
-
-// 컴포넌트에서 사용
-.button {
-  @include button_base;
-  @include hover_effect(--color-primary, --color-primary-hover);
-}
-```
-
-### 반응형 디자인
-
-```scss
-.container {
-  padding: 16rem;
-
-  @include breakpoint_up($breakpoint-md) {
-    padding: 32rem;
-  }
-
-  @include breakpoint_up($breakpoint-lg) {
-    padding: 48rem;
-    max-width: 1200rem;
-    margin: 0 auto;
-  }
-}
-```
+자세한 모범 사례(컴포넌트 별 구조, 믹스인, 반응형 패턴 등)는 `docs/common/customizations.md`를 참고하세요. 본 문서에서는 예시 코드를 생략하고 원칙과 링크만 제공합니다.
