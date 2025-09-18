@@ -1,3 +1,12 @@
+---
+title: 프론트엔드 디자인 가이드라인
+audience: human
+scope: frontend
+tags: [conventions, ui]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # 프론트엔드 디자인 가이드라인
 
 이 문서는 프론트엔드 디자인의 핵심 원칙과 규칙을 요약하고 권장 패턴을 제시합니다. 프론트엔드 코드를 작성할 때 이 가이드라인을 따르세요.

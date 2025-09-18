@@ -1,27 +1,36 @@
+---
+title: Doc Gate — 작업 시작 전 문서 확인 체크리스트
+audience: agent
+scope: agents
+tags: [agents, checklist]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # Doc Gate — 작업 시작 전 문서 확인 체크리스트
 
 작업을 `in-progress`로 전환하기 전, 아래 문서를 확인하고 주요 규칙을 요약해 주세요. 사용자가 작업 범위를 명시하지 않는 한, Doc Gate 확인과 요약 승인 후에만 다음 단계로 진행합니다.
 
 ## 공통(모든 작업 필수)
 - 프로젝트 명세: `README.md` 또는 `CLAUDE.md`
-- 코딩 스타일: `docs/common/coding_style.md`
-- 개발 워크플로우: `docs/common/development_workflow.md`
-- 개발 패턴 가이드: `docs/common/patterns.md`
-- 프론트엔드 규칙: `docs/common/frontend_rules.md`
+- 코딩 스타일: `docs/conventions/coding-style.md`
+- 개발 워크플로우: `docs/guides/development-workflow.md`
+- 개발 패턴 가이드: `docs/conventions/patterns.md`
+- 프론트엔드 규칙: `docs/conventions/frontend-rules.md`
 
 ## 작업 유형별 필수 문서
 
 ### 1) API 연동/서버 상태 작업
-- API 연동 워크플로우: `docs/common/api-integration-workflow.md`
-- 데이터 관리 아키텍처: `docs/common/data-management-architecture.md`
+- API 연동 워크플로우: `docs/guides/api-integration.md`
+- 데이터 관리 아키텍처: `docs/conventions/data-management-architecture.md`
 - 쿼리 키: `src/constants/query-keys.ts`
 - 서비스 레이어: `src/lib/api/`
 - **금지**: 서버 상태를 Zustand로 관리 금지 (TanStack Query 사용)
 - **금지**: 클라이언트 컴포넌트에서 직접 fetch (서버 컴포넌트 우선 고려)
 
 ### 2) 컴포넌트 구현/UI 개발
-- 커스터마이징 가이드: `docs/common/customizations.md`
-- 피처 모듈 가이드: `docs/common/feature-module-guide.md`
+- 커스터마이징 가이드: `docs/guides/ui-customizations.md`
+- 피처 모듈 가이드: `docs/guides/feature-module-guide.md`
 - 컴포넌트 위치: `src/components/`
 - 스타일: CSS Modules + SCSS 사용
 - 스타일 유틸: `src/lib/utils.ts`의 `cn()` 함수
@@ -51,7 +60,7 @@
 - **캐싱**: Next.js 캐시 + TanStack Query 조합 활용
 
 ### 7) 문서 작업(Documentation)
-- 문서 작성 가이드: `docs/common/documentation_guidelines.md`
+- 문서 작성 가이드: `docs/guides/documentation-guidelines.md`
 - 원칙: 설명 중심, 불필요한 코드 예시 금지(필요 시 함수 단위 최소 예시)
 - 중복 방지: 단일 소스 문서 링크 활용(요약+링크)
 
@@ -113,7 +122,7 @@ Doc Gate 요약 (작업 유형: 폼 처리)
 - 기본은 Server Components, 상호작용 필요 시에만 Client Components로 전환합니다.
 - 데이터는 서버에서 초기 fetch, 클라이언트는 TanStack Query로 동기화합니다.
 - 폼/뮤테이션은 Server Actions 우선, 캐시는 `revalidatePath`와 쿼리 무효화 병행.
-- 상세 패턴은 `docs/common/patterns.md`를, 빌드/품질 흐름은 `docs/common/development_workflow.md`를 참조하세요.
+- 상세 패턴은 `docs/conventions/patterns.md`를, 빌드/품질 흐름은 `docs/guides/development-workflow.md`를 참조하세요.
 
 ---
 

@@ -1,3 +1,12 @@
+---
+title: Claude Code LLM Instructions
+audience: agent
+scope: agents
+tags: [agents, workflow, nextjs]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # Claude Code LLM Instructions
 
 ## MANDATORY WORKFLOW EXECUTION SEQUENCE
@@ -9,15 +18,15 @@ BEFORE starting ANY task, IMMEDIATELY execute these Read operations:
 
 **MANDATORY CORE DOCUMENTS** (Execute every session - NO EXCEPTIONS):
 - `Read ./CLAUDE.md` (this file - project foundation)
-- `Read ./docs/common/coding_style.md`
-- `Read ./docs/common/frontend_rules.md`
-- `Read ./docs/common/patterns.md`
-- `Read ./docs/common/session-protocol.md` (session checklist)
+- `Read ./docs/conventions/coding-style.md`
+- `Read ./docs/conventions/frontend-rules.md`
+- `Read ./docs/conventions/patterns.md`
+- `Read ./docs/agents/session-protocol.md` (session checklist)
 
 **TASK-SPECIFIC DOCUMENTS** (Load based on work type):
-- Frontend/UI work: `Read ./docs/common/feature-module-guide.md`, `Read ./docs/common/customizations.md`
-- API integration: `Read ./docs/common/api-integration-workflow.md`
-- New features: `Read ./docs/common/feature-module-guide.md`
+- Frontend/UI work: `Read ./docs/guides/feature-module-guide.md`, `Read ./docs/guides/ui-customizations.md`
+- API integration: `Read ./docs/guides/api-integration.md`
+- New features: `Read ./docs/guides/feature-module-guide.md`
 
 **VERIFICATION REQUIREMENTS**:
 - After loading documents, provide brief summary of key constraints loaded
@@ -111,18 +120,18 @@ def pre_task_check():
 {
   "mandatory_reads": {
     "claude_instructions": "./CLAUDE.md",
-    "session_protocol": "./docs/common/session-protocol.md",
-    "coding_style": "./docs/common/coding_style.md",
-    "frontend_rules": "./docs/common/frontend_rules.md",
-    "patterns": "./docs/common/patterns.md",
-    "doc_gate": "./docs/common/doc_gate.md",
-    "development_workflow": "./docs/common/development_workflow.md"
+    "session_protocol": "./docs/agents/session-protocol.md",
+    "coding_style": "./docs/conventions/coding-style.md",
+    "frontend_rules": "./docs/conventions/frontend-rules.md",
+    "patterns": "./docs/conventions/patterns.md",
+    "doc_gate": "./docs/agents/doc-gate.md",
+    "development_workflow": "./docs/guides/development-workflow.md"
   },
   "conditional_reads": {
-    "api_integration": "./docs/common/api-integration-workflow.md",
-    "customizations": "./docs/common/customizations.md",
-    "feature_module_guide": "./docs/common/feature-module-guide.md",
-    "feature_module_guide": "./docs/common/feature-module-guide.md"
+    "api_integration": "./docs/guides/api-integration.md",
+    "customizations": "./docs/guides/ui-customizations.md",
+    "feature_module_guide": "./docs/guides/feature-module-guide.md",
+    "feature_module_guide": "./docs/guides/feature-module-guide.md"
   }
 }
 ```
@@ -236,8 +245,3 @@ def execute_user_request(user_input):
 - **Implementation Tasks**: Any code_edit, file_create, or implementation work
 - **Complex Operations**: Multi-file changes, architectural modifications
 - **Manual Override**: User can request context reload with explicit Read commands
-
----
-
-_최종 업데이트: 2025년 1월_
-_버전: 2.0.0 (Next.js 전환)_

@@ -1,8 +1,17 @@
+---
+title: 개발 패턴 상세 가이드
+audience: human
+scope: frontend
+tags: [conventions, patterns]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # 개발 패턴 상세 가이드
 
 > 단일 소스 안내: 이 문서는 [Single-Source Index](./single-source-index.md)의 'Next.js 패턴' 권위 문서입니다. 중복 섹션은 요약으로 유지하고, 상세 규칙은 본문을 기준으로 합니다.
 
-> 참고: 스타일/테마 및 CSS Modules + SCSS와 관련된 상세 규칙은 `docs/common/customizations.md`를 참조하세요.
+> 참고: 스타일/테마 및 CSS Modules + SCSS와 관련된 상세 규칙은 `docs/guides/ui-customizations.md`를 참조하세요.
 
 ## 🚀 기능 추가 워크플로우
 
@@ -10,7 +19,7 @@
 새 기능 개발 시작 전, 프로젝트 요구사항과 관련 문서를 반드시 확인하세요. 이를 통해 구현이 요구사항에 정확히 부합하도록 보장합니다.
 
 - **프로젝트 문서**: `README.md`, `CLAUDE.md`
-- **기능별 가이드**: `docs/common/` 폴더 내 관련 문서
+- **기능별 가이드**: `docs/guides/` 폴더 내 관련 문서
 
 ### 1. 새 기능 생성
 

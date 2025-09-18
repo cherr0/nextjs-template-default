@@ -1,3 +1,12 @@
+---
+title: 코딩 스타일 & 아키텍처 가이드라인
+audience: human
+scope: frontend
+tags: [conventions, architecture, naming]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # 코딩 스타일 & 아키텍처 가이드라인
 
 > 단일 소스 안내: 이 문서는 [Single-Source Index](./single-source-index.md)의 '프로젝트 구조/네이밍' 권위 문서입니다. 중복 섹션은 요약으로 유지하고, 상세 규칙은 본문을 기준으로 합니다.
@@ -6,7 +15,7 @@
 
 이 문서는 Next.js 프로젝트의 코딩 표준, 아키텍처 패턴, 모범 사례를 설명합니다.
 
-> 스타일 세부 규칙 위임: 스타일/테마, CSS Modules + SCSS, 유틸리티 클래스 결합 패턴 등은 `docs/common/customizations.md`를 참조하세요. 본 문서는 디렉토리 구조/네이밍/컴포넌트 배치 원칙에 집중합니다.
+> 스타일 세부 규칙 위임: 스타일/테마, CSS Modules + SCSS, 유틸리티 클래스 결합 패턴 등은 `docs/guides/ui-customizations.md`를 참조하세요. 본 문서는 디렉토리 구조/네이밍/컴포넌트 배치 원칙에 집중합니다.
 
 ## 📁 프로젝트 구조
 
@@ -179,14 +188,14 @@ const Button = ({ variant = 'primary', disabled, children }: ButtonProps) => {
 - 컴포넌트를 집중되고 단일 목적으로 유지
 
 ## 🎨 스타일링 가이드라인
-이 문서에서는 프로젝트 구조/네이밍을 우선 다루며, 스타일링의 상세 규칙과 예시는 단일 소스 문서 `docs/common/customizations.md`를 따릅니다. 핵심 요약은 아래와 같습니다.
+이 문서에서는 프로젝트 구조/네이밍을 우선 다루며, 스타일링의 상세 규칙과 예시는 단일 소스 문서 `docs/guides/ui-customizations.md`를 따릅니다. 핵심 요약은 아래와 같습니다.
 
 - 기본 스타일링: CSS Modules + SCSS 사용, 클래스 병합은 `cn()` 활용
 - 공통 값: CSS 변수와 전역 토큰 사용, 하드코딩 지양
 - 반응형: 공통 믹스인/브레이크포인트 사용, 중첩은 3단계 이내 유지
 - 접근성/일관성: 모듈 스코프 유지, 인라인 스타일은 예외적 상황만 허용
 
-자세한 규칙과 예시는 `docs/common/customizations.md`를 참고하세요.
+자세한 규칙과 예시는 `docs/guides/ui-customizations.md`를 참고하세요.
 
 ## 🔄 상태 관리
 
@@ -635,4 +644,4 @@ const GlobalContext = createContext()
 - 긴 목록에 가상화 고려
 
 ## 📐 CSS Module 모범 사례
-자세한 모범 사례(컴포넌트 별 구조, 믹스인, 반응형 패턴 등)는 `docs/common/customizations.md`를 참고하세요. 본 문서에서는 예시 코드를 생략하고 원칙과 링크만 제공합니다.
+자세한 모범 사례(컴포넌트 별 구조, 믹스인, 반응형 패턴 등)는 `docs/guides/ui-customizations.md`를 참고하세요. 본 문서에서는 예시 코드를 생략하고 원칙과 링크만 제공합니다.

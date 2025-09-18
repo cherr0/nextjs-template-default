@@ -1,6 +1,15 @@
+---
+title: 세션 시작 프로토콜 가이드
+audience: agent
+scope: agents
+tags: [agents, protocol]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # 세션 시작 프로토콜 가이드
 
-> 역할 분리 안내: 본 문서는 "세션 시작/문서 로드" 프로토콜에 집중합니다. 계획 수립(Plan-First), 승인 흐름, 품질 검증·명령어 등 실행 워크플로우는 `docs/common/development_workflow.md`를 참조하세요.
+> 역할 분리 안내: 본 문서는 "세션 시작/문서 로드" 프로토콜에 집중합니다. 계획 수립(Plan-First), 승인 흐름, 품질 검증·명령어 등 실행 워크플로우는 `docs/guides/development-workflow.md`를 참조하세요.
 
 ## 🎯 개요
 
@@ -15,10 +24,10 @@
 ```bash
 ✅ MANDATORY READS (세션마다 필수)
 - [ ] ./CLAUDE.md (프로젝트 루트의 기본 지침)
-- [ ] ./docs/common/coding_style.md (코딩 표준 및 아키텍처)
-- [ ] ./docs/common/frontend_rules.md (프론트엔드 디자인 가이드라인)
-- [ ] ./docs/common/patterns.md (개발 패턴 가이드)
-- [ ] ./docs/common/session-protocol.md (이 문서 - 세션 프로토콜)
+- [ ] ./docs/conventions/coding-style.md (코딩 표준 및 아키텍처)
+- [ ] ./docs/conventions/frontend-rules.md (프론트엔드 디자인 가이드라인)
+- [ ] ./docs/conventions/patterns.md (개발 패턴 가이드)
+- [ ] ./docs/agents/session-protocol.md (이 문서 - 세션 프로토콜)
 ```
 
 ### 2단계: 작업 유형별 문서 로드 (조건부)
@@ -27,14 +36,14 @@
 
 #### Frontend/UI 작업
 ```bash
-- [ ] ./docs/common/feature-module-guide.md
-- [ ] ./docs/common/customizations.md
+- [ ] ./docs/guides/feature-module-guide.md
+- [ ] ./docs/guides/ui-customizations.md
 ```
 
 #### API 통합 작업
 ```bash
-- [ ] ./docs/common/api-integration-workflow.md
-- [ ] ./docs/common/data-management-architecture.md
+- [ ] ./docs/guides/api-integration.md
+- [ ] ./docs/conventions/data-management-architecture.md
 ```
 
 #### 라우팅 변경 작업
@@ -44,13 +53,13 @@
 
 #### 새 기능 개발
 ```bash
-- [ ] ./docs/common/feature-module-guide.md
-- [ ] ./docs/common/development_workflow.md
+- [ ] ./docs/guides/feature-module-guide.md
+- [ ] ./docs/guides/development-workflow.md
 ```
 
 #### 커스터마이징 작업
 ```bash
-- [ ] ./docs/common/customizations.md
+- [ ] ./docs/guides/ui-customizations.md
 ```
 
 ### 3단계: 검증 및 확인
@@ -84,7 +93,7 @@
 ### C. documentation
 - README, 가이드, 문서 개선
 - **포함 사항**: 문서 작성/수정, 가이드 생성, 주석 추가
-- **필수**: 1단계 + patterns.md + `./docs/common/documentation_guidelines.md`
+- **필수**: 1단계 + patterns.md + `./docs/guides/documentation-guidelines.md`
 - **승인 필요**: 문서 변경 시
 
 ### D. server_ops

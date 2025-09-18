@@ -1,3 +1,12 @@
+---
+title: 데이터 관리 아키텍처
+audience: human
+scope: frontend
+tags: [state, architecture]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # 데이터 관리 아키텍처
 
 > 단일 소스 안내: 이 문서는 [Single-Source Index](./single-source-index.md)의 '상태관리' 권위 문서입니다. 중복 섹션은 요약으로 유지하고, 상세 규칙은 본문을 기준으로 합니다.

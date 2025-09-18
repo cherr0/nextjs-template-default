@@ -1,6 +1,15 @@
+---
+title: 개발 워크플로우
+audience: human
+scope: repo
+tags: [guides, workflow]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # 개발 워크플로우
 
-> 역할 분리 안내: 세션 시작 절차와 필수 문서 로드는 `docs/common/session-protocol.md`를 참조하세요. 본 문서는 Plan-First, 승인 흐름, 품질 검증, 실행 명령에 집중합니다.
+> 역할 분리 안내: 세션 시작 절차와 필수 문서 로드는 `docs/agents/session-protocol.md`를 참조하세요. 본 문서는 Plan-First, 승인 흐름, 품질 검증, 실행 명령에 집중합니다.
 
 ## ⚠️ **절대 규칙 - 반드시 읽고 준수하세요**
 
@@ -40,10 +49,10 @@
 
 - 공통: 프로젝트 명세, 코딩 스타일, 개발 워크플로우, 패턴 가이드
 - 유형별: API 연동/컴포넌트/Shadcn/라우팅/Zustand/폼 등
-- 자세한 체크리스트: `docs/common/doc_gate.md`
+- 자세한 체크리스트: `docs/agents/doc-gate.md`
 
 권장 플로우:
-1) `docs/common/doc_gate.md` 기준으로 해당 문서를 확인
+1) `docs/agents/doc-gate.md` 기준으로 해당 문서를 확인
 2) 5줄 내 요약 + 금지/주의 사항 명시
 3) 사용자 승인 대기 → 승인 시 다음 단계 진행
 

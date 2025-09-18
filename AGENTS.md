@@ -1,4 +1,21 @@
+---
+title: Agent Code LLM Instructions
+audience: agent
+scope: agents
+tags: [agents, workflow, nextjs]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # Agent Code LLM Instructions
+
+## COMMUNICATION_POLICY (언어 정책)
+- 기본 언어: 한국어(ko)를 사용합니다.
+- 첫 인사, 도구 실행 전 프리앰블, 계획/결과 요약은 한국어로 작성합니다.
+- 사용자가 영어로 요청하거나 영어가 명시된 경우에만 영어로 전환합니다.
+- 코드, 파일 경로, 명령어 등은 원문 그대로 유지하고, 주석/설명은 한국어로 제공합니다.
+- 번역은 요청 기반으로 수행하며, 다국어가 필요한 경우에는 "ko → en" 순서로 제공합니다.
+
 
 ## MANDATORY WORKFLOW EXECUTION SEQUENCE
 
@@ -244,18 +261,13 @@ def agent_execution_pattern():
 {
   "mandatory_docs_reading": [
     "./AGENTS.md",
-    "./docs/common/coding_style.md",
-    "./docs/common/frontend_rules.md",
-    "./docs/common/patterns.md"
+    "./docs/conventions/coding-style.md",
+    "./docs/conventions/frontend-rules.md",
+    "./docs/conventions/patterns.md"
   ],
   "task_specific_docs": {
-    "api_integration": "./docs/common/api-integration-workflow.md",
-    "components": "./docs/common/customizations.md"
+    "api_integration": "./docs/guides/api-integration.md",
+    "components": "./docs/guides/ui-customizations.md"
   }
 }
 ```
-
----
-
-_최종 업데이트: 2025년 1월_
-_버전: 2.0.0 (Next.js 전환)_

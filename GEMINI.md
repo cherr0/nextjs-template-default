@@ -1,3 +1,12 @@
+---
+title: Gemini Code LLM Instructions
+audience: agent
+scope: agents
+tags: [agents, workflow, nextjs]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # Gemini Code LLM Instructions
 
 ## 1. MANDATORY WORKFLOW & CONTEXT LOADING
@@ -7,10 +16,10 @@ At the beginning of EVERY session, you MUST load and understand the project's co
 
 **Use `read_many_files` to load the following core documents immediately:**
 - `./GEMINI.md` (This file)
-- `./docs/common/coding_style.md`
-- `./docs/common/frontend_rules.md`
-- `./docs/common/patterns.md`
-- `./docs/common/session-protocol.md`
+- `./docs/conventions/coding-style.md`
+- `./docs/conventions/frontend-rules.md`
+- `./docs/conventions/patterns.md`
+- `./docs/agents/session-protocol.md`
 
 After loading, provide a one-sentence confirmation acknowledging the core constraints have been loaded.
 
@@ -263,13 +272,13 @@ import styles from './Component.module.scss'
 {
   "mandatory_reads": [
     "./GEMINI.md",
-    "./docs/common/coding_style.md",
-    "./docs/common/frontend_rules.md",
-    "./docs/common/patterns.md"
+    "./docs/conventions/coding-style.md",
+    "./docs/conventions/frontend-rules.md",
+    "./docs/conventions/patterns.md"
   ],
   "task_specific_reads": {
-    "api_work": "./docs/common/api-integration-workflow.md",
-    "component_work": "./docs/common/customizations.md"
+    "api_work": "./docs/guides/api-integration.md",
+    "component_work": "./docs/guides/ui-customizations.md"
   }
 }
 ```
@@ -281,9 +290,9 @@ import styles from './Component.module.scss'
 def gemini_workflow():
     # 1. Load all required documentation
     docs = read_many_files([
-        './docs/common/coding_style.md',
-        './docs/common/frontend_rules.md',
-        './docs/common/patterns.md'
+        './docs/conventions/coding-style.md',
+        './docs/conventions/frontend-rules.md',
+        './docs/conventions/patterns.md'
     ])
 
     # 2. Analyze task context
@@ -313,8 +322,3 @@ def gemini_workflow():
   "completion_verification": "Run quality gates before marking complete"
 }
 ```
-
----
-
-_최종 업데이트: 2025년 1월_
-_버전: 2.0.0 (Next.js 전환)_

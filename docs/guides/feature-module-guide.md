@@ -1,3 +1,12 @@
+---
+title: Feature Module Guide
+audience: human
+scope: frontend
+tags: [guides, features]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # Feature Module Guide
 
 > 요약 안내: 본 문서는 "피처 모듈 설계/구성"에 집중합니다. 상태관리·스타일·프로젝트 구조의 세부 규칙은 단일 소스 문서를 기준으로 하며, 중복 서술은 최소화합니다. 자세한 규칙은 [Single-Source Index](./single-source-index.md)를 참고하세요.
@@ -113,7 +122,7 @@ export const userService = {
 };
 ```
 
-> 스타일 가이드 참고: 컴포넌트 스타일/테마, CSS Modules + SCSS 패턴은 `docs/common/customizations.md`를 따릅니다.
+> 스타일 가이드 참고: 컴포넌트 스타일/테마, CSS Modules + SCSS 패턴은 `docs/guides/ui-customizations.md`를 따릅니다.
 
 ### 4. Custom Hooks (`src/hooks/<domain>/`)
 **목적**: TanStack Query를 활용한 서버 상태 관리
@@ -278,21 +287,21 @@ export class ApiClient {
 ```
 
 ## 상태 관리 규칙 (요약)
-> 단일 소스: `docs/common/data-management-architecture.md`
+> 단일 소스: `docs/conventions/data-management-architecture.md`
 - 서버 상태는 TanStack Query로만 관리합니다. 클라이언트 전역 상태(Zustand)에 서버 데이터를 보관하지 않습니다.
 - 전역 상태는 인증/테마/설정 등으로 한정합니다.
 - 폼 상태는 React Hook Form(+Zod)로 관리하고 일반 전역/로컬 상태로 대체하지 않습니다.
 - Server Components는 초기 데이터 제공, 클라이언트는 상호작용 중심으로 분리합니다.
 
 ## 데이터 플로우 패턴 (요약)
-> 단일 소스: `docs/common/patterns.md`, `docs/common/data-management-architecture.md`
+> 단일 소스: `docs/conventions/patterns.md`, `docs/conventions/data-management-architecture.md`
 - 서버에서 초기 데이터(prefetch/SSR)를 제공하고, 클라이언트는 TanStack Query로 후속 동기화를 담당합니다.
 - 캐시 무효화는 네임스페이스화된 쿼리 키와 `invalidateQueries`/`revalidatePath`를 조합합니다.
 - 폼 제출/뮤테이션은 Server Actions 우선 패턴을 권장합니다.
 - 상세 예시는 패턴 가이드 문서를 참고하세요.
 
 ## 프로젝트 구조 가이드 (요약)
-상세한 프로젝트 구조와 네이밍 규칙은 단일 소스 문서 `docs/common/coding_style.md`를 참고하세요. 본 문서에서는 피처 모듈 관점에서 필요한 최소 디렉터리 힌트만 제공합니다.
+상세한 프로젝트 구조와 네이밍 규칙은 단일 소스 문서 `docs/conventions/coding-style.md`를 참고하세요. 본 문서에서는 피처 모듈 관점에서 필요한 최소 디렉터리 힌트만 제공합니다.
 
 ## 개발 가이드라인
 

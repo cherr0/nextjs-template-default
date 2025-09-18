@@ -19,12 +19,12 @@
 
 ## 의존성과 참조 문서 (Dependencies & Docs)
 - 단일 소스 지정
-  - 상태관리: `docs/common/data-management-architecture.md`
-  - Next.js 패턴: `docs/common/patterns.md`
-  - 프로젝트 구조/네이밍: `docs/common/coding_style.md`
-  - 스타일링/테마: `docs/common/customizations.md`
-  - API 워크플로우: `docs/common/api-integration-workflow.md`
-  - 리뷰 체크리스트: `docs/common/code_review.md`
+  - 상태관리: `docs/conventions/data-management-architecture.md`
+  - Next.js 패턴: `docs/conventions/patterns.md`
+  - 프로젝트 구조/네이밍: `docs/conventions/coding-style.md`
+  - 스타일링/테마: `docs/guides/ui-customizations.md`
+  - API 워크플로우: `docs/guides/api-integration.md`
+  - 리뷰 체크리스트: `docs/conventions/code-review.md`
   
 
 ## 리스크 (Risks)

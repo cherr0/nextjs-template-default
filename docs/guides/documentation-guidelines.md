@@ -1,4 +1,17 @@
+---
+title: 문서 작성 가이드라인 (Documentation Guidelines)
+audience: human
+scope: repo
+tags: [docs, conventions]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # 문서 작성 가이드라인 (Documentation Guidelines)
+
+## 템플릿 모음(Templates)
+- Plan 템플릿: `docs/templates/plan-template.md`
+- PRD 템플릿(간소화): `docs/templates/prd-template.md`
 
 ## 목적
 - 팀과 에이전트가 일관된 방식으로 문서를 작성·유지하도록 돕습니다.
@@ -19,12 +32,20 @@
 - 요약: 문서 끝에 3~5줄 핵심 요약 또는 체크리스트 제공
 
 ## 단일 소스 문서(링크 우선 순위)
-- 상태관리: `docs/common/data-management-architecture.md`
-- Next.js 패턴: `docs/common/patterns.md`
-- 프로젝트 구조/네이밍: `docs/common/coding_style.md`
-- 스타일/테마: `docs/common/customizations.md`
-- API 워크플로우: `docs/common/api-integration-workflow.md`
-- 코드 리뷰/체크리스트: `docs/common/code_review.md`
+- 상태관리: `docs/conventions/data-management-architecture.md`
+- Next.js 패턴: `docs/conventions/patterns.md`
+- 프로젝트 구조/네이밍: `docs/conventions/coding-style.md`
+- 스타일/테마: `docs/guides/ui-customizations.md`
+- API 워크플로우: `docs/guides/api-integration.md`
+- 코드 리뷰/체크리스트: `docs/conventions/code-review.md`
+
+## PRD 작성 가이드(간소화)
+- 위치: `docs/project/prd/`
+- 템플릿: `docs/templates/prd-template.md`
+- 파일명: `한글-명칭.md` (예: `정렬-필터-기능-prd.md`)
+- Frontmatter 필수: `title, status, version, updated, scope, tags, related`(일정/담당자 제외)
+- 컨텍스트 엔지니어링(양파 모델)을 최상단에 작성: 최종 목표 → 중간 산출물 → 페르소나 → 제약/스타일 → 원본 데이터
+- 핵심 섹션: 프로세스 플로우, 데이터/API, 검증/에러, 케이스/시나리오, 결정/옵션, 오픈 이슈
 
 ## 코드 예시 사용 기준
 - 필요성: 설명만으로 모호할 때에 한해 사용

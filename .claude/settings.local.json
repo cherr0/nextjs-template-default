@@ -3,7 +3,8 @@
     "allow": [
       "Bash(mv:*)",
       "Bash(mkdir:*)",
-      "Bash(move:*)"
+      "Bash(move:*)",
+      "mcp__morphllm-fast-apply__read_multiple_files"
     ],
     "deny": []
   }
