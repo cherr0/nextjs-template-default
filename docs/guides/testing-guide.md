@@ -1,3 +1,12 @@
+---
+title: 테스트 가이드라인
+audience: human
+scope: repo
+tags: [guides, testing]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # 테스트 가이드라인
 
 ## 🎯 개요

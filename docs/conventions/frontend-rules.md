@@ -1,3 +1,12 @@
+---
+title: 프론트엔드 디자인 가이드라인
+audience: human
+scope: frontend
+tags: [conventions, ui]
+version: 2.0.0
+updated: 2025-09-18
+---
+
 # 프론트엔드 디자인 가이드라인
 
 이 문서는 프론트엔드 디자인의 핵심 원칙과 규칙을 요약하고 권장 패턴을 제시합니다. 프론트엔드 코드를 작성할 때 이 가이드라인을 따르세요.
@@ -41,7 +50,7 @@ async function onLikeClick() {
 #### 권장 패턴 1: 인증 가드 (Auth Guard)
 
 ```tsx
-function App() {
+const App = () => {
   return (
     <AuthGuard>
       <LoginStartPage />
@@ -49,7 +58,7 @@ function App() {
   )
 }
 
-function AuthGuard({ children }) {
+const AuthGuard = ({ children }) => {
   const status = useCheckLoginStatus()
   useEffect(() => {
     if (status === 'LOGGED_IN') {
@@ -60,7 +69,7 @@ function AuthGuard({ children }) {
   return status !== 'LOGGED_IN' ? children : null
 }
 
-function LoginStartPage() {
+const LoginStartPage = () => {
   return <>{/* 로그인 관련 컴포넌트들 */}</>
 }
 ```
@@ -68,7 +77,7 @@ function LoginStartPage() {
 #### 권장 패턴 2: 전용 인터랙션 컴포넌트
 
 ```tsx
-export function FriendInvitation() {
+const FriendInvitation = () => {
   const { data } = useQuery(/* ... */)
 
   return (
@@ -78,7 +87,7 @@ export function FriendInvitation() {
   )
 }
 
-function InviteButton({ name }) {
+const InviteButton = ({ name }) => {
   const handleClick = async () => {
     const canInvite = await overlay.openAsync(({ isOpen, close }) => (
       <ConfirmDialog title={`${name}님과 공유하기`} />
@@ -105,16 +114,16 @@ function InviteButton({ name }) {
 #### 권장 패턴:
 
 ```tsx
-function SubmitButton() {
+const SubmitButton = () => {
   const isViewer = useRole() === 'viewer'
   return isViewer ? <ViewerSubmitButton /> : <AdminSubmitButton />
 }
 
-function ViewerSubmitButton() {
+const ViewerSubmitButton = () => {
   return <TextButton disabled>제출</TextButton>
 }
 
-function AdminSubmitButton() {
+const AdminSubmitButton = () => {
   useEffect(() => {
     showAnimation()
   }, [])
@@ -267,7 +276,7 @@ export function useCardIdQueryParam() {
 ## 합성으로 Props Drilling 제거하기
 
 ```tsx
-function ItemEditModal({ open, items, recommendedItems, onConfirm, onClose }) {
+const ItemEditModal = ({ open, items, recommendedItems, onConfirm, onClose }) => {
   const [keyword, setKeyword] = useState('')
   return (
     <Modal open={open} onClose={onClose}>

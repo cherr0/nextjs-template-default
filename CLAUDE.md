@@ -1,60 +1,247 @@
-# Claude AI 개발 가이드라인
-
-이 문서는 Next.js 프로젝트에서 AI 보조 개발을 위한 종합적인 가이드라인을 제공합니다.
-이 파일들은 Claude가 프로젝트 구조, 코딩 표준, 개발 관례를 이해하는 데 도움이 됩니다.
-
-## 📋 문서 구조
-
-### 핵심 가이드라인
-
-사용자가 원하는 관련된 정보만 읽어서 사용합니다.
-
-- **[초기 설정](./docs/claude/initial_setup.md)** - 초기 설정과 환경 구성
-- **[코딩 스타일](./docs/claude/coding_style.md)** - 코딩 스타일, 아키텍처 패턴, 모범 사례
-- **[프론트엔드 디자인 가이드라인](./docs/claude/frontend_rules.md)** - 코딩 디자인 핵심 규칙, 작업 권장 패턴
-- **[개발 워크플로우](./docs/claude/development_workflow.md)** - 개발 워크플로우와 일일 작업 규칙
-- **[테스트 가이드](./docs/claude/testing_guide.md)** - 테스트 전략과 구현 방법
-- **[코드 리뷰](./docs/claude/code_review.md)** - 코드 리뷰 기준과 체크리스트
-
-## 🛠️ 기술 스택
-
-### 핵심 기술
-
-- **Next.js 15** with App Directory (서버 컴포넌트)
-- **TypeScript** 타입 안정성
-- **@tanstack/react-query v5** 데이터 페칭
-- **Zustand** 상태 관리
-- **CSS Modules with SCSS** 스타일링
-
-### 개발 도구
-
-- **ESLint** 코드 품질을 위한 커스텀 규칙
-- **Prettier** 코드 포맷팅
-- **Husky** Git 훅
-- **Storybook** 컴포넌트 개발
-
-## 🎯 핵심 원칙
-
-frontend-rule.mdc 가이드라인을 기반으로 한 이 프로젝트의 강조사항:
-
-1. **가독성** - 명확한 네이밍, 복잡성 추상화, 조건문 단순화
-2. **예측 가능성** - 일관된 패턴, 단일 책임, 서술적 이름
-3. **응집성** - 기능 기반 구성, 관련 코드 근접성
-4. **낮은 결합도** - 최소한의 의존성, 집중된 상태 관리, 드릴링보다 컴포지션
-
-## 📖 가이드라인 사용법
-
-1. **개발 시작 전**: initial_setup.md와 development_workflow.md 읽기
-2. **개발 중**: coding_style.md 패턴과 testing_guide.md 전략 따르기
-3. **제출 전**: code_review.md 체크리스트 사용
-4. **배포 시**: deployment_guide.md 절차 따르기
-5. **유지보수 시**: maintenance.md 가이드라인 참조
-
-## 🔄 지속적 개선
-
-이 가이드라인들은 프로젝트가 발전함에 따라 업데이트되어야 하는 살아있는 문서입니다. 새로운 패턴이 나타나거나 요구사항이 변경될 때, 코드베이스 전반의 일관성을 유지하기 위해 관련 문서를 업데이트하세요.
-
+---
+title: Claude Code LLM Instructions
+audience: agent
+scope: agents
+tags: [agents, workflow, nextjs]
+version: 2.0.0
+updated: 2025-09-18
 ---
 
-_최종 업데이트: 2025년 8월_
-_버전: 1.0.0_
+# Claude Code LLM Instructions
+
+## MANDATORY WORKFLOW EXECUTION SEQUENCE
+
+## CONTEXT_LOADING_PROTOCOL
+
+### Session Start Required Actions
+BEFORE starting ANY task, IMMEDIATELY execute these Read operations:
+
+**MANDATORY CORE DOCUMENTS** (Execute every session - NO EXCEPTIONS):
+- `Read ./CLAUDE.md` (this file - project foundation)
+- `Read ./docs/conventions/coding-style.md`
+- `Read ./docs/conventions/frontend-rules.md`
+- `Read ./docs/conventions/patterns.md`
+- `Read ./docs/agents/session-protocol.md` (session checklist)
+
+**TASK-SPECIFIC DOCUMENTS** (Load based on work type):
+- Frontend/UI work: `Read ./docs/guides/feature-module-guide.md`, `Read ./docs/guides/ui-customizations.md`
+- API integration: `Read ./docs/guides/api-integration.md`
+- New features: `Read ./docs/guides/feature-module-guide.md`
+
+**VERIFICATION REQUIREMENTS**:
+- After loading documents, provide brief summary of key constraints loaded
+- Confirm understanding of tech stack (Next.js 15, App Router, TanStack Query, Zustand)
+- Acknowledge project structure (app/, src/components/, src/stores/)
+- State readiness to follow loaded guidelines
+
+**PROTOCOL FAILURE HANDLING**:
+- If documents fail to load: Stop all work, report error, request manual intervention
+- If protocol is skipped: User must explicitly override with acknowledgment of risks
+- If partial loading: Complete missing documents before proceeding
+
+### PRE_TASK_GATE (Execute BEFORE any action)
+```python
+# ALGORITHMIC WORKFLOW ENFORCEMENT
+def pre_task_check():
+    # NEW: Mandatory context loading check
+    if not session_context_loaded:
+        load_mandatory_documents()  # Execute Read calls for core docs
+        session_context_loaded = True
+
+    task_type = classify_request()
+
+    # NEW: Task-specific context loading
+    load_conditional_documents(task_type)  # Load task-specific docs
+
+    if task_type in ["code_edit", "file_create", "implementation"]:
+        # BLOCKING: User approval required
+        display_approval_template()
+        wait_for_explicit_confirmation()
+
+        # Doc gate execution (docs already loaded above)
+        relevant_docs = get_docs_by_task_type(task_type)
+        for doc in relevant_docs:
+            summarize_critical_rules(doc)
+
+        # Server state verification
+        exec("lsof -ti:3000")
+
+    return proceed_authorization
+```
+
+### TASK_CLASSIFICATION_MAP
+```json
+{
+  "code_edit": ["API integration", "component impl", "feature add", "state mgmt"],
+  "code_analysis": ["debug", "explain", "review", "investigate"],
+  "documentation": ["README", "guide create", "doc update"],
+  "server_ops": ["dev server", "build", "deploy"]
+}
+```
+
+### DOCUMENT_DEPENDENCY_MATRIX
+```json
+{
+  "frontend_work": ["frontend_rules.md", "coding_style.md", "patterns.md", "feature-module-guide.md"],
+  "api_integration": ["api-integration-workflow.md", "coding_style.md", "feature-module-guide.md"],
+  "component_work": ["customizations.md", "frontend_rules.md", "feature-module-guide.md"],
+  "state_management": ["frontend_rules.md", "patterns.md"]
+}
+```
+
+## STATE_MANAGEMENT_CONSTRAINTS
+```json
+{
+  "TanStack_Query": {
+    "purpose": "server_state_only",
+    "use_cases": ["API_data", "caching", "CRUD"],
+    "forbidden": ["client_global_state"]
+  },
+  "Zustand": {
+    "purpose": "global_state_only",
+    "use_cases": ["auth", "theme", "UI_settings"],
+    "forbidden": ["server_data"]
+  },
+  "React_State": {
+    "purpose": "local_state_only",
+    "use_cases": ["component_internal", "temporary_UI"],
+    "forbidden": ["server_data", "global_state"]
+  },
+  "React_Hook_Form": {
+    "purpose": "form_state_only",
+    "use_cases": ["form_data", "validation"],
+    "forbidden": ["general_state_mgmt"]
+  }
+}
+```
+
+## CRITICAL_DOCUMENT_PATHS
+```json
+{
+  "mandatory_reads": {
+    "claude_instructions": "./CLAUDE.md",
+    "session_protocol": "./docs/agents/session-protocol.md",
+    "coding_style": "./docs/conventions/coding-style.md",
+    "frontend_rules": "./docs/conventions/frontend-rules.md",
+    "patterns": "./docs/conventions/patterns.md",
+    "doc_gate": "./docs/agents/doc-gate.md",
+    "development_workflow": "./docs/guides/development-workflow.md"
+  },
+  "conditional_reads": {
+    "api_integration": "./docs/guides/api-integration.md",
+    "customizations": "./docs/guides/ui-customizations.md",
+    "feature_module_guide": "./docs/guides/feature-module-guide.md",
+    "feature_module_guide": "./docs/guides/feature-module-guide.md"
+  }
+}
+```
+
+## EXECUTION_CONSTRAINTS
+```json
+{
+  "user_approval_required": ["file_write", "file_edit", "server_start", "task_status_change"],
+  "single_step_execution": true,
+  "auto_completion_forbidden": ["set-status done", "task completion"],
+  "server_check_before_start": "lsof -ti:3000"
+}
+```
+
+## TECHNICAL_STACK_CONSTRAINTS
+```json
+{
+  "framework": "Next.js 15 + TypeScript",
+  "build_tool": "Next.js (Turbopack/Webpack)",
+  "router": "Next.js App Router",
+  "ui": "CSS Modules + SCSS",
+  "state": "Zustand + TanStack Query v5",
+  "import_alias": "@/ → src/",
+  "disabled_features": [],
+  "forbidden_actions": [
+    "relative_path_imports",
+    "app_router_modification_without_pattern",
+    "css_modules_override_without_scoping"
+  ]
+}
+```
+
+## PROJECT_STRUCTURE_MAP
+```json
+{
+  "app/": "next_app_router_pages",
+  "src/components/": "reusable_components",
+  "src/stores/": "zustand_global_state",
+  "src/utils/": "utility_functions",
+  "src/styles/": "global_scss_styles"
+}
+```
+
+## DEVELOPMENT_COMMANDS
+```json
+{
+  "dev": "npm run dev",
+  "build": "npm run build",
+  "lint": "npm run lint",
+  "start": "npm start"
+}
+```
+
+## BUSINESS_DOMAIN
+```json
+{
+  "project": "nextjs_template_default",
+  "purpose": "modern_nextjs_template_with_best_practices",
+  "core_features": [
+    "server_components",
+    "client_components",
+    "state_management",
+    "api_integration"
+  ]
+}
+```
+
+## PLAN_SYSTEM
+```json
+{
+  "plan_docs": "docs/plans/",
+  "plan_template": "docs/templates/plan-template.md",
+  "require_plan_for": ["code_edit", "file_create", "implementation", "server_ops"],
+  "pr_includes_plan_link": true,
+  "notes": "Plan-First로 작업을 진행합니다."
+}
+```
+
+## LLM_EXECUTION_ALGORITHM
+```python
+def execute_user_request(user_input):
+    # NEW: Context loading enforcement
+    ensure_session_context_loaded()  # Execute CONTEXT_LOADING_PROTOCOL
+
+    task_type = classify_request(user_input)
+
+    # MANDATORY: Pre-task gate (includes context loading)
+    if task_type in BLOCKING_OPERATIONS:
+        request_user_approval()
+        load_required_documents(task_type)  # Already loaded by context protocol
+        verify_server_state()
+
+    # Execute with constraints
+    if approved:
+        execute_task_with_monitoring()
+
+    # FORBIDDEN: Auto-completion
+    # wait_for_user_validation_before_status_change()
+```
+
+## MANDATORY_BEHAVIORS
+
+### Context Loading Requirements
+- **EVERY SESSION**: Load coding_style.md, frontend_rules.md, patterns.md before ANY task
+- **TASK-SPECIFIC**: Load additional docs based on work type classification
+- **VERIFICATION**: Confirm document loading with brief summary of loaded constraints
+- **COMPLIANCE**: Never skip context loading - it's required for all implementation work
+
+### Document Loading Triggers
+- **Session Initialization**: First task in any Claude Code session
+- **Implementation Tasks**: Any code_edit, file_create, or implementation work
+- **Complex Operations**: Multi-file changes, architectural modifications
+- **Manual Override**: User can request context reload with explicit Read commands
