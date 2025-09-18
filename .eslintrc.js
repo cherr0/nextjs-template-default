@@ -58,6 +58,28 @@ module.exports = {
         },
         'newlines-between': 'always'
       }
+    ],
+    // 아이콘 정책
+    // 1) 원시 svg 직접 임포트 금지 (자동 생성 디렉토리/아이콘 컴포넌트 내부는 예외 오버라이드)
+    // 2) lucide-react 직접 임포트 금지 (Icon 컴포넌트 내부는 예외 오버라이드)
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: 'lucide-react',
+            message:
+              'lucide-react를 앱 코드에서 직접 임포트하지 마세요. 아이콘은 반드시 <Icon name=...>을 사용하세요.'
+          }
+        ],
+        patterns: [
+          {
+            group: ['**/*.svg'],
+            message:
+              '원시 SVG 파일을 직접 임포트하지 마세요. 아이콘은 src/icons/raw 에 추가 후 빌드하여 src/icons/generated 사용 또는 <Icon> 사용.'
+          }
+        ]
+      }
     ]
   },
   overrides: [
@@ -72,6 +94,13 @@ module.exports = {
           'off',
           { devDependencies: ['**/?(*.)+(spec|test).[jt]s?(x)'] }
         ]
+      }
+    },
+    // 예외: 아이콘 인프라 디렉토리에서는 위 제한 해제
+    {
+      files: ['src/components/Icon/**/*', 'src/icons/generated/**/*'],
+      rules: {
+        'no-restricted-imports': 'off'
       }
     }
   ],

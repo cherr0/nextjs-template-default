@@ -1,0 +1,21 @@
+import { Meta, Canvas, Story } from '@storybook/blocks'
+import * as IconsStories from '../components/Icon/Icon.stories'
+
+<Meta of={IconsStories} title='Foundations/Icons/Guide' />
+
+# 아이콘 사용 가이드(Storybook)
+
+- 사내(Figma) SVG를 단일 소스로 관리하고, 미존재 시 lucide-react 폴백을 사용합니다.
+- 원본 SVG는 `src/icons/raw/`에 추가하고 `yarn icons:build`로 변환합니다.
+- 앱 코드에서는 반드시 `<Icon name="..." />`를 사용하세요.
+
+## 갤러리
+
+<Canvas>
+  <Story of={IconsStories.Gallery} />
+</Canvas>
+
+## 문서 링크
+
+- 프로젝트 가이드: docs/guides/icon-usage.md
+- 팀 스타일 가이드 하단: docs/guides/ui-customizations.md (아이콘 요약)

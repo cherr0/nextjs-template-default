@@ -7,8 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "type-check": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "icons:norm": "node scripts/normalize-svg.cjs",
+    "icons:opt": "svgo -f src/icons/raw -o src/icons/raw",
+    "icons:gen": "svgr --ext tsx --icon src/icons/raw --out-dir src/icons/generated",
+    "icons:registry": "node scripts/build-icons-registry.cjs",
+    "icons:build": "yarn icons:norm && yarn icons:opt && yarn icons:gen && yarn icons:registry",
     "sb": "storybook dev -p 6006",
     "build:sb": "storybook build",
     "prepare": "husky",
@@ -42,6 +48,7 @@
     "@storybook/nextjs": "^8.1.7",
     "@storybook/react": "^8.1.7",
     "@storybook/testing-library": "^0.2.2",
+    "@svgr/cli": "^8.1.0",
     "@tanstack/react-query-devtools": "^5.28.4",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.10.2",
@@ -69,12 +76,23 @@
     "prettier": "^2.6.2",
     "sass": "^1.89.2",
     "storybook": "^8.1.7",
+    "storybook-addon-designs": "^6.3.1",
     "storybook-dark-mode": "^3.0.0",
+    "svgo": "^4.0.0",
     "typescript": "^5.7.2"
   },
   "engines": {
     "node": ">=18.0.0",
     "yarn": ">=1.22.0"
   },
-  "packageManager": "yarn@1.22.22"
+  "packageManager": "yarn@1.22.22",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,mdx,css,scss}": [
+      "prettier --write"
+    ]
+  }
 }

@@ -1,11 +1,11 @@
 'use client'
 
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { X } from 'lucide-react'
 import * as React from 'react'
 
 import styles from './Dialog.module.scss'
 
+import { Icon } from '@/components/Icon'
 import { cn } from '@/lib/utils'
 
 const Dialog = DialogPrimitive.Root
@@ -49,8 +49,8 @@ const DialogContent = React.forwardRef<
     >
       {children}
       <DialogPrimitive.Close className={styles.close}>
-        <X className={styles.close_icon} />
-        <span className="sr-only">Close</span>
+        <Icon name='close' className={styles.close_icon} />
+        <span className='sr-only'>Close</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
   </DialogPortal>
@@ -107,5 +107,5 @@ export {
   DialogOverlay,
   DialogPortal,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 }

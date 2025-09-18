@@ -1,1 +1,3 @@
-# yarn lint-staged
+yarn icons:build || exit 1
+yarn type-check || exit 1
+yarn lint-staged

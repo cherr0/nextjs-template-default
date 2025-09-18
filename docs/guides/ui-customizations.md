@@ -14,6 +14,7 @@ updated: 2025-09-18
 ## 🎯 커스터마이징 원칙
 
 ### **기본 방침**
+
 - **컴포넌트 재사용성**: 공통 컴포넌트는 `src/components/` 디렉토리에서 관리
 - **스타일 일관성**: CSS Modules + SCSS를 통한 스타일 격리
 - **타입 안전성**: TypeScript 인터페이스로 props 타입 정의
@@ -26,6 +27,7 @@ updated: 2025-09-18
 ## 🎨 스타일링 시스템
 
 ### CSS Modules + SCSS 패턴
+
 ```scss
 // src/components/Button/Button.module.scss
 .button {
@@ -87,6 +89,7 @@ updated: 2025-09-18
 ```
 
 ### 글로벌 스타일 변수
+
 ```scss
 // src/styles/variables.scss
 // 색상 시스템
@@ -130,6 +133,7 @@ updated: 2025-09-18
 ## 🧩 공통 컴포넌트 시스템
 
 ### 기본 컴포넌트 구조
+
 ```
 src/components/
 ├── ui/                     # 기본 UI 컴포넌트
@@ -152,33 +156,37 @@ src/components/
 ```
 
 ### Button 컴포넌트 예시
+
 ```typescript
 // src/components/ui/Button/Button.tsx
-import React from 'react';
-import { cn } from '@/lib/utils';
-import styles from './Button.module.scss';
+import React from 'react'
+import { cn } from '@/lib/utils'
+import styles from './Button.module.scss'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  size?: 'small' | 'medium' | 'large';
-  loading?: boolean;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  children: React.ReactNode;
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
+  size?: 'small' | 'medium' | 'large'
+  loading?: boolean
+  leftIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
+  children: React.ReactNode
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({
-    className,
-    variant = 'primary',
-    size = 'medium',
-    loading = false,
-    leftIcon,
-    rightIcon,
-    disabled,
-    children,
-    ...props
-  }, ref) => {
+  (
+    {
+      className,
+      variant = 'primary',
+      size = 'medium',
+      loading = false,
+      leftIcon,
+      rightIcon,
+      disabled,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     return (
       <button
         className={cn(
@@ -202,38 +210,31 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           </>
         )}
       </button>
-    );
+    )
   }
-);
+)
 
-Button.displayName = 'Button';
+Button.displayName = 'Button'
 ```
 
 ### Input 컴포넌트 예시
+
 ```typescript
 // src/components/ui/Input/Input.tsx
-import React from 'react';
-import { cn } from '@/lib/utils';
-import styles from './Input.module.scss';
+import React from 'react'
+import { cn } from '@/lib/utils'
+import styles from './Input.module.scss'
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
-  error?: string;
-  hint?: string;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
+  label?: string
+  error?: string
+  hint?: string
+  leftIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({
-    className,
-    label,
-    error,
-    hint,
-    leftIcon,
-    rightIcon,
-    ...props
-  }, ref) => {
+  ({ className, label, error, hint, leftIcon, rightIcon, ...props }, ref) => {
     return (
       <div className={styles.inputGroup}>
         {label && (
@@ -243,19 +244,17 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
 
-        <div className={cn(
-          styles.inputWrapper,
-          error && styles.error,
-          leftIcon && styles.hasLeftIcon,
-          rightIcon && styles.hasRightIcon
-        )}>
+        <div
+          className={cn(
+            styles.inputWrapper,
+            error && styles.error,
+            leftIcon && styles.hasLeftIcon,
+            rightIcon && styles.hasRightIcon
+          )}
+        >
           {leftIcon && <span className={styles.leftIcon}>{leftIcon}</span>}
 
-          <input
-            className={cn(styles.input, className)}
-            ref={ref}
-            {...props}
-          />
+          <input className={cn(styles.input, className)} ref={ref} {...props} />
 
           {rightIcon && <span className={styles.rightIcon}>{rightIcon}</span>}
         </div>
@@ -263,11 +262,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {error && <span className={styles.errorText}>{error}</span>}
         {hint && !error && <span className={styles.hint}>{hint}</span>}
       </div>
-    );
+    )
   }
-);
+)
 
-Input.displayName = 'Input';
+Input.displayName = 'Input'
 ```
 
 ---
@@ -275,72 +274,74 @@ Input.displayName = 'Input';
 ## 🎨 테마 시스템
 
 ### 다크모드 지원
+
 ```typescript
 // src/hooks/useTheme.ts
-'use client';
+'use client'
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react'
 
-type Theme = 'light' | 'dark' | 'system';
+type Theme = 'light' | 'dark' | 'system'
 
 interface ThemeContextType {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-  resolvedTheme: 'light' | 'dark';
+  theme: Theme
+  setTheme: (theme: Theme) => void
+  resolvedTheme: 'light' | 'dark'
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('system');
-  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<Theme>('system')
+  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light')
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as Theme;
+    const savedTheme = localStorage.getItem('theme') as Theme
     if (savedTheme) {
-      setTheme(savedTheme);
+      setTheme(savedTheme)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
     const updateTheme = () => {
       if (theme === 'system') {
-        setResolvedTheme(mediaQuery.matches ? 'dark' : 'light');
+        setResolvedTheme(mediaQuery.matches ? 'dark' : 'light')
       } else {
-        setResolvedTheme(theme);
+        setResolvedTheme(theme)
       }
-    };
+    }
 
-    updateTheme();
-    mediaQuery.addEventListener('change', updateTheme);
+    updateTheme()
+    mediaQuery.addEventListener('change', updateTheme)
 
-    return () => mediaQuery.removeEventListener('change', updateTheme);
-  }, [theme]);
+    return () => mediaQuery.removeEventListener('change', updateTheme)
+  }, [theme])
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', resolvedTheme);
-    localStorage.setItem('theme', theme);
-  }, [theme, resolvedTheme]);
+    document.documentElement.setAttribute('data-theme', resolvedTheme)
+    localStorage.setItem('theme', theme)
+  }, [theme, resolvedTheme])
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, resolvedTheme }}>
       {children}
     </ThemeContext.Provider>
-  );
+  )
 }
 
 export function useTheme() {
-  const context = useContext(ThemeContext);
+  const context = useContext(ThemeContext)
   if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    throw new Error('useTheme must be used within a ThemeProvider')
   }
-  return context;
+  return context
 }
 ```
 
 ### 다크모드 스타일
+
 ```scss
 // src/styles/themes.scss
 :root {
@@ -352,7 +353,7 @@ export function useTheme() {
   --input: #e4e4e7;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --background: #0a0a0a;
   --foreground: #fafafa;
   --card: #0a0a0a;
@@ -373,6 +374,7 @@ body {
 ## 📱 반응형 디자인 시스템
 
 ### 브레이크포인트 정의
+
 ```scss
 // src/styles/mixins.scss
 $breakpoints: (
@@ -406,27 +408,48 @@ $breakpoints: (
 ```
 
 ### 그리드 시스템
+
 ```scss
 // src/styles/grid.scss
 .grid {
   display: grid;
   gap: 1rem;
 
-  &.cols-1 { grid-template-columns: repeat(1, 1fr); }
-  &.cols-2 { grid-template-columns: repeat(2, 1fr); }
-  &.cols-3 { grid-template-columns: repeat(3, 1fr); }
-  &.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  &.cols-1 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  &.cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  &.cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  &.cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
 
   @include responsive('md') {
-    &.md\:cols-2 { grid-template-columns: repeat(2, 1fr); }
-    &.md\:cols-3 { grid-template-columns: repeat(3, 1fr); }
-    &.md\:cols-4 { grid-template-columns: repeat(4, 1fr); }
+    &.md\:cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    &.md\:cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    &.md\:cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   @include responsive('lg') {
-    &.lg\:cols-3 { grid-template-columns: repeat(3, 1fr); }
-    &.lg\:cols-4 { grid-template-columns: repeat(4, 1fr); }
-    &.lg\:cols-6 { grid-template-columns: repeat(6, 1fr); }
+    &.lg\:cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    &.lg\:cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    &.lg\:cols-6 {
+      grid-template-columns: repeat(6, 1fr);
+    }
   }
 }
 ```
@@ -436,31 +459,37 @@ $breakpoints: (
 ## 🔧 유틸리티 함수
 
 ### className 병합 유틸리티
+
 ```typescript
 // src/lib/utils.ts
-import { type ClassValue, clsx } from 'clsx';
+import { type ClassValue, clsx } from 'clsx'
 
 export function cn(...inputs: ClassValue[]) {
-  return clsx(inputs);
+  return clsx(inputs)
 }
 
 // 사용 예시
-<div className={cn(
-  'base-class',
-  variant === 'primary' && 'primary-class',
-  size === 'large' && 'large-class',
-  className
-)} />
+;<div
+  className={cn(
+    'base-class',
+    variant === 'primary' && 'primary-class',
+    size === 'large' && 'large-class',
+    className
+  )}
+/>
 ```
 
 ### 폼 검증 유틸리티
+
 ```typescript
 // src/lib/validations.ts
-import { z } from 'zod';
+import { z } from 'zod'
 
-export const createFormSchema = <T extends Record<string, z.ZodType>>(shape: T) => {
-  return z.object(shape);
-};
+export const createFormSchema = <T extends Record<string, z.ZodType>>(
+  shape: T
+) => {
+  return z.object(shape)
+}
 
 // 공통 검증 규칙
 export const validations = {
@@ -468,14 +497,14 @@ export const validations = {
   password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다'),
   required: (message: string) => z.string().min(1, message),
   phone: z.string().regex(/^[0-9-+().\s]+$/, '올바른 전화번호 형식이 아닙니다'),
-  url: z.string().url('올바른 URL 형식이 아닙니다'),
-};
+  url: z.string().url('올바른 URL 형식이 아닙니다')
+}
 
 // 사용 예시
 const loginSchema = createFormSchema({
   email: validations.email,
-  password: validations.password,
-});
+  password: validations.password
+})
 ```
 
 ---
@@ -483,54 +512,56 @@ const loginSchema = createFormSchema({
 ## 🎯 커스텀 훅 패턴
 
 ### API 호출 훅
+
 ```typescript
 // src/hooks/useApi.ts
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
 export function useApiQuery<T>(
   key: string[],
   fetcher: () => Promise<T>,
   options?: {
-    enabled?: boolean;
-    staleTime?: number;
-    retry?: number;
+    enabled?: boolean
+    staleTime?: number
+    retry?: number
   }
 ) {
   return useQuery({
     queryKey: key,
     queryFn: fetcher,
     staleTime: 5 * 60 * 1000, // 5분 기본값
-    ...options,
-  });
+    ...options
+  })
 }
 
 export function useApiMutation<TData, TVariables>(
   mutationFn: (variables: TVariables) => Promise<TData>,
   options?: {
-    onSuccess?: (data: TData) => void;
-    onError?: (error: Error) => void;
-    invalidateQueries?: string[][];
+    onSuccess?: (data: TData) => void
+    onError?: (error: Error) => void
+    invalidateQueries?: string[][]
   }
 ) {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn,
     onSuccess: (data) => {
-      options?.onSuccess?.(data);
-      options?.invalidateQueries?.forEach(key => {
-        queryClient.invalidateQueries({ queryKey: key });
-      });
+      options?.onSuccess?.(data)
+      options?.invalidateQueries?.forEach((key) => {
+        queryClient.invalidateQueries({ queryKey: key })
+      })
     },
-    onError: options?.onError,
-  });
+    onError: options?.onError
+  })
 }
 ```
 
 ### 로컬 스토리지 훅
+
 ```typescript
 // src/hooks/useLocalStorage.ts
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 
 export function useLocalStorage<T>(
   key: string,
@@ -538,32 +569,33 @@ export function useLocalStorage<T>(
 ): [T, (value: T | ((val: T) => T)) => void] {
   const [storedValue, setStoredValue] = useState<T>(() => {
     if (typeof window === 'undefined') {
-      return initialValue;
+      return initialValue
     }
 
     try {
-      const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
+      const item = window.localStorage.getItem(key)
+      return item ? JSON.parse(item) : initialValue
     } catch (error) {
-      console.warn(`Error reading localStorage key "${key}":`, error);
-      return initialValue;
+      console.warn(`Error reading localStorage key "${key}":`, error)
+      return initialValue
     }
-  });
+  })
 
   const setValue = (value: T | ((val: T) => T)) => {
     try {
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value
+      setStoredValue(valueToStore)
 
       if (typeof window !== 'undefined') {
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        window.localStorage.setItem(key, JSON.stringify(valueToStore))
       }
     } catch (error) {
-      console.warn(`Error setting localStorage key "${key}":`, error);
+      console.warn(`Error setting localStorage key "${key}":`, error)
     }
-  };
+  }
 
-  return [storedValue, setValue];
+  return [storedValue, setValue]
 }
 ```
 
@@ -572,23 +604,24 @@ export function useLocalStorage<T>(
 ## 🔄 상태 관리 패턴
 
 ### Zustand 스토어 패턴
+
 ```typescript
 // src/stores/authStore.ts
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 interface User {
-  id: string;
-  email: string;
-  name: string;
+  id: string
+  email: string
+  name: string
 }
 
 interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
-  login: (user: User) => void;
-  logout: () => void;
-  updateUser: (updates: Partial<User>) => void;
+  user: User | null
+  isAuthenticated: boolean
+  login: (user: User) => void
+  logout: () => void
+  updateUser: (updates: Partial<User>) => void
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -602,18 +635,21 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ user: null, isAuthenticated: false }),
 
       updateUser: (updates) => {
-        const currentUser = get().user;
+        const currentUser = get().user
         if (currentUser) {
-          set({ user: { ...currentUser, ...updates } });
+          set({ user: { ...currentUser, ...updates } })
         }
-      },
+      }
     }),
     {
       name: 'auth-storage',
-      partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
+      partialize: (state) => ({
+        user: state.user,
+        isAuthenticated: state.isAuthenticated
+      })
     }
   )
-);
+)
 ```
 
 ---
@@ -621,18 +657,19 @@ export const useAuthStore = create<AuthState>()(
 ## 📦 컴포넌트 배럴 익스포트
 
 ### 인덱스 파일 패턴
+
 ```typescript
 // src/components/ui/index.ts
-export { Button } from './Button';
-export { Input } from './Input';
-export { Modal } from './Modal';
-export { Card } from './Card';
-export { Table } from './Table';
+export { Button } from './Button'
+export { Input } from './Input'
+export { Modal } from './Modal'
+export { Card } from './Card'
+export { Table } from './Table'
 
 // 타입도 함께 익스포트
-export type { ButtonProps } from './Button';
-export type { InputProps } from './Input';
-export type { ModalProps } from './Modal';
+export type { ButtonProps } from './Button'
+export type { InputProps } from './Input'
+export type { ModalProps } from './Modal'
 ```
 
 ---
@@ -640,6 +677,7 @@ export type { ModalProps } from './Modal';
 ## ⚠️ 주의사항 및 베스트 프랙티스
 
 ### 컴포넌트 개발 시 주의사항
+
 1. **Props 인터페이스**: 명확한 타입 정의 필수
 2. **ref 전달**: forwardRef 사용으로 ref 전달 지원
 3. **접근성**: ARIA 속성 및 키보드 네비게이션 고려
@@ -647,6 +685,7 @@ export type { ModalProps } from './Modal';
 5. **테스트**: 각 컴포넌트별 테스트 코드 작성
 
 ### 스타일링 베스트 프랙티스
+
 1. **모듈화**: CSS Modules로 스타일 격리
 2. **변수 사용**: CSS 커스텀 속성으로 일관성 유지
 3. **반응형**: 모바일 퍼스트 접근법
@@ -655,5 +694,12 @@ export type { ModalProps } from './Modal';
 
 ---
 
-*최종 업데이트: 2025년 1월*
-*버전: 2.0.0 (Next.js 15 환경)*
+_최종 업데이트: 2025년 1월_
+_버전: 2.0.0 (Next.js 15 환경)_
+
+## 🧷 아이콘 사용 참고
+
+- 사내(Figma) SVG 우선, 미존재 시 lucide 폴백 사용.
+- 원본 SVG → `src/icons/raw/`에 추가 후 `yarn icons:build` 실행.
+- 코드에서는 항상 `<Icon name="..." />` 사용(직접 `lucide-react`/`.svg` 임포트 금지).
+- 스토리북 `Foundations/Icons > Gallery`에서 전체 목록과 렌더링 상태 확인 가능.
