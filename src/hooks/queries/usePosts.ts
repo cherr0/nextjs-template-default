@@ -1,15 +1,16 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { createQueryKeys } from '@/constants/query-keys'
-const postsKeys = createQueryKeys('posts')
 
+import { createQueryKeys } from '@/constants/query-keys'
 import {
   fetchPosts,
   fetchPost,
   type Post,
   type PostsResponse
 } from '~/lib/api/posts'
+
+const postsKeys = createQueryKeys('posts')
 
 // 게시물 목록 조회 훅
 export const usePostsQuery = (page: number = 1, limit: number = 10) => {

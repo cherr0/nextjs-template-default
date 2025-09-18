@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 
 import PostList from './_components/PostList'
 
+import { createQueryKeys } from '@/constants/query-keys'
 import { fetchPostsServer } from '~/lib/api/posts'
 import { prefetchQuery, createHydrationBoundary } from '~/lib/query'
-import { createQueryKeys } from '@/constants/query-keys'
 const postsKeys = createQueryKeys('posts')
 
 // SEO를 위한 메타데이터

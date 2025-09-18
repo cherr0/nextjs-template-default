@@ -3,22 +3,23 @@ import { notFound } from 'next/navigation'
 
 import PostDetail from '../_components/PostDetail'
 
+import { createQueryKeys } from '@/constants/query-keys'
 import { fetchPostServer } from '~/lib/api/posts'
 import { prefetchQuery, createHydrationBoundary } from '~/lib/query'
-import { createQueryKeys } from '@/constants/query-keys'
 const postsKeys = createQueryKeys('posts')
 
-interface PostPageProps {
-  params: {
-    id: string
-  }
-}
+type PostPageParams = Promise<{
+  id: string
+}>
 
 // 동적 메타데이터 생성
 export async function generateMetadata({
   params
-}: PostPageProps): Promise<Metadata> {
-  const postId = parseInt(params.id)
+}: {
+  params: PostPageParams
+}): Promise<Metadata> {
+  const { id } = await params
+  const postId = parseInt(id)
 
   if (isNaN(postId)) {
     return {
@@ -64,8 +65,9 @@ async function getInitialData(postId: number) {
   }
 }
 
-const PostPage = async ({ params }: PostPageProps) => {
-  const postId = parseInt(params.id)
+const PostPage = async ({ params }: { params: PostPageParams }) => {
+  const { id } = await params
+  const postId = parseInt(id)
 
   if (isNaN(postId)) {
     notFound()
