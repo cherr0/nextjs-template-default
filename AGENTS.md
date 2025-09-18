@@ -110,7 +110,7 @@ def pre_task_gate():
 ```json
 {
   "framework_migration": {
-    "from_vite": "npm run dev (port 3000)",
+    "from_vite": "yarn dev (port 3000)",
     "from_tanstack_router": "Next.js App Router",
     "from_shadcn": "CSS Modules + SCSS"
   },
@@ -171,7 +171,7 @@ def agent_execution_pattern():
   "build_optimization": {
     "image_optimization": "next/image component",
     "font_optimization": "next/font",
-    "bundle_analysis": "npm run build && npm run analyze"
+    "bundle_analysis": "yarn build && yarn analyze"
   }
 }
 ```
@@ -180,10 +180,10 @@ def agent_execution_pattern():
 ```json
 {
   "command_conversion": {
-    "pnpm dev": "npm run dev",
-    "pnpm build": "npm run build",
-    "pnpm lint": "npm run lint",
-    "pnpm start": "npm start"
+    "pnpm dev": "yarn dev",
+    "pnpm build": "yarn build",
+    "pnpm lint": "yarn lint",
+    "pnpm start": "yarn start"
   },
   "port_changes": {
     "development": "localhost:3000 (from 5173)",
@@ -206,13 +206,13 @@ def agent_execution_pattern():
 ```json
 {
   "pre_commit": {
-    "type_check": "npm run type-check",
-    "linting": "npm run lint",
-    "formatting": "npm run format"
+    "type_check": "yarn type-check",
+    "linting": "yarn lint",
+    "formatting": "yarn format"
   },
   "build_verification": {
-    "development": "npm run dev (successful start)",
-    "production": "npm run build (no errors)",
+    "development": "yarn dev (successful start)",
+    "production": "yarn build (no errors)",
     "type_safety": "tsc --noEmit"
   }
 }

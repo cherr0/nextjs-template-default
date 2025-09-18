@@ -30,7 +30,7 @@ BEFORE executing any request, follow this sequence:
 2. **Load Task-Specific Docs**: Based on the classification, read the necessary documents from the `DOCUMENT_DEPENDENCY_MATRIX`.
 3. **State Your Plan**: Briefly outline your plan. For code changes, specify the files you will modify.
 4. **Request Approval**: For any file modification (`write_file`, `replace`) or sensitive command (`run_shell_command`), you MUST ask for user approval before proceeding.
-5. **Execute & Verify**: Execute the plan using the available tools. For code changes, run `npm run lint` to verify quality.
+5. **Execute & Verify**: Execute the plan using the available tools. For code changes, run `yarn lint` to verify quality.
 
 ## 2. TASK & DOCUMENT MAPPING
 
@@ -122,11 +122,11 @@ BEFORE executing any request, follow this sequence:
 ### Command Mapping (Next.js Environment)
 ```json
 {
-  "development": "npm run dev (port 3000)",
-  "build": "npm run build",
-  "lint": "npm run lint",
-  "type_check": "npm run type-check",
-  "start_production": "npm start"
+  "development": "yarn dev (port 3000)",
+  "build": "yarn build",
+  "lint": "yarn lint",
+  "type_check": "yarn type-check",
+  "start_production": "yarn start"
 }
 ```
 
@@ -143,9 +143,9 @@ BEFORE executing any request, follow this sequence:
 ```json
 {
   "pre_commit_checks": [
-    "npm run lint (ESLint)",
-    "npm run type-check (TypeScript)",
-    "npm run build (Build verification)"
+    "yarn lint (ESLint)",
+    "yarn type-check (TypeScript)",
+    "yarn build (Build verification)"
   ],
   "mandatory_before_completion": [
     "No TypeScript errors",
@@ -248,8 +248,8 @@ import styles from './Component.module.scss'
     "Validate Next.js app directory structure"
   ],
   "build_issues": [
-    "Run 'npm run type-check' for TypeScript errors",
-    "Check 'npm run lint' for ESLint violations",
+    "Run 'yarn type-check' for TypeScript errors",
+    "Check 'yarn lint' for ESLint violations",
     "Verify all imports are properly resolved"
   ]
 }
@@ -260,10 +260,10 @@ import styles from './Component.module.scss'
 ### Before Code Completion
 ```json
 {
-  "type_safety": "npm run type-check passes",
-  "code_quality": "npm run lint passes",
-  "build_success": "npm run build completes without errors",
-  "dev_server": "npm run dev starts successfully on port 3000"
+  "type_safety": "yarn type-check passes",
+  "code_quality": "yarn lint passes",
+  "build_success": "yarn build completes without errors",
+  "dev_server": "yarn dev starts successfully on port 3000"
 }
 ```
 

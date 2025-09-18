@@ -98,7 +98,7 @@ updated: 2025-09-18
 
 ### D. server_ops
 - 개발서버, 빌드, 배포 실행
-- **포함 사항**: npm run dev, npm run build, 개발 환경 설정
+- **포함 사항**: yarn dev, yarn build, 개발 환경 설정
 - **필수**: 1단계 문서만
 - **승인 필요**: 서버 상태 변경 시
 
@@ -191,7 +191,7 @@ updated: 2025-09-18
 ```bash
 ✅ DEVELOPMENT CHECK
 - [ ] Node.js 버전 확인 (18.17+)
-- [ ] npm run dev 정상 동작 확인
+- [ ] yarn dev 정상 동작 확인
 - [ ] 포트 3000 사용 확인
 - [ ] TypeScript 설정 확인
 ```

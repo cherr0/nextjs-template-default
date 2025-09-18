@@ -178,10 +178,10 @@ def pre_task_check():
 ## DEVELOPMENT_COMMANDS
 ```json
 {
-  "dev": "npm run dev",
-  "build": "npm run build",
-  "lint": "npm run lint",
-  "start": "npm start"
+  "dev": "yarn dev",
+  "build": "yarn build",
+  "lint": "yarn lint",
+  "start": "yarn start"
 }
 ```
 

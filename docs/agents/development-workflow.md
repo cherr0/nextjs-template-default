@@ -90,7 +90,7 @@ git pull origin main
 git checkout -b feature/작업-이름
 
 # 필요 시 개발 서버는 사용자 승인 후 시작
-# npm run dev
+# yarn dev
 ```
 
 ### 4. 품질 검증 단계
@@ -98,11 +98,11 @@ git checkout -b feature/작업-이름
 #### 📋 기본 품질 검증
 ```bash
 # 코드 품질 확인 (필수 순서대로 실행)
-npm run lint               # ESLint 검사 - 에러 시 중단
-npm run build              # TypeScript 타입 체크 및 빌드 - 에러 시 수정 필요
+yarn lint               # ESLint 검사 - 에러 시 중단
+yarn build              # TypeScript 타입 체크 및 빌드 - 에러 시 수정 필요
 
 # 최종 검증 (모든 체크 통과 확인)
-npm run lint && npm run build && echo "✅ 모든 품질 검증 통과"
+yarn lint && yarn build && echo "✅ 모든 품질 검증 통과"
 ```
 
 #### 🤖 서브에이전트 품질 검증 (권고/승인 후 실행)
@@ -157,8 +157,8 @@ lsof -ti:3000 || echo "포트 비어 있음 (서버 시작 전 승인 필요)"
 ### 개발 시작
 ```bash
 git pull origin main
-npm install  # package.json이 변경된 경우
-npm run dev  # Next.js 개발 서버 시작 (포트 3000)
+yarn install  # package.json이 변경된 경우
+yarn dev      # Next.js 개발 서버 시작 (포트 3000)
 ```
 
 ### 기능 개발
@@ -166,8 +166,8 @@ npm run dev  # Next.js 개발 서버 시작 (포트 3000)
 git checkout -b feature/기능-이름
 
 # 코드 작성 후 품질 검증
-npm run lint       # 린트 체크 - 에러 시 수정
-npm run build      # 빌드 체크 - 타입 에러 시 수정
+yarn lint          # 린트 체크 - 에러 시 수정
+yarn build         # 빌드 체크 - 타입 에러 시 수정
 
 # 커밋 및 푸시
 git add .
@@ -180,7 +180,7 @@ git push origin feature/기능-이름
 ### 개발 완료 후 테스트
 ```bash
 # Next.js 개발 서버 포트 확인 (3000번 포트)
-lsof -ti:3000 || npm run dev &
+lsof -ti:3000 || yarn dev &
 
 # 서버가 떠있으면 기존 서버 사용, 없으면 새로 시작
 sleep 2  # 서버 시작 대기
@@ -189,7 +189,7 @@ curl -s http://localhost:3000 > /dev/null && echo "서버 정상" || echo "서�
 
 ### TypeScript 타입 체크
 ```bash
-npm run build  # TypeScript 컴파일 에러 확인 (빌드를 통한 타입 체크)
+yarn build  # TypeScript 컴파일 에러 확인 (빌드를 통한 타입 체크)
 ```
 
 ## 📋 브랜치 & 커밋 규칙
@@ -212,12 +212,12 @@ style: 코드 포맷팅
 
 ```bash
 # 표준 품질 검증 순서 (install-lint-build 워크플로우)
-npm install    # 의존성 설치 (package.json 변경 시)
-npm run lint   # ESLint 린트 체크 - 에러 시 중단
-npm run build  # Next.js 프로덕션 빌드 및 TypeScript 타입 체크
+yarn install    # 의존성 설치 (package.json 변경 시)
+yarn lint       # ESLint 린트 체크 - 에러 시 중단
+yarn build      # Next.js 프로덕션 빌드 및 TypeScript 타입 체크
 
 # 최종 검증
-npm run lint && npm run build && echo "✅ CI/CD 준비 완료"
+yarn lint && yarn build && echo "✅ CI/CD 준비 완료"
 ```
 
 ## 🛠️ 서버 상태 확인 스크립트
@@ -230,7 +230,7 @@ check_server() {
     return 0
   else
     echo "→ Next.js 개발 서버를 시작합니다..."
-    npm run dev &
+    yarn dev &
     sleep 3
     return $?
   fi
@@ -246,10 +246,10 @@ check_server() {
 ls -la app/
 
 # 빌드 및 타입 체크
-npm run build
+yarn build
 
 # 정적 분석
-npm run lint
+yarn lint
 ```
 
 ## 📘 Plan-First 원칙 요약

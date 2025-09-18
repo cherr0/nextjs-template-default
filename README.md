@@ -38,7 +38,7 @@
 ### 📋 사전 요구사항
 
 - **Node.js**: 버전 18.0.0 이상
-- **패키지 매니저**: npm (기본) 또는 yarn
+- **패키지 매니저**: yarn (기본)
 - **Git**: 최신 버전
 - **코드 에디터**: VS Code (권장)
 
@@ -50,13 +50,13 @@ git clone <repository-url>
 cd nextjs-template-default
 
 # 의존성 설치
-npm install
+yarn install
 
 # 환경 변수 설정
 cp .env.example .env.local
 
 # 개발 서버 시작 (포트 3000)
-npm run dev
+yarn dev
 ```
 
 ### 🔧 환경 변수 설정
@@ -75,13 +75,13 @@ NEXT_PUBLIC_ANALYTICS_ID=your-analytics-id
 
 ```bash
 # 타입 체킹
-npm run type-check
+yarn type-check
 
 # 린팅
-npm run lint
+yarn lint
 
 # 빌드 테스트
-npm run build
+yarn build
 ```
 
 ## 📁 프로젝트 구조
@@ -159,17 +159,17 @@ nextjs-template-default/
 
 ```bash
 # 개발
-npm run dev              # 개발 서버 시작 (포트 3000)
-npm run build            # 프로덕션용 빌드
-npm start                # 프로덕션 서버 시작
+yarn dev              # 개발 서버 시작 (포트 3000)
+yarn build            # 프로덕션용 빌드
+yarn start            # 프로덕션 서버 시작
 
 # 코드 품질
-npm run lint             # ESLint 실행
-npm run type-check       # TypeScript 확인
+yarn lint             # ESLint 실행
+yarn type-check       # TypeScript 확인
 
 # 스토리북
-npm run sb               # 스토리북 시작
-npm run build:sb         # 스토리북 빌드
+yarn sb               # 스토리북 시작
+yarn build:sb         # 스토리북 빌드
 ```
 
 ### 🛠️ 개발 워크플로우
