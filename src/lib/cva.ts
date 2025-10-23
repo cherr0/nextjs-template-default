@@ -2,7 +2,6 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 /**
  * Button 컴포넌트 variants
- * 기존 Button.module.scss를 기반으로 Tailwind로 재구성
  */
 export const buttonVariants = cva(
   // Base styles
@@ -40,18 +39,21 @@ export type ButtonVariants = VariantProps<typeof buttonVariants>
 
 /**
  * Badge 컴포넌트 variants
- * 추후 Badge.module.scss 참고하여 구현 예정
+ * Tailwind CSS + CVA 패턴으로 구성
  */
 export const badgeVariants = cva(
-  'inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors',
+  'inline-flex items-center justify-center rounded-lg border border-transparent px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap flex-shrink-0 gap-1 overflow-hidden transition-[color,box-shadow] duration-200 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
   {
     variants: {
       variant: {
-        default: 'border-transparent bg-primary text-primary-foreground',
-        secondary: 'border-transparent bg-secondary text-secondary-foreground',
+        default:
+          'bg-primary text-primary-foreground [&[href]]:hover:bg-primary/90',
+        secondary:
+          'bg-secondary text-secondary-foreground [&[href]]:hover:bg-secondary/90',
         destructive:
-          'border-transparent bg-destructive text-destructive-foreground',
-        outline: 'text-foreground'
+          'bg-destructive text-white [&[href]]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40',
+        outline:
+          'text-foreground [&[href]]:hover:bg-accent [&[href]]:hover:text-accent-foreground'
       }
     },
     defaultVariants: {
@@ -64,10 +66,10 @@ export type BadgeVariants = VariantProps<typeof badgeVariants>
 
 /**
  * Card 컴포넌트 variants
- * 추후 Card.module.scss 참고하여 구현 예정
+ * Tailwind CSS + CVA 패턴으로 구성
  */
 export const cardVariants = cva(
-  'rounded-lg border bg-card text-card-foreground',
+  'bg-card text-card-foreground flex flex-col gap-[30px] rounded-[15px] border-2 py-[30px] shadow-sm',
   {
     variants: {
       variant: {
