@@ -188,12 +188,16 @@ const Button = ({ variant = 'primary', disabled, children }: ButtonProps) => {
 - 컴포넌트를 집중되고 단일 목적으로 유지
 
 ## 🎨 스타일링 가이드라인
+
 이 문서에서는 프로젝트 구조/네이밍을 우선 다루며, 스타일링의 상세 규칙과 예시는 단일 소스 문서 `docs/guides/ui-customizations.md`를 따릅니다. 핵심 요약은 아래와 같습니다.
 
-- 기본 스타일링: CSS Modules + SCSS 사용, 클래스 병합은 `cn()` 활용
-- 공통 값: CSS 변수와 전역 토큰 사용, 하드코딩 지양
-- 반응형: 공통 믹스인/브레이크포인트 사용, 중첩은 3단계 이내 유지
-- 접근성/일관성: 모듈 스코프 유지, 인라인 스타일은 예외적 상황만 허용
+- **기본 스타일링**: Tailwind CSS v4 + CSS 변수 시스템
+- **클래스 병합**: `cn()` 함수 (`tailwind-merge` + `clsx`)
+- **Variant 관리**: CVA (Class Variance Authority) 패턴
+- **디자인 토큰**: CSS 변수 기반 (HSL 포맷)
+- **공통 값**: 전역 토큰 사용, 하드코딩 지양
+- **반응형**: Tailwind 반응형 클래스 (`md:`, `lg:` 등)
+- **접근성/일관성**: 인라인 스타일은 예외적 상황만 허용
 
 자세한 규칙과 예시는 `docs/guides/ui-customizations.md`를 참고하세요.
 
@@ -644,4 +648,5 @@ const GlobalContext = createContext()
 - 긴 목록에 가상화 고려
 
 ## 📐 CSS Module 모범 사례
+
 자세한 모범 사례(컴포넌트 별 구조, 믹스인, 반응형 패턴 등)는 `docs/guides/ui-customizations.md`를 참고하세요. 본 문서에서는 예시 코드를 생략하고 원칙과 링크만 제공합니다.
