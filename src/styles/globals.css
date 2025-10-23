@@ -1,0 +1,148 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Custom theme extensions for Tailwind v4 */
+  --font-kor: 'Pretendard', sans-serif;
+  --font-eng: '', sans-serif;
+
+  --radius: 0.625rem;
+
+  /* Screens */
+  --breakpoint-mobile: 1280px;
+  --breakpoint-desktop: 1281px;
+}
+
+/* Design tokens - CSS Variables */
+:root {
+  /* Colors - HSL format for better manipulation */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 7%;
+
+  --primary: 24 95% 53%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 0 0% 50%;
+  --secondary-foreground: 0 0% 100%;
+
+  --accent: 0 0% 97%;
+  --accent-foreground: 0 0% 13%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%;
+
+  --border: 0 0% 84%;
+  --input: 0 0% 84%;
+  --ring: 24 95% 53%;
+
+  /* Brand colors */
+  --orange: 24 95% 53%;
+  --black: 0 0% 7%;
+  --black-02: 0 0% 8.6%;
+  --black-sub: 0 0% 50%;
+  --white: 0 0% 100%;
+
+  /* Backgrounds */
+  --bg-black: 0 0% 16%;
+  --bg-gray: 0 0% 97%;
+
+  /* Lines */
+  --line-gray: 0 0% 84%;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.dark {
+  --background: 0 0% 7%;
+  --foreground: 0 0% 98%;
+
+  --primary: 24 95% 53%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 0 0% 50%;
+  --secondary-foreground: 0 0% 100%;
+
+  --accent: 0 0% 10%;
+  --accent-foreground: 0 0% 98%;
+
+  --destructive: 0 62% 50%;
+  --destructive-foreground: 0 0% 100%;
+
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 64%;
+
+  --border: 0 0% 15%;
+  --input: 0 0% 15%;
+  --ring: 24 95% 53%;
+
+  /* Backgrounds */
+  --bg-black: 0 0% 16%;
+  --bg-gray: 0 0% 10%;
+}
+
+/* Base styles */
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-kor);
+  font-feature-settings: 'rlig' 1, 'calt' 1;
+}
+
+/* Text styles */
+strong {
+  font-weight: 500;
+}
+
+em {
+  color: hsl(var(--orange));
+  font-style: normal;
+}
+
+/* Selection */
+::selection {
+  background-color: hsl(var(--orange));
+  color: hsl(var(--white));
+}
+
+/* Custom utilities */
+@utility text-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1px hsl(var(--orange));
+}
+
+@utility no-drag {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Typography utilities based on previous SCSS mixins */
+@utility typography-title {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
+@utility typography-subtitle-strong {
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+}
+
+@utility typography-subtitle {
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+}
