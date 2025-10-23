@@ -19,7 +19,7 @@
 ### 개발자 경험
 
 - **TypeScript**: 완전한 타입 안전성
-- **SCSS 모듈**: 스타일링 시스템
+- **Tailwind CSS v4**: 모던 유틸리티 퍼스트 스타일링
 - **ESLint + Prettier**: 코드 품질 관리
 - **Storybook**: 컴포넌트 문서화
 
@@ -27,10 +27,10 @@
 
 - **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript
-- **Styling**: SCSS Modules
+- **Styling**: Tailwind CSS v4 + CSS Variables
 - **Data Fetching**: TanStack Query v5
 - **State Management**: Zustand
-- **UI Components**: Custom Components
+- **UI Components**: Custom Components + CVA
 - **Development**: ESLint, Prettier, Storybook
 
 ## 🚀 빠른 시작
@@ -95,7 +95,7 @@ nextjs-template-default/
 ├── src/
 │   ├── components/       # 재사용 가능한 컴포넌트
 │   ├── stores/          # Zustand 스토어
-│   ├── styles/          # 전역 스타일 & SCSS
+│   ├── styles/          # 전역 Tailwind 스타일
 │   ├── types/           # TypeScript 정의
 │   ├── utils/           # 유틸리티 함수
 │   ├── constants/       # 전역 상수/쿼리 키/런타임
@@ -117,6 +117,7 @@ nextjs-template-default/
 ## 📚 개발 가이드라인
 
 문서 구조와 운영 정책은 `docs/README.md`에서 확인할 수 있습니다.
+
 - 문서 개요: [docs/README.md](./docs/README.md)
 
 이 프로젝트는 [CLAUDE.md](./CLAUDE.md) 문서를 통해 일관된 개발 가이드라인을 제공합니다.

@@ -2,9 +2,8 @@
 
 import React from 'react'
 
-import Footer from '../footer'
-import Header from '../header'
-import styles from './base_layout.module.scss'
+import Footer from './Footer'
+import Header from './Header'
 
 import { LayoutProps } from '~/types/layout'
 
@@ -13,17 +12,15 @@ interface BaseLayoutProps extends LayoutProps {
   showFooter?: boolean
 }
 
-const BaseLayout = ({ 
-  children, 
-  showHeader = true, 
-  showFooter = true 
+const BaseLayout = ({
+  children,
+  showHeader = true,
+  showFooter = true
 }: BaseLayoutProps) => {
   return (
-    <div className={styles.baseLayout}>
+    <div className='flex min-h-screen w-full flex-col'>
       {showHeader && <Header />}
-      <main className={styles.main}>
-        {children}
-      </main>
+      <main className='flex-1 w-full'>{children}</main>
       {showFooter && <Footer />}
     </div>
   )

@@ -10,16 +10,17 @@ updated: 2025-09-18
 # Agent Code LLM Instructions
 
 ## COMMUNICATION_POLICY (언어 정책)
+
 - 기본 언어: 한국어(ko)를 사용합니다.
 - 첫 인사, 도구 실행 전 프리앰블, 계획/결과 요약은 한국어로 작성합니다.
 - 사용자가 영어로 요청하거나 영어가 명시된 경우에만 영어로 전환합니다.
 - 코드, 파일 경로, 명령어 등은 원문 그대로 유지하고, 주석/설명은 한국어로 제공합니다.
 - 번역은 요청 기반으로 수행하며, 다국어가 필요한 경우에는 "ko → en" 순서로 제공합니다.
 
-
 ## MANDATORY WORKFLOW EXECUTION SEQUENCE
 
 ### PRE_TASK_GATE (작업 전 필수 게이트)
+
 ```python
 def pre_task_gate():
     task_type = classify_request()
@@ -39,9 +40,15 @@ def pre_task_gate():
 ```
 
 ### TASK_CLASSIFICATION_MAP
+
 ```json
 {
-  "code_edit": ["API integration", "component impl", "feature add", "state mgmt"],
+  "code_edit": [
+    "API integration",
+    "component impl",
+    "feature add",
+    "state mgmt"
+  ],
   "code_analysis": ["debug", "explain", "review", "investigate"],
   "documentation": ["README", "guide create", "doc update"],
   "server_ops": ["dev server", "build", "deploy"]
@@ -49,16 +56,31 @@ def pre_task_gate():
 ```
 
 ### DOCUMENT_DEPENDENCY_MATRIX
+
 ```json
 {
-  "frontend_work": ["frontend_rules.md", "coding_style.md", "patterns.md", "feature-module-guide.md"],
-  "api_integration": ["api-integration-workflow.md", "coding_style.md", "feature-module-guide.md"],
-  "component_work": ["customizations.md", "frontend_rules.md", "feature-module-guide.md"],
+  "frontend_work": [
+    "frontend_rules.md",
+    "coding_style.md",
+    "patterns.md",
+    "feature-module-guide.md"
+  ],
+  "api_integration": [
+    "api-integration-workflow.md",
+    "coding_style.md",
+    "feature-module-guide.md"
+  ],
+  "component_work": [
+    "customizations.md",
+    "frontend_rules.md",
+    "feature-module-guide.md"
+  ],
   "state_management": ["frontend_rules.md", "patterns.md"]
 }
 ```
 
 ## STATE_MANAGEMENT_CONSTRAINTS
+
 ```json
 {
   "TanStack_Query": {
@@ -85,6 +107,7 @@ def pre_task_gate():
 ```
 
 ## COMPONENT_PATTERNS
+
 ```json
 {
   "Server_Components": {
@@ -105,14 +128,14 @@ def pre_task_gate():
 }
 ```
 
-
 ## TECHNICAL_STACK_MAPPINGS
+
 ```json
 {
   "framework_migration": {
     "from_vite": "yarn dev (port 3000)",
     "from_tanstack_router": "Next.js App Router",
-    "from_shadcn": "CSS Modules + SCSS"
+    "from_shadcn": "Tailwind CSS v4 + CVA"
   },
   "import_patterns": {
     "@/": "src/ directory alias",
@@ -121,14 +144,16 @@ def pre_task_gate():
     "utils": "@/utils/"
   },
   "styling": {
-    "method": "CSS Modules",
-    "extension": ".module.scss",
-    "global": "src/styles/globals.scss"
+    "method": "Tailwind CSS v4",
+    "variants": "CVA (Class Variance Authority)",
+    "global": "src/styles/globals.css",
+    "utilities": "cn() function for class merging"
   }
 }
 ```
 
 ## AGENT_WORKFLOW_ENFORCEMENT
+
 ```python
 def agent_execution_pattern():
     # 1. 문서 컨텍스트 로딩
@@ -156,6 +181,7 @@ def agent_execution_pattern():
 ```
 
 ## NEXT_JS_SPECIFIC_RULES
+
 ```json
 {
   "app_directory": {
@@ -177,6 +203,7 @@ def agent_execution_pattern():
 ```
 
 ## DEVELOPMENT_COMMANDS_MAPPING
+
 ```json
 {
   "command_conversion": {
@@ -193,16 +220,23 @@ def agent_execution_pattern():
 ```
 
 ## PLAN_SYSTEM
+
 ```json
 {
   "plan_docs": "docs/plans/",
   "plan_template": "docs/templates/plan-template.md",
-  "require_plan_for": ["code_edit", "file_create", "implementation", "server_ops"],
+  "require_plan_for": [
+    "code_edit",
+    "file_create",
+    "implementation",
+    "server_ops"
+  ],
   "pr_includes_plan_link": true
 }
 ```
 
 ## QUALITY_GATES
+
 ```json
 {
   "pre_commit": {
@@ -219,6 +253,7 @@ def agent_execution_pattern():
 ```
 
 ## AGENT_SPECIFIC_CONSTRAINTS
+
 ```json
 {
   "approval_required_operations": [
@@ -240,6 +275,7 @@ def agent_execution_pattern():
 ```
 
 ## ERROR_HANDLING_PATTERNS
+
 ```json
 {
   "common_migration_issues": {
@@ -257,6 +293,7 @@ def agent_execution_pattern():
 ```
 
 ## DOCUMENTATION_REQUIREMENTS
+
 ```json
 {
   "mandatory_docs_reading": [

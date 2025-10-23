@@ -2,21 +2,21 @@
 
 import React, { ReactNode } from 'react'
 
-import styles from './main_layout.module.scss'
-
+import { cn } from '@/lib/utils'
 import AsyncBoundary from '~/components/common/AsyncBoundary'
 import { useThemeStore } from '~/stores/common'
 
-interface Props {
+interface MainLayoutProps {
   children?: ReactNode
 }
-const MainLayout = ({ children }: Props) => {
+
+const MainLayout = ({ children }: MainLayoutProps) => {
   const theme = useThemeStore((state) => state.theme)
 
   return (
     <AsyncBoundary>
-      <article className={`${styles.mainLayoutWrapper} ${styles[theme]}`}>
-        <div className={styles.mainContentBox}>{children}</div>
+      <article className={cn('flex w-full flex-col items-center', theme)}>
+        <div className='flex w-full justify-center'>{children}</div>
       </article>
     </AsyncBoundary>
   )

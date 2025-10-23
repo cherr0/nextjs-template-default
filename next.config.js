@@ -11,10 +11,6 @@ const nextConfig = withTM({
   eslint: {
     ignoreDuringBuilds: true
   },
-  // Sass에서 src 기준 절대 경로 사용을 허용
-  sassOptions: {
-    includePaths: ['src']
-  },
   env: {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL
   }

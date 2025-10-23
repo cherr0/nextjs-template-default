@@ -1,675 +1,430 @@
 ---
-title: Next.js 템플릿 커스터마이징 가이드
+title: Next.js Tailwind CSS 커스터마이징 가이드
 audience: human
 scope: frontend
-tags: [guides, styling]
-version: 2.0.0
-updated: 2025-09-18
+tags: [guides, styling, tailwind]
+version: 3.0.0
+updated: 2025-01-23
 ---
 
-# Next.js 템플릿 커스터마이징 가이드
+# Next.js Tailwind CSS 커스터마이징 가이드
 
-> 단일 소스 안내: 이 문서는 [Single-Source Index](./single-source-index.md)의 '스타일/테마' 권위 문서입니다. 중복 섹션은 요약으로 유지하고, 상세 규칙은 본문을 기준으로 합니다.
+> 단일 소스 안내: 이 문서는 [Single-Source Index](./single-source-index.md)의 '스타일/테마' 권위 문서입니다.
 
 ## 🎯 커스터마이징 원칙
 
 ### **기본 방침**
 
-- **컴포넌트 재사용성**: 공통 컴포넌트는 `src/components/` 디렉토리에서 관리
-- **스타일 일관성**: CSS Modules + SCSS를 통한 스타일 격리
+- **Tailwind CSS v4**: 최신 CSS 기반 설정 시스템
+- **CSS 변수**: HSL 포맷 기반 디자인 토큰
+- **CVA 패턴**: Class Variance Authority로 variant 관리
 - **타입 안전성**: TypeScript 인터페이스로 props 타입 정의
 - **확장성**: 새로운 요구사항에 유연하게 대응할 수 있는 구조
 
-> ⚠️ **주의사항**: 커스터마이징 시 기존 패턴과 일관성을 유지하고 테스트 코드 작성
+> ⚠️ **주의사항**: 커스터마이징 시 기존 디자인 토큰 시스템과 일관성을 유지하고 테스트 코드 작성
 
 ---
 
-## 🎨 스타일링 시스템
+## 🎨 Tailwind CSS v4 시스템
 
-### CSS Modules + SCSS 패턴
+### 글로벌 CSS 구조
 
-```scss
-// src/components/Button/Button.module.scss
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
+```css
+/* src/styles/globals.css */
+@import 'tailwindcss';
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  // 크기 변형
-  &.small {
-    padding: 0.25rem 0.75rem;
-    font-size: 0.875rem;
-  }
-
-  &.large {
-    padding: 0.75rem 1.5rem;
-    font-size: 1.125rem;
-  }
-
-  // 색상 변형
-  &.primary {
-    background-color: #3b82f6;
-    color: white;
-
-    &:hover {
-      background-color: #2563eb;
-    }
-  }
-
-  &.secondary {
-    background-color: #6b7280;
-    color: white;
-
-    &:hover {
-      background-color: #4b5563;
-    }
-  }
-
-  &.outline {
-    background-color: transparent;
-    border: 1px solid #d1d5db;
-    color: #374151;
-
-    &:hover {
-      background-color: #f9fafb;
-    }
-  }
+@theme {
+  /* Tailwind v4 테마 확장 */
+  --font-kor: 'Pretendard', sans-serif;
+  --radius: 0.625rem;
 }
-```
 
-### 글로벌 스타일 변수
-
-```scss
-// src/styles/variables.scss
-// 색상 시스템
 :root {
-  // Primary colors
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-900: #1e3a8a;
-
-  // Gray colors
-  --color-gray-50: #f9fafb;
-  --color-gray-100: #f3f4f6;
-  --color-gray-500: #6b7280;
-  --color-gray-900: #111827;
-
-  // Spacing
-  --spacing-1: 0.25rem;
-  --spacing-2: 0.5rem;
-  --spacing-4: 1rem;
-  --spacing-8: 2rem;
-
-  // Border radius
-  --radius-sm: 0.125rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-
-  // Font sizes
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
+  /* CSS 변수 - HSL 포맷 */
+  --primary: 24 95% 53%;
+  --background: 0 0% 100%;
 }
+
+.dark {
+  /* 다크모드 변수 */
+  --background: 0 0% 7%;
+}
+```
+
+### 디자인 토큰 시스템
+
+#### 색상 토큰 (HSL 포맷)
+
+```css
+:root {
+  /* Primary Colors */
+  --primary: 24 95% 53%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Secondary Colors */
+  --secondary: 0 0% 50%;
+  --secondary-foreground: 0 0% 100%;
+
+  /* Accent Colors */
+  --accent: 0 0% 97%;
+  --accent-foreground: 0 0% 13%;
+
+  /* Semantic Colors */
+  --destructive: 0 84% 60%;
+  --muted: 0 0% 96%;
+  --border: 0 0% 84%;
+
+  /* Brand Colors */
+  --orange: 24 95% 53%;
+}
+```
+
+#### 그림자 토큰
+
+```css
+:root {
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+```
+
+#### 사용 방법
+
+```tsx
+// Tailwind 클래스에서 CSS 변수 사용
+<div className="bg-primary text-primary-foreground" />
+<div className="shadow-md rounded-lg" />
 ```
 
 ---
 
-## 🧩 공통 컴포넌트 시스템
+## 🧩 CVA (Class Variance Authority) 패턴
 
-### 기본 컴포넌트 구조
-
-```
-src/components/
-├── ui/                     # 기본 UI 컴포넌트
-│   ├── Button/
-│   │   ├── Button.tsx
-│   │   ├── Button.module.scss
-│   │   ├── Button.stories.tsx
-│   │   └── index.ts
-│   ├── Input/
-│   ├── Modal/
-│   └── ...
-├── layout/                 # 레이아웃 컴포넌트
-│   ├── Header/
-│   ├── Sidebar/
-│   └── Footer/
-└── features/              # 기능별 컴포넌트
-    ├── auth/
-    ├── posts/
-    └── dashboard/
-```
-
-### Button 컴포넌트 예시
+### CVA 기본 구조
 
 ```typescript
-// src/components/ui/Button/Button.tsx
-import React from 'react'
-import { cn } from '@/lib/utils'
-import styles from './Button.module.scss'
+// src/lib/cva.ts
+import { cva, type VariantProps } from 'class-variance-authority'
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
-  size?: 'small' | 'medium' | 'large'
-  loading?: boolean
-  leftIcon?: React.ReactNode
-  rightIcon?: React.ReactNode
-  children: React.ReactNode
-}
-
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      variant = 'primary',
-      size = 'medium',
-      loading = false,
-      leftIcon,
-      rightIcon,
-      disabled,
-      children,
-      ...props
-    },
-    ref
-  ) => {
-    return (
-      <button
-        className={cn(
-          styles.button,
-          styles[variant],
-          styles[size],
-          loading && styles.loading,
-          className
-        )}
-        ref={ref}
-        disabled={disabled || loading}
-        {...props}
-      >
-        {loading ? (
-          <span className={styles.spinner} />
-        ) : (
-          <>
-            {leftIcon && <span className={styles.leftIcon}>{leftIcon}</span>}
-            <span>{children}</span>
-            {rightIcon && <span className={styles.rightIcon}>{rightIcon}</span>}
-          </>
-        )}
-      </button>
-    )
-  }
-)
-
-Button.displayName = 'Button'
-```
-
-### Input 컴포넌트 예시
-
-```typescript
-// src/components/ui/Input/Input.tsx
-import React from 'react'
-import { cn } from '@/lib/utils'
-import styles from './Input.module.scss'
-
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string
-  error?: string
-  hint?: string
-  leftIcon?: React.ReactNode
-  rightIcon?: React.ReactNode
-}
-
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, hint, leftIcon, rightIcon, ...props }, ref) => {
-    return (
-      <div className={styles.inputGroup}>
-        {label && (
-          <label className={styles.label} htmlFor={props.id}>
-            {label}
-            {props.required && <span className={styles.required}>*</span>}
-          </label>
-        )}
-
-        <div
-          className={cn(
-            styles.inputWrapper,
-            error && styles.error,
-            leftIcon && styles.hasLeftIcon,
-            rightIcon && styles.hasRightIcon
-          )}
-        >
-          {leftIcon && <span className={styles.leftIcon}>{leftIcon}</span>}
-
-          <input className={cn(styles.input, className)} ref={ref} {...props} />
-
-          {rightIcon && <span className={styles.rightIcon}>{rightIcon}</span>}
-        </div>
-
-        {error && <span className={styles.errorText}>{error}</span>}
-        {hint && !error && <span className={styles.hint}>{hint}</span>}
-      </div>
-    )
-  }
-)
-
-Input.displayName = 'Input'
-```
-
----
-
-## 🎨 테마 시스템
-
-### 다크모드 지원
-
-```typescript
-// src/hooks/useTheme.ts
-'use client'
-
-import { createContext, useContext, useEffect, useState } from 'react'
-
-type Theme = 'light' | 'dark' | 'system'
-
-interface ThemeContextType {
-  theme: Theme
-  setTheme: (theme: Theme) => void
-  resolvedTheme: 'light' | 'dark'
-}
-
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
-
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('system')
-  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light')
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as Theme
-    if (savedTheme) {
-      setTheme(savedTheme)
-    }
-  }, [])
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-
-    const updateTheme = () => {
-      if (theme === 'system') {
-        setResolvedTheme(mediaQuery.matches ? 'dark' : 'light')
-      } else {
-        setResolvedTheme(theme)
+export const buttonVariants = cva(
+  // Base styles (항상 적용되는 클래스)
+  'inline-flex items-center justify-center rounded-lg font-medium transition-colors',
+  {
+    variants: {
+      variant: {
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+        destructive: 'bg-destructive text-white hover:bg-destructive/90',
+        outline: 'border border-input bg-background hover:bg-accent',
+        ghost: 'hover:bg-accent hover:text-accent-foreground'
+      },
+      size: {
+        default: 'h-10 px-4 py-2',
+        sm: 'h-9 px-3 text-sm',
+        lg: 'h-11 px-8'
       }
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'default'
     }
+  }
+)
 
-    updateTheme()
-    mediaQuery.addEventListener('change', updateTheme)
+export type ButtonVariants = VariantProps<typeof buttonVariants>
+```
 
-    return () => mediaQuery.removeEventListener('change', updateTheme)
-  }, [theme])
+### 컴포넌트에서 CVA 사용
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', resolvedTheme)
-    localStorage.setItem('theme', theme)
-  }, [theme, resolvedTheme])
+```tsx
+// src/components/ui/Button/Button.tsx
+import { buttonVariants, type ButtonVariants } from '@/lib/cva'
+import { cn } from '@/lib/utils'
 
+interface ButtonProps
+  extends React.ComponentProps<'button'>,
+    ButtonVariants {
+  // variant, size는 ButtonVariants에서 자동으로 포함됨
+}
+
+const Button = ({ className, variant, size, ...props }: ButtonProps) => {
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, resolvedTheme }}>
-      {children}
-    </ThemeContext.Provider>
+    <button
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    />
   )
 }
 
-export function useTheme() {
-  const context = useContext(ThemeContext)
-  if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider')
-  }
-  return context
-}
-```
-
-### 다크모드 스타일
-
-```scss
-// src/styles/themes.scss
-:root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-  --card: #ffffff;
-  --card-foreground: #0a0a0a;
-  --border: #e4e4e7;
-  --input: #e4e4e7;
-}
-
-[data-theme='dark'] {
-  --background: #0a0a0a;
-  --foreground: #fafafa;
-  --card: #0a0a0a;
-  --card-foreground: #fafafa;
-  --border: #27272a;
-  --input: #27272a;
-}
-
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-```
-
----
-
-## 📱 반응형 디자인 시스템
-
-### 브레이크포인트 정의
-
-```scss
-// src/styles/mixins.scss
-$breakpoints: (
-  'sm': 640px,
-  'md': 768px,
-  'lg': 1024px,
-  'xl': 1280px,
-  '2xl': 1536px
-);
-
-@mixin responsive($breakpoint) {
-  @if map-has-key($breakpoints, $breakpoint) {
-    @media (min-width: map-get($breakpoints, $breakpoint)) {
-      @content;
-    }
-  }
-}
+export default Button
 
 // 사용 예시
-.container {
-  padding: 1rem;
-
-  @include responsive('md') {
-    padding: 2rem;
-  }
-
-  @include responsive('lg') {
-    padding: 3rem;
-  }
-}
-```
-
-### 그리드 시스템
-
-```scss
-// src/styles/grid.scss
-.grid {
-  display: grid;
-  gap: 1rem;
-
-  &.cols-1 {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  &.cols-2 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  &.cols-3 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  &.cols-4 {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  @include responsive('md') {
-    &.md\:cols-2 {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    &.md\:cols-3 {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    &.md\:cols-4 {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  @include responsive('lg') {
-    &.lg\:cols-3 {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    &.lg\:cols-4 {
-      grid-template-columns: repeat(4, 1fr);
-    }
-    &.lg\:cols-6 {
-      grid-template-columns: repeat(6, 1fr);
-    }
-  }
-}
+<Button variant="default" size="lg">Click me</Button>
+<Button variant="outline">Cancel</Button>
 ```
 
 ---
 
-## 🔧 유틸리티 함수
+## 🛠️ 유틸리티 함수
 
-### className 병합 유틸리티
+### cn() - 클래스 병합 유틸리티
 
 ```typescript
 // src/lib/utils.ts
 import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
-  return clsx(inputs)
+  return twMerge(clsx(inputs))
 }
+```
 
-// 사용 예시
-;<div
+**사용 예시:**
+
+```tsx
+import { cn } from '@/lib/utils'
+
+// 조건부 클래스 적용
+<div
   className={cn(
     'base-class',
-    variant === 'primary' && 'primary-class',
-    size === 'large' && 'large-class',
-    className
+    isActive && 'active-class',
+    size === 'large' && 'text-lg',
+    className // 외부에서 전달받은 className
+  )}
+/>
+
+// Tailwind 클래스 충돌 해결
+<div
+  className={cn(
+    'p-4', // 이게
+    'p-8'  // 이걸로 override됨 (tailwind-merge 덕분)
   )}
 />
 ```
 
-### 폼 검증 유틸리티
+---
 
-```typescript
-// src/lib/validations.ts
-import { z } from 'zod'
+## 📱 반응형 디자인
 
-export const createFormSchema = <T extends Record<string, z.ZodType>>(
-  shape: T
-) => {
-  return z.object(shape)
+### Tailwind 반응형 클래스
+
+```tsx
+<div
+  className='
+  p-4 md:p-6 lg:p-8          /* 패딩 */
+  text-sm md:text-base lg:text-lg  /* 폰트 크기 */
+  grid-cols-1 md:grid-cols-2 lg:grid-cols-3  /* 그리드 */
+'
+>
+  Responsive Content
+</div>
+```
+
+### 브레이크포인트 정의
+
+```css
+/* @theme에서 커스텀 브레이크포인트 정의 가능 */
+@theme {
+  --breakpoint-mobile: 1280px;
+  --breakpoint-desktop: 1281px;
 }
+```
 
-// 공통 검증 규칙
-export const validations = {
-  email: z.string().email('올바른 이메일 형식이 아닙니다'),
-  password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다'),
-  required: (message: string) => z.string().min(1, message),
-  phone: z.string().regex(/^[0-9-+().\s]+$/, '올바른 전화번호 형식이 아닙니다'),
-  url: z.string().url('올바른 URL 형식이 아닙니다')
-}
-
+```tsx
 // 사용 예시
-const loginSchema = createFormSchema({
-  email: validations.email,
-  password: validations.password
-})
+<div className='mobile:hidden desktop:block'>Desktop Only</div>
 ```
 
 ---
 
-## 🎯 커스텀 훅 패턴
+## 🎨 다크모드 지원
 
-### API 호출 훅
+### 다크모드 설정
 
-```typescript
-// src/hooks/useApi.ts
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-
-export function useApiQuery<T>(
-  key: string[],
-  fetcher: () => Promise<T>,
-  options?: {
-    enabled?: boolean
-    staleTime?: number
-    retry?: number
-  }
-) {
-  return useQuery({
-    queryKey: key,
-    queryFn: fetcher,
-    staleTime: 5 * 60 * 1000, // 5분 기본값
-    ...options
-  })
-}
-
-export function useApiMutation<TData, TVariables>(
-  mutationFn: (variables: TVariables) => Promise<TData>,
-  options?: {
-    onSuccess?: (data: TData) => void
-    onError?: (error: Error) => void
-    invalidateQueries?: string[][]
-  }
-) {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn,
-    onSuccess: (data) => {
-      options?.onSuccess?.(data)
-      options?.invalidateQueries?.forEach((key) => {
-        queryClient.invalidateQueries({ queryKey: key })
-      })
-    },
-    onError: options?.onError
-  })
+```css
+/* src/styles/globals.css */
+.dark {
+  --background: 0 0% 7%;
+  --foreground: 0 0% 98%;
+  --primary: 24 95% 53%;
+  /* ... 다른 다크모드 색상 */
 }
 ```
 
-### 로컬 스토리지 훅
+### 다크모드 클래스 사용
 
-```typescript
-// src/hooks/useLocalStorage.ts
-import { useState, useEffect } from 'react'
-
-export function useLocalStorage<T>(
-  key: string,
-  initialValue: T
-): [T, (value: T | ((val: T) => T)) => void] {
-  const [storedValue, setStoredValue] = useState<T>(() => {
-    if (typeof window === 'undefined') {
-      return initialValue
-    }
-
-    try {
-      const item = window.localStorage.getItem(key)
-      return item ? JSON.parse(item) : initialValue
-    } catch (error) {
-      console.warn(`Error reading localStorage key "${key}":`, error)
-      return initialValue
-    }
-  })
-
-  const setValue = (value: T | ((val: T) => T)) => {
-    try {
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value
-      setStoredValue(valueToStore)
-
-      if (typeof window !== 'undefined') {
-        window.localStorage.setItem(key, JSON.stringify(valueToStore))
-      }
-    } catch (error) {
-      console.warn(`Error setting localStorage key "${key}":`, error)
-    }
-  }
-
-  return [storedValue, setValue]
-}
+```tsx
+<div
+  className='
+  bg-background text-foreground
+  dark:bg-accent dark:text-accent-foreground
+'
+>
+  Auto Dark Mode Support
+</div>
 ```
 
----
-
-## 🔄 상태 관리 패턴
-
-### Zustand 스토어 패턴
+### 다크모드 토글 구현 (Zustand)
 
 ```typescript
-// src/stores/authStore.ts
+// src/stores/theme.ts
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-interface User {
-  id: string
-  email: string
-  name: string
+type Theme = 'light' | 'dark' | 'system'
+
+interface ThemeStore {
+  theme: Theme
+  setTheme: (theme: Theme) => void
 }
 
-interface AuthState {
-  user: User | null
-  isAuthenticated: boolean
-  login: (user: User) => void
-  logout: () => void
-  updateUser: (updates: Partial<User>) => void
-}
-
-export const useAuthStore = create<AuthState>()(
+export const useThemeStore = create<ThemeStore>()(
   persist(
-    (set, get) => ({
-      user: null,
-      isAuthenticated: false,
-
-      login: (user) => set({ user, isAuthenticated: true }),
-
-      logout: () => set({ user: null, isAuthenticated: false }),
-
-      updateUser: (updates) => {
-        const currentUser = get().user
-        if (currentUser) {
-          set({ user: { ...currentUser, ...updates } })
+    (set) => ({
+      theme: 'system',
+      setTheme: (theme) => {
+        set({ theme })
+        // HTML class 토글
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
         }
       }
     }),
-    {
-      name: 'auth-storage',
-      partialize: (state) => ({
-        user: state.user,
-        isAuthenticated: state.isAuthenticated
-      })
-    }
+    { name: 'theme-storage' }
   )
 )
 ```
 
 ---
 
-## 📦 컴포넌트 배럴 익스포트
+## 🎯 컴포넌트 예시
 
-### 인덱스 파일 패턴
+### Button 컴포넌트
 
-```typescript
-// src/components/ui/index.ts
-export { Button } from './Button'
-export { Input } from './Input'
-export { Modal } from './Modal'
-export { Card } from './Card'
-export { Table } from './Table'
+```tsx
+// src/components/ui/Button/Button.tsx
+import { Slot } from '@radix-ui/react-slot'
+import { buttonVariants, type ButtonVariants } from '@/lib/cva'
+import { cn } from '@/lib/utils'
 
-// 타입도 함께 익스포트
-export type { ButtonProps } from './Button'
-export type { InputProps } from './Input'
-export type { ModalProps } from './Modal'
+interface ButtonProps extends React.ComponentProps<'button'>, ButtonVariants {
+  asChild?: boolean
+}
+
+const Button = ({
+  className,
+  variant,
+  size,
+  asChild = false,
+  ...props
+}: ButtonProps) => {
+  const Comp = asChild ? Slot : 'button'
+
+  return (
+    <Comp
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    />
+  )
+}
+
+export default Button
+export type { ButtonProps }
+```
+
+### Card 컴포넌트
+
+```tsx
+// src/components/ui/Card/Card.tsx
+import { cn } from '@/lib/utils'
+
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: 'default' | 'elevated' | 'outlined'
+}
+
+const Card = ({ className, variant = 'default', ...props }: CardProps) => {
+  return (
+    <div
+      className={cn(
+        'rounded-lg border bg-card text-card-foreground',
+        {
+          default: 'shadow-sm',
+          elevated: 'shadow-md',
+          outlined: 'border-2'
+        }[variant],
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+const CardHeader = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn('flex flex-col space-y-1.5 p-6', className)} {...props} />
+)
+
+const CardTitle = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) => (
+  <h3
+    className={cn(
+      'text-2xl font-semibold leading-none tracking-tight',
+      className
+    )}
+    {...props}
+  />
+)
+
+const CardContent = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn('p-6 pt-0', className)} {...props} />
+)
+
+export { Card, CardHeader, CardTitle, CardContent }
+```
+
+---
+
+## 🔧 커스텀 유틸리티 생성
+
+### @utility 문법 (Tailwind v4)
+
+```css
+/* src/styles/globals.css */
+@utility text-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1px hsl(var(--orange));
+}
+
+@utility no-drag {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@utility typography-title {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+```
+
+**사용:**
+
+```tsx
+<h1 className="typography-title">Title</h1>
+<div className="text-stroke">Stroke Text</div>
+<div className="no-drag">No Selection</div>
 ```
 
 ---
@@ -686,20 +441,65 @@ export type { ModalProps } from './Modal'
 
 ### 스타일링 베스트 프랙티스
 
-1. **모듈화**: CSS Modules로 스타일 격리
+1. **일관성**: Tailwind 유틸리티 클래스 우선 사용
 2. **변수 사용**: CSS 커스텀 속성으로 일관성 유지
-3. **반응형**: 모바일 퍼스트 접근법
-4. **성능**: CSS 번들 사이즈 최적화
-5. **유지보수**: 명확한 클래스명 컨벤션
+3. **반응형**: Tailwind 반응형 클래스 (`md:`, `lg:`) 활용
+4. **CVA 활용**: 복잡한 variant는 CVA로 관리
+5. **유지보수**: 명확한 클래스명, 적절한 추상화
+
+### 피해야 할 패턴
+
+```tsx
+// ❌ 인라인 스타일 (특별한 이유 없이)
+<div style={{ backgroundColor: '#ff0000' }}>Bad</div>
+
+// ✅ Tailwind 클래스 또는 CSS 변수
+<div className="bg-destructive">Good</div>
+
+// ❌ 하드코딩된 값
+<div className="mt-[17px] text-[#ff0000]">Bad</div>
+
+// ✅ 디자인 토큰 사용
+<div className="mt-4 text-destructive">Good</div>
+```
+
+---
+
+## 📦 컴포넌트 배럴 익스포트
+
+```typescript
+// src/components/ui/index.ts
+export { default as Button, type ButtonProps } from './Button'
+export { Card, CardHeader, CardTitle, CardContent } from './Card'
+export { default as Badge } from './Badge'
+```
+
+---
+
+## 🚀 마이그레이션 가이드 (SCSS → Tailwind)
+
+### Before (SCSS Module)
+
+```tsx
+import styles from './Button.module.scss'
+
+;<button className={`${styles.button} ${styles.primary} ${styles.large}`}>
+  Click
+</button>
+```
+
+### After (Tailwind + CVA)
+
+```tsx
+import { buttonVariants } from '@/lib/cva'
+import { cn } from '@/lib/utils'
+
+;<button className={cn(buttonVariants({ variant: 'default', size: 'lg' }))}>
+  Click
+</button>
+```
 
 ---
 
 _최종 업데이트: 2025년 1월_
-_버전: 2.0.0 (Next.js 15 환경)_
-
-## 🧷 아이콘 사용 참고
-
-- 사내(Figma) SVG 우선, 미존재 시 lucide 폴백 사용.
-- 원본 SVG → `src/icons/raw/`에 추가 후 `yarn icons:build` 실행.
-- 코드에서는 항상 `<Icon name="..." />` 사용(직접 `lucide-react`/`.svg` 임포트 금지).
-- 스토리북 `Foundations/Icons > Gallery`에서 전체 목록과 렌더링 상태 확인 가능.
+_버전: 3.0.0 (Tailwind CSS v4 환경)_
