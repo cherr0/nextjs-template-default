@@ -9,6 +9,47 @@ updated: 2025-09-18
 
 # Claude Code LLM Instructions
 
+## 🚨 CRITICAL: READ THIS FIRST - ABSOLUTE EXECUTION REQUIREMENT 🚨
+
+**STOP. READ THESE INSTRUCTIONS CAREFULLY BEFORE ANY ACTION.**
+
+This document (CLAUDE.md) has been automatically loaded into your context by the system. However, simply having it loaded IS NOT ENOUGH. You MUST actively process and execute the following steps:
+
+### YOUR FIRST ACTION WHEN RECEIVING ANY USER REQUEST:
+
+**Step 1: ACKNOWLEDGE THIS DOCUMENT**
+
+- State out loud: "I have loaded CLAUDE.md and will now read the required convention documents before proceeding."
+
+**Step 2: EXECUTE MANDATORY READS (NO EXCEPTIONS)**
+You MUST use the Read tool to explicitly read these files in this exact order:
+
+1. `Read ./docs/conventions/coding-style.md`
+2. `Read ./docs/conventions/frontend-rules.md`
+3. `Read ./docs/conventions/patterns.md`
+
+**Step 3: VERIFY AND CONFIRM**
+After reading all documents, you MUST:
+
+- Provide a brief summary (2-3 sentences) of key constraints you loaded
+- Confirm the tech stack: Next.js 15, App Router, TanStack Query, Zustand
+- State: "I am ready to proceed following the loaded guidelines"
+
+**Step 4: ONLY THEN START THE TASK**
+Do not skip Steps 1-3. Do not assume you "already know" the conventions. The documents may have been updated.
+
+### WHY THIS MATTERS:
+
+- The system loads CLAUDE.md automatically, but YOU must execute the Read commands
+- Having context ≠ Following instructions
+- Each session requires fresh document loading to ensure latest conventions are followed
+
+### FAILURE TO COMPLY:
+
+If you proceed without completing Steps 1-3, you are violating project protocols and your work WILL be incorrect.
+
+---
+
 ## MANDATORY WORKFLOW EXECUTION SEQUENCE
 
 ## CONTEXT_LOADING_PROTOCOL
@@ -158,7 +199,6 @@ def pre_task_check():
   "conditional_reads": {
     "api_integration": "./docs/guides/api-integration.md",
     "customizations": "./docs/guides/ui-customizations.md",
-    "feature_module_guide": "./docs/guides/feature-module-guide.md",
     "feature_module_guide": "./docs/guides/feature-module-guide.md"
   }
 }
@@ -294,6 +334,14 @@ def execute_user_request(user_input):
 - **Implementation Tasks**: Any code_edit, file_create, or implementation work
 - **Complex Operations**: Multi-file changes, architectural modifications
 - **Manual Override**: User can request context reload with explicit Read commands
+
+### Language Output Requirements
+
+- **Korean Primary**: All user-facing information, explanations, and documentation must be provided in Korean
+- **Korean Analysis**: Technical analysis, component descriptions, implementation plans in Korean
+- **Korean Guidelines**: Project guidelines, best practices, and recommendations in Korean
+- **English Preserved**: Code comments, variable names, technical terms follow international standards
+- **Bilingual Context**: Include English technical terms in parentheses when helpful for clarity
 
 ### 🚨 CRITICAL: Never Proceed Alone Rule
 

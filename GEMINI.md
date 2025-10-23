@@ -12,9 +12,11 @@ updated: 2025-09-18
 ## 1. MANDATORY WORKFLOW & CONTEXT LOADING
 
 ### Session Start Protocol
+
 At the beginning of EVERY session, you MUST load and understand the project's core rules. This is not optional.
 
 **Use `read_many_files` to load the following core documents immediately:**
+
 - `./GEMINI.md` (This file)
 - `./docs/conventions/coding-style.md`
 - `./docs/conventions/frontend-rules.md`
@@ -24,6 +26,7 @@ At the beginning of EVERY session, you MUST load and understand the project's co
 After loading, provide a one-sentence confirmation acknowledging the core constraints have been loaded.
 
 ### Pre-Task Protocol
+
 BEFORE executing any request, follow this sequence:
 
 1. **Classify Task**: Determine the user's intent (e.g., `code_edit`, `code_analysis`, `server_ops`).
@@ -35,9 +38,15 @@ BEFORE executing any request, follow this sequence:
 ## 2. TASK & DOCUMENT MAPPING
 
 ### TASK_CLASSIFICATION_MAP
+
 ```json
 {
-  "code_edit": ["API integration", "component impl", "feature add", "state mgmt"],
+  "code_edit": [
+    "API integration",
+    "component impl",
+    "feature add",
+    "state mgmt"
+  ],
   "code_analysis": ["debug", "explain", "review", "investigate"],
   "documentation": ["README", "guide create", "doc update"],
   "server_ops": ["dev server", "build", "deploy"]
@@ -45,11 +54,25 @@ BEFORE executing any request, follow this sequence:
 ```
 
 ### DOCUMENT_DEPENDENCY_MATRIX
+
 ```json
 {
-  "frontend_work": ["frontend_rules.md", "coding_style.md", "patterns.md", "feature-module-guide.md"],
-  "api_integration": ["api-integration-workflow.md", "coding_style.md", "feature-module-guide.md"],
-  "component_work": ["customizations.md", "frontend_rules.md", "feature-module-guide.md"],
+  "frontend_work": [
+    "frontend_rules.md",
+    "coding_style.md",
+    "patterns.md",
+    "feature-module-guide.md"
+  ],
+  "api_integration": [
+    "api-integration-workflow.md",
+    "coding_style.md",
+    "feature-module-guide.md"
+  ],
+  "component_work": [
+    "customizations.md",
+    "frontend_rules.md",
+    "feature-module-guide.md"
+  ],
   "state_management": ["frontend_rules.md", "patterns.md"]
 }
 ```
@@ -57,6 +80,7 @@ BEFORE executing any request, follow this sequence:
 ## 3. PROJECT CONSTRAINTS & CONVENTIONS
 
 ### Next.js 15 App Router Constraints
+
 ```json
 {
   "framework": "Next.js 15 with App Router",
@@ -75,6 +99,7 @@ BEFORE executing any request, follow this sequence:
 ```
 
 ### State Management Rules
+
 ```json
 {
   "TanStack_Query": {
@@ -96,30 +121,43 @@ BEFORE executing any request, follow this sequence:
 ```
 
 ### Styling Constraints
+
 ```json
 {
-  "method": "CSS Modules + SCSS",
-  "file_naming": "*.module.scss",
-  "global_styles": "src/styles/globals.scss",
-  "component_styles": "component.module.scss (co-located)",
-  "forbidden": ["Inline styles", "styled-components", "emotion"]
+  "method": "Tailwind CSS v4 + CVA",
+  "file_naming": "Tailwind utility classes",
+  "global_styles": "src/styles/globals.css",
+  "component_variants": "CVA (Class Variance Authority)",
+  "utilities": "cn() function for class merging",
+  "forbidden": [
+    "Inline styles (without justification)",
+    "styled-components",
+    "emotion"
+  ]
 }
 ```
 
 ## 4. DEVELOPMENT WORKFLOW
 
 ## PLAN_SYSTEM
+
 ```json
 {
   "plan_docs": "docs/plans/",
   "plan_template": "docs/templates/plan-template.md",
-  "require_plan_for": ["code_edit", "file_create", "implementation", "server_ops"],
+  "require_plan_for": [
+    "code_edit",
+    "file_create",
+    "implementation",
+    "server_ops"
+  ],
   "pr_includes_plan_link": true,
   "notes": "Plan-First로 작업을 진행합니다."
 }
 ```
 
 ### Command Mapping (Next.js Environment)
+
 ```json
 {
   "development": "yarn dev (port 3000)",
@@ -131,6 +169,7 @@ BEFORE executing any request, follow this sequence:
 ```
 
 ### Port Configuration
+
 ```json
 {
   "dev_server": "3000 (changed from 5173)",
@@ -140,6 +179,7 @@ BEFORE executing any request, follow this sequence:
 ```
 
 ### Quality Gates
+
 ```json
 {
   "pre_commit_checks": [
@@ -158,6 +198,7 @@ BEFORE executing any request, follow this sequence:
 ## 5. FILE STRUCTURE PATTERNS
 
 ### Next.js App Router Structure
+
 ```
 app/
 ├── layout.tsx          # Root layout
@@ -174,10 +215,11 @@ src/
 │   └── features/      # Feature-specific components
 ├── stores/            # Zustand stores
 ├── utils/             # Utility functions
-└── styles/            # Global SCSS files
+└── styles/            # Global CSS files (Tailwind)
 ```
 
 ### Component Organization
+
 ```json
 {
   "server_components": {
@@ -196,6 +238,7 @@ src/
 ## 6. IMPORT & ALIAS PATTERNS
 
 ### Path Aliases
+
 ```json
 {
   "@/": "src/",
@@ -207,6 +250,7 @@ src/
 ```
 
 ### Import Conventions
+
 ```typescript
 // External libraries first
 import { useQuery } from '@tanstack/react-query'
@@ -215,12 +259,13 @@ import { create } from 'zustand'
 // Internal imports with alias
 import { Button } from '@/components/ui/Button'
 import { useAuthStore } from '@/stores/authStore'
-import styles from './Component.module.scss'
+import { cn } from '@/lib/utils'
 ```
 
 ## 7. ERROR HANDLING & DEBUGGING
 
 ### Common Next.js Migration Issues
+
 ```json
 {
   "router_import_error": {
@@ -231,20 +276,21 @@ import styles from './Component.module.scss'
     "problem": "Using hooks without 'use client' directive",
     "solution": "Add 'use client' at top of component file"
   },
-  "css_import_error": {
-    "problem": "Global CSS imports in components",
-    "solution": "Use CSS modules with .module.scss extension"
+  "tailwind_config_error": {
+    "problem": "Tailwind classes not working",
+    "solution": "Check globals.css imports Tailwind and config is correct"
   }
 }
 ```
 
 ### Debugging Checklist
+
 ```json
 {
   "development_issues": [
     "Check if 'use client' directive is needed",
     "Verify import paths with @/ alias",
-    "Confirm CSS module naming convention",
+    "Confirm Tailwind classes are properly configured",
     "Validate Next.js app directory structure"
   ],
   "build_issues": [
@@ -258,6 +304,7 @@ import styles from './Component.module.scss'
 ## 8. MANDATORY VERIFICATION STEPS
 
 ### Before Code Completion
+
 ```json
 {
   "type_safety": "yarn type-check passes",
@@ -268,6 +315,7 @@ import styles from './Component.module.scss'
 ```
 
 ### Documentation Compliance
+
 ```json
 {
   "mandatory_reads": [
@@ -286,6 +334,7 @@ import styles from './Component.module.scss'
 ## 9. GEMINI-SPECIFIC WORKFLOW
 
 ### Multi-File Analysis Pattern
+
 ```python
 def gemini_workflow():
     # 1. Load all required documentation
@@ -314,6 +363,7 @@ def gemini_workflow():
 ```
 
 ### File Operation Patterns
+
 ```json
 {
   "read_multiple": "Use read_many_files for batch reading",

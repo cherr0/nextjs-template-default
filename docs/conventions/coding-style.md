@@ -31,9 +31,7 @@ src/
 │   │   └── footer/          # 푸터 컴포넌트
 │   ├── ui/             # 범용 UI 컴포넌트
 │   │   ├── Button/     # 컴포넌트별 폴더 구조
-│   │   │   ├── index.ts           # export 전용
-│   │   │   ├── Button.tsx         # 메인 컴포넌트
-│   │   │   └── Button.module.scss # 컴포넌트 스타일
+│   │   │   └── index.tsx          # 메인 컴포넌트 (Tailwind + CVA)
 │   │   ├── Card/
 │   │   └── Badge/
 │   └── [feature]/      # 특정 기능별 컴포넌트 (예: posts/)
@@ -49,7 +47,7 @@ src/
 │   ├── query.tsx      # React Query 설정
 │   └── api/           # API 엔드포인트별 함수
 ├── stores/             # Zustand 상태 스토어
-├── styles/             # 전역 스타일과 SCSS 변수
+├── styles/             # 전역 Tailwind 스타일 및 CSS 변수
 ├── types/              # TypeScript 타입 정의
 └── utils/              # 유틸리티 함수
 
@@ -131,7 +129,6 @@ const Button = ({ variant = 'primary', disabled, children }: ButtonProps) => {
    ```
    src/components/ui/Button/
    ├── index.tsx
-   ├── Button.module.scss
    └── Button.stories.tsx (스토리북 사용시)
    ```
 
@@ -140,26 +137,27 @@ const Button = ({ variant = 'primary', disabled, children }: ButtonProps) => {
    ```typescript
    // src/components/ui/Button/index.tsx
    import { ReactNode } from 'react'
-   import styles from './Button.module.scss'
+   import { cn } from '@/lib/utils'
+   import { buttonVariants, type ButtonVariants } from '@/lib/cva'
 
-   interface ButtonProps {
-     variant?: 'primary' | 'secondary'
-     size?: 'sm' | 'md' | 'lg'
+   interface ButtonProps extends ButtonVariants {
      disabled?: boolean
      onClick?: () => void
      children: ReactNode
+     className?: string
    }
 
    const Button = ({
-     variant = 'primary',
-     size = 'md',
+     variant = 'default',
+     size = 'default',
      disabled = false,
      onClick,
-     children
+     children,
+     className
    }: ButtonProps) => {
      return (
        <button
-         className={`${styles.button} ${styles[variant]} ${styles[size]}`}
+         className={cn(buttonVariants({ variant, size }), className)}
          disabled={disabled}
          onClick={onClick}
        >
@@ -184,7 +182,7 @@ const Button = ({ variant = 'primary', disabled, children }: ButtonProps) => {
 - 컴포넌트에 화살표 함수 사용
 - 컴포넌트 위에 props 인터페이스 정의
 - 선택적 props에 기본값 제공
-- 스타일링에 CSS Modules 사용
+- 스타일링에 Tailwind CSS + CVA 사용
 - 컴포넌트를 집중되고 단일 목적으로 유지
 
 ## 🎨 스타일링 가이드라인
@@ -457,8 +455,8 @@ import { useThemeStore } from '~/stores/common'
 import { QUERY_KEYS } from '~/constants/query'
 import { usePostsQuery } from '~/hooks/queries/usePosts'
 
-// 3. 상대 경로 import
-import styles from './component.module.scss'
+// 3. 타입 import (필요시)
+import type { ComponentProps } from './types'
 ```
 
 ## 📂 Constants & Hooks 구조
@@ -554,50 +552,46 @@ interface ApiResponse<T> {
 }
 ```
 
-## ❌ CSS Module 안티패턴
+## ❌ Tailwind CSS 안티패턴
 
 ### 피해야 할 패턴들
 
-```scss
-// ❌ 하드코딩된 값 사용
-.button {
-  background-color: #2563eb;
-  padding: 8px 16px;
-  border-radius: 6px;
-}
+```typescript
+// ❌ 하드코딩된 색상값 직접 사용
+<button className="bg-[#2563eb] p-2 rounded-md">
+  버튼
+</button>
 
-// ✅ CSS 변수와 일관된 값 사용
-.button {
-  background-color: var(--color-primary);
-  padding: 8rem 16rem;
-  border-radius: 6rem;
-}
+// ✅ 디자인 토큰(CSS 변수) 사용
+<button className="bg-primary p-4 rounded-lg">
+  버튼
+</button>
 
-// ❌ 과도한 중첩
-.card {
-  .header {
-    .title {
-      .icon {
-        .svg {
-          color: red;
-        }
-      }
-    }
-  }
-}
+// ❌ 조건부 클래스를 문자열로 직접 처리
+<div className={`card ${loading ? 'opacity-50' : ''} ${error ? 'border-red-200 bg-red-50' : ''}`}>
+  내용
+</div>
 
-// ✅ 적절한 중첩 레벨 (최대 3단계)
-.card {
-  .header {
-    .title {
-      color: var(--color-gray-900);
-    }
-  }
+// ✅ cn() 유틸리티와 CVA 사용
+<div className={cn(
+  cardVariants({ state: loading ? 'loading' : error ? 'error' : 'default' }),
+  className
+)}>
+  내용
+</div>
 
-  .icon {
-    color: var(--color-primary);
-  }
-}
+// ❌ 인라인 스타일로 동적 값 처리
+<div style={{ backgroundColor: dynamicColor }}>
+  내용
+</div>
+
+// ✅ CSS 변수로 동적 값 처리
+<div
+  style={{ '--dynamic-color': dynamicColor } as React.CSSProperties}
+  className="bg-[var(--dynamic-color)]"
+>
+  내용
+</div>
 ```
 
 ## 🚫 피해야 할 안티패턴
@@ -647,6 +641,6 @@ const GlobalContext = createContext()
 - 비용이 큰 컴포넌트에 React.memo 사용
 - 긴 목록에 가상화 고려
 
-## 📐 CSS Module 모범 사례
+## 📐 Tailwind CSS 모범 사례
 
-자세한 모범 사례(컴포넌트 별 구조, 믹스인, 반응형 패턴 등)는 `docs/guides/ui-customizations.md`를 참고하세요. 본 문서에서는 예시 코드를 생략하고 원칙과 링크만 제공합니다.
+자세한 모범 사례(CVA 패턴, 디자인 토큰, 반응형 패턴 등)는 `docs/guides/ui-customizations.md`를 참고하세요. 본 문서에서는 예시 코드를 생략하고 원칙과 링크만 제공합니다.

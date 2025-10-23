@@ -2,7 +2,7 @@ import React from 'react'
 import type { Parameters, Preview } from '@storybook/react'
 import { themes } from '@storybook/theming'
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
-import '../src/styles/global.scss'
+import '../src/styles/globals.css'
 
 const decorator = (Story: any) => <Story />
 
