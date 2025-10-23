@@ -1,24 +1,27 @@
 import Link from 'next/link'
 
 import FeatureCard from './_components/FeatureCard'
-import styles from './page.module.scss'
 
-import { Button } from '~/components/ui/Button'
+import Button from '~/components/ui/Button'
 
 const HomePage = () => {
   return (
-    <div className={styles.container}>
+    <div className='min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-900'>
       {/* Hero Section */}
-      <section className={styles.heroSection}>
-        <div className={styles.heroContent}>
-          <div className={styles.badge}>🚀 Next.js + TanStack Query + SEO</div>
-          <h1 className={styles.title}>SEO 최적화된 현대적인 웹 개발</h1>
-          <p className={styles.description}>
+      <section className='px-4 py-16'>
+        <div className='mx-auto mb-16 max-w-7xl text-center'>
+          <div className='mb-4 inline-block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 dark:bg-gray-700 dark:text-gray-50'>
+            🚀 Next.js + TanStack Query + SEO
+          </div>
+          <h1 className='mb-6 text-5xl font-bold leading-tight text-gray-900 dark:text-white md:text-6xl'>
+            SEO 최적화된 현대적인 웹 개발
+          </h1>
+          <p className='mx-auto mb-8 max-w-2xl text-xl leading-relaxed text-gray-600 dark:text-gray-300'>
             Next.js와 TanStack Query를 활용한 SEO 최적화된 웹 애플리케이션을
             만들어보세요. 서버에서 미리 렌더링하고 클라이언트에서 동적으로
             관리하는 최적의 방식을 구현합니다.
           </p>
-          <div className={styles.buttonGroup}>
+          <div className='flex flex-col items-center justify-center gap-4 sm:flex-row'>
             <Link href='/posts'>
               <Button size='lg' className='bg-blue-600 hover:bg-blue-700'>
                 게시물 보기
@@ -32,15 +35,17 @@ const HomePage = () => {
       </section>
 
       {/* Features Section */}
-      <section className={styles.featuresSection}>
-        <div className={styles.featuresHeader}>
-          <h2 className={styles.title}>주요 기능</h2>
-          <p className={styles.description}>
+      <section className='mx-auto max-w-7xl px-4 py-16'>
+        <div className='mb-12 text-center'>
+          <h2 className='mb-4 text-3xl font-bold text-gray-900 dark:text-white'>
+            주요 기능
+          </h2>
+          <p className='text-gray-600 dark:text-gray-300'>
             SEO 최적화와 사용자 경험을 동시에 향상시키는 강력한 기능들
           </p>
         </div>
 
-        <div className={styles.featuresGrid}>
+        <div className='grid gap-6 md:grid-cols-3'>
           <FeatureCard
             icon='🔍'
             iconColor='blue'
@@ -68,26 +73,36 @@ const HomePage = () => {
       </section>
 
       {/* Demo Section */}
-      <section className={styles.demoSection}>
-        <div className={styles.demoHeader}>
-          <h2 className={styles.title}>실제 구현 예시</h2>
-          <p className={styles.description}>
+      <section className='mx-auto max-w-7xl px-4 py-16'>
+        <div className='mb-12 text-center'>
+          <h2 className='mb-4 text-3xl font-bold text-gray-900 dark:text-white'>
+            실제 구현 예시
+          </h2>
+          <p className='text-gray-600 dark:text-gray-300'>
             아래 링크를 통해 실제 구현된 기능들을 확인해보세요
           </p>
         </div>
 
-        <div className={styles.demoGrid}>
-          <div className={styles.demoCard}>
-            <h3>게시물 목록</h3>
-            <p>서버에서 미리 렌더링된 게시물 목록을 확인해보세요.</p>
+        <div className='grid gap-6 md:grid-cols-2'>
+          <div className='rounded-xl border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800'>
+            <h3 className='mb-3 text-xl font-semibold text-gray-900 dark:text-white'>
+              게시물 목록
+            </h3>
+            <p className='mb-4 leading-relaxed text-gray-600 dark:text-gray-300'>
+              서버에서 미리 렌더링된 게시물 목록을 확인해보세요.
+            </p>
             <Link href='/posts'>
               <Button size='sm'>목록 보기</Button>
             </Link>
           </div>
 
-          <div className={styles.demoCard}>
-            <h3>게시물 상세</h3>
-            <p>개별 게시물의 SEO 최적화된 상세 페이지를 확인해보세요.</p>
+          <div className='rounded-xl border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800'>
+            <h3 className='mb-3 text-xl font-semibold text-gray-900 dark:text-white'>
+              게시물 상세
+            </h3>
+            <p className='mb-4 leading-relaxed text-gray-600 dark:text-gray-300'>
+              개별 게시물의 SEO 최적화된 상세 페이지를 확인해보세요.
+            </p>
             <Link href='/posts/1'>
               <Button size='sm'>상세 보기</Button>
             </Link>
@@ -96,11 +111,11 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className={styles.ctaSection}>
-        <div className={styles.ctaCard}>
-          <div className={styles.ctaHeader}>
-            <h2 className={styles.title}>지금 시작하세요</h2>
-            <p className={styles.description}>
+      <section className='mx-auto max-w-7xl px-4 py-16'>
+        <div className='mx-auto max-w-4xl rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 p-8 text-white'>
+          <div className='mb-6 text-center'>
+            <h2 className='mb-2 text-3xl font-bold'>지금 시작하세요</h2>
+            <p className='text-lg text-blue-100'>
               Next.js와 TanStack Query로 SEO 최적화된 웹 애플리케이션을
               만들어보세요
             </p>

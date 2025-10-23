@@ -1,3 +1,5 @@
+'use client'
+
 import * as React from 'react'
 
 // 레지스트리(자동 생성 파일)와 lucide 폴백 매핑
@@ -45,7 +47,7 @@ function getLocalKeys<T extends Record<string, unknown>>(obj: T) {
 export const Icon = ({
   name,
   size = 'md',
-  color = 'currentColor',
+  color,
   title,
   className,
   ...rest
@@ -74,11 +76,14 @@ export const Icon = ({
     ? { role: 'img', 'aria-label': title }
     : { 'aria-hidden': true }
 
+  // color prop이 명시적으로 제공될 때만 전달
+  const colorProps = color ? { color } : {}
+
   return (
     <Component
       width={pixel}
       height={pixel}
-      color={color}
+      {...colorProps}
       focusable={false}
       className={className}
       {...ariaProps}
