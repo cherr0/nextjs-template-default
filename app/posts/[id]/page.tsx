@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 
 import PostDetail from '../_components/PostDetail'
 
+import DefaultLayout from '@/components/layout/DefaultLayout'
 import { createQueryKeys } from '@/constants/query-keys'
 import { fetchPostServer } from '~/lib/api/posts'
 import { prefetchQuery, createHydrationBoundary } from '~/lib/query'
@@ -84,33 +85,35 @@ const PostPage = async ({ params }: { params: PostPageParams }) => {
   const HydrationWrapper = createHydrationBoundary()
 
   return (
-    <div>
-      {/* SEO를 위한 서버에서 렌더링된 초기 콘텐츠 */}
-      <section>
-        <h1>{initialData.title}</h1>
-        <div>
+    <DefaultLayout>
+      <div>
+        {/* SEO를 위한 서버에서 렌더링된 초기 콘텐츠 */}
+        <section>
+          <h1>{initialData.title}</h1>
+          <div>
+            <p>
+              <strong>작성자:</strong> {initialData.author}
+            </p>
+            <p>
+              <strong>작성일:</strong>{' '}
+              {new Date(initialData.createdAt).toLocaleDateString('ko-KR')}
+            </p>
+          </div>
+          <div>
+            <p>{initialData.content}</p>
+          </div>
           <p>
-            <strong>작성자:</strong> {initialData.author}
+            이 콘텐츠는 SEO를 위해 서버에서 미리 렌더링됩니다. 검색 엔진이 이
+            내용을 크롤링할 수 있도록 정적으로 생성되었습니다.
           </p>
-          <p>
-            <strong>작성일:</strong>{' '}
-            {new Date(initialData.createdAt).toLocaleDateString('ko-KR')}
-          </p>
-        </div>
-        <div>
-          <p>{initialData.content}</p>
-        </div>
-        <p>
-          이 콘텐츠는 SEO를 위해 서버에서 미리 렌더링됩니다. 검색 엔진이 이
-          내용을 크롤링할 수 있도록 정적으로 생성되었습니다.
-        </p>
-      </section>
+        </section>
 
-      {/* 클라이언트 컴포넌트로 전달 */}
-      <HydrationWrapper>
-        <PostDetail postId={postId} />
-      </HydrationWrapper>
-    </div>
+        {/* 클라이언트 컴포넌트로 전달 */}
+        <HydrationWrapper>
+          <PostDetail postId={postId} />
+        </HydrationWrapper>
+      </div>
+    </DefaultLayout>
   )
 }
 

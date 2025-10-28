@@ -7,16 +7,16 @@ import Header from './Header'
 
 import { LayoutProps } from '~/types/layout'
 
-interface BaseLayoutProps extends LayoutProps {
+interface DefaultLayoutProps extends LayoutProps {
   showHeader?: boolean
   showFooter?: boolean
 }
 
-const BaseLayout = ({
+const DefaultLayout = ({
   children,
   showHeader = true,
   showFooter = true
-}: BaseLayoutProps) => {
+}: DefaultLayoutProps) => {
   return (
     <div className='flex min-h-screen w-full flex-col'>
       {showHeader && <Header />}
@@ -26,4 +26,4 @@ const BaseLayout = ({
   )
 }
 
-export default BaseLayout
+export default DefaultLayout
